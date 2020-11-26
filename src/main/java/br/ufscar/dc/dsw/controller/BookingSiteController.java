@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.ufscar.dc.dsw.classes.BookingSite;
 import br.ufscar.dc.dsw.dao.BookingSiteDAO;
 
+//@WebServlet(urlPatterns = {"/BookingSite"})
 public class BookingSiteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +24,7 @@ public class BookingSiteController extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+		doPost(req,res);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -39,7 +40,7 @@ public class BookingSiteController extends HttpServlet {
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
 
-		BookingSite bookingSite = new BookingSite(url, name, phone, password, email);
+		BookingSite bookingSite = new BookingSite(url, name, phone);
 
 		dao.insert(bookingSite);
 		response.sendRedirect("list");
@@ -53,7 +54,7 @@ public class BookingSiteController extends HttpServlet {
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
 
-		BookingSite bookingSite = new BookingSite(url, name, phone, password, email);
+		BookingSite bookingSite = new BookingSite(url, name, phone);
 
 		dao.update(bookingSite);
 		response.sendRedirect("list");

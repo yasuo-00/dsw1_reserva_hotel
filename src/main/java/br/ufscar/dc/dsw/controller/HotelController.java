@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.dao.HotelDAO;
 
-//@WebServlet(urlPatterns = {"/CRUDHotel"})
+//@WebServlet(urlPatterns = {"/Hotel"})
 public class HotelController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class HotelController extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+		doPost(req,res);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -42,7 +42,7 @@ public class HotelController extends HttpServlet {
 		double dailyRate = Double.parseDouble(request.getParameter("dailyRate"));
 		String city = request.getParameter("city");
 
-		Hotel hotel = new Hotel(cnpj, name, phone, city, email, password, dailyRate);
+		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
 
 		dao.insert(hotel);
 		response.sendRedirect("list");
@@ -58,7 +58,7 @@ public class HotelController extends HttpServlet {
 		double dailyRate = Double.parseDouble(request.getParameter("dailyRate"));
 		String city = request.getParameter("city");
 
-		Hotel hotel = new Hotel(cnpj, name, phone, city, email, password, dailyRate);
+		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
 
 		dao.update(hotel);
 		response.sendRedirect("list");
