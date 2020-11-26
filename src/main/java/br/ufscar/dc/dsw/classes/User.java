@@ -1,4 +1,4 @@
-package br.ufscar.dc.dsw.controller;
+package br.ufscar.dc.dsw.classes;
 
 public class User {
 	String id;
@@ -7,6 +7,15 @@ public class User {
 	String password;
 	String role;
 	
+	
+	
+	public User(String id, String name, String email, String password, String role) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
 	
 	public String getName() {
 		return name;
@@ -32,4 +41,5 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
 }

@@ -13,7 +13,7 @@ import br.ufscar.dc.dsw.classes.Hotel;
 public class HotelDAO extends GenericDAO<Hotel> {
 
 	public void insert(Hotel hotel) {
-		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate,) VALUES(?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate,) VALUES(?,?,?,?,?)";
 
 		try {
 			Connection connection = this.getConnection();
