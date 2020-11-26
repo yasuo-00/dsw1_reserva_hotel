@@ -36,7 +36,7 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 	}
 
 	public void remove(SaleOff saleOff) {
-		String sql = "DELETE FROM saleOff where cnpj = ?";
+		String sql = "DELETE FROM saleOff where hotel_cnpj = ?, booking_site_url = ?, initial_date = ?, final_date = ?";
 
 		try {
 			Connection connection = this.getConnection();
