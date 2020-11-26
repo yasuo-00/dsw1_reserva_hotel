@@ -6,7 +6,7 @@ public class BookingSite {
 	private String password;
 	private String url;
 	private String name;
-	private int telephone;
+	private int phone;
 	
 	
 	public String getEmail() {
@@ -33,11 +33,11 @@ public class BookingSite {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getTelephone() {
-		return telephone;
+	public int getPhone() {
+		return phone;
 	}
-	public void setTelephone(int telephone) {
-		this.telephone = telephone;
+	public void setPhone(int phone) {
+		this.phone = phone;
 	}
 	
 	

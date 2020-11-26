@@ -6,8 +6,22 @@ public class Hotel {
 	private int cnpj;
 	private String name;
 	private String city;
+	private double dailyRate;
+	private String phone;
 	
 	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public double getDailyRate() {
+		return dailyRate;
+	}
+	public void setDailyRate(double dailyRate) {
+		this.dailyRate = dailyRate;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -20,10 +34,10 @@ public class Hotel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getCnpj() {
+	public int getCNPJ() {
 		return cnpj;
 	}
-	public void setCnpj(int cnpj) {
+	public void setCNPJ(int cnpj) {
 		this.cnpj = cnpj;
 	}
 	public String getName() {

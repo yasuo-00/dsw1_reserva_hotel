@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `mydb`.`site_reserva` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`site_reserva` (
   `url` VARCHAR(45) NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
-  `login` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
   `senha` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(45) NULL,
   PRIMARY KEY (`url`),
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`promocao` (
   CONSTRAINT `fk_hotel_has_site_reserva_site_reserva1`
     FOREIGN KEY (`site_reserva_url`)
     REFERENCES `mydb`.`site_reserva` (`url`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
