@@ -6,7 +6,20 @@ public class BookingSite {
 	private String password;
 	private String url;
 	private String name;
-	private int phone;
+	private String phone;
+	
+	public BookingSite(String url, String name, String phone, String password, String email) {
+		this.url = url;
+		this.name = name;
+		this.phone = phone;
+		this.password = password;
+		this.email = email;
+		
+	}
+	
+	public BookingSite(String url) {
+		this.url = url;
+	}
 	
 	
 	public String getEmail() {
@@ -33,10 +46,10 @@ public class BookingSite {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	

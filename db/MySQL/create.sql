@@ -24,7 +24,7 @@ USE `mydb` ;
 DROP TABLE IF EXISTS `mydb`.`hotel` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`hotel` (
-  `cnpj` INT NOT NULL,
+  `cnpj` VARCHAR(14) NOT NULL,
   `nome_do_hotel` VARCHAR(45) NOT NULL,
   `telefone` VARCHAR(45) NULL,
   `cidade` VARCHAR(45) NOT NULL,
@@ -59,7 +59,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`admin` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`admin` (
-  `email` INT NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
   `senha` VARCHAR(45) NOT NULL,
   `nome` VARCHAR(45) NULL,
   PRIMARY KEY (`email`))
@@ -72,7 +72,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`promocao` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`promocao` (
-  `hotel_cnpj` INT NOT NULL,
+  `hotel_cnpj` VARCHAR(14) NOT NULL,
   `site_reserva_url` VARCHAR(60) NOT NULL,
   `data_inicio` DATE NOT NULL,
   `data_fim` DATE NOT NULL,

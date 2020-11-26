@@ -22,7 +22,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			statement.setString(3, String.valueOf(bookingSite.getPhone()));
 			statement.setString(4, bookingSite.getPassword());
 			statement.setString(5, bookingSite.getEmail());
-			
+
 			statement.executeUpdate();
 
 			statement.close();
@@ -34,14 +34,14 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 
 	public void remove(BookingSite bookingSite) {
 		String sql = "DELETE FROM site_reserva where url = ?";
-		
+
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getUrl());
-			
+
 			statement.executeUpdate();
 
 			statement.close();
@@ -53,8 +53,8 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 
 	public void update(BookingSite bookingSite) {
 		String sql = "UPDATE site_reserva SET nome = ?, telefone = ?, email = ?";
-		sql+=", WHERE url = ?";
-		
+		sql += ", WHERE url = ?";
+
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -65,7 +65,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			statement.setString(3, bookingSite.getPassword());
 			statement.setString(4, bookingSite.getEmail());
 			statement.setString(6, bookingSite.getUrl());
-			
+
 			statement.executeUpdate();
 
 			statement.close();

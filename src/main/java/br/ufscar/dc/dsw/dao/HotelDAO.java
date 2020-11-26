@@ -17,7 +17,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement = connection.prepareStatement(sql);
-			statement.setString(1, String.valueOf(hotel.getCNPJ()));
+			statement.setString(1, hotel.getCNPJ());
 			statement.setString(2, hotel.getName());
 			statement.setString(3, hotel.getPhone());
 			statement.setString(4, hotel.getCity());
@@ -41,7 +41,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement = connection.prepareStatement(sql);
-			statement.setInt(1, hotel.getCNPJ());
+			statement.setString(1, hotel.getCNPJ());
 
 			statement.executeUpdate();
 

@@ -3,12 +3,26 @@ package br.ufscar.dc.dsw.classes;
 public class Hotel {
 	private String email;
 	private String password;
-	private int cnpj;
+	private String cnpj;
 	private String name;
 	private String city;
 	private double dailyRate;
 	private String phone;
 	
+	public Hotel (String cnpj, String name, String phone, String city, String email, String password, double dailyRate) {
+		this.cnpj=cnpj;
+		this.name = name;
+		this.phone = phone;
+		this.city = city;
+		this.email = email;
+		this.password = password;
+		this.dailyRate = dailyRate;
+	}
+	
+	
+	public Hotel(String cnpj) {
+		this.cnpj = cnpj;
+	}
 	
 	public String getPhone() {
 		return phone;
@@ -34,10 +48,10 @@ public class Hotel {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getCNPJ() {
+	public String getCNPJ() {
 		return cnpj;
 	}
-	public void setCNPJ(int cnpj) {
+	public void setCNPJ(String cnpj) {
 		this.cnpj = cnpj;
 	}
 	public String getName() {
