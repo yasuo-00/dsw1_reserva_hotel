@@ -96,8 +96,8 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 					String hotelCNPJ = resultSet.getString("cnpj");
 					String bookingSiteURL = resultSet.getString("hotel_name");
 					int discount = resultSet.getInt("discount");
-					Date initialDate = resultSet.getDate("initialDate");
-					Date finalDate = resultSet.getDate("finalDate");
+					Date initialDate = resultSet.getDate("initial_date");
+					Date finalDate = resultSet.getDate("final_date");
 					SaleOff livro = new SaleOff(hotelCNPJ, bookingSiteURL, initialDate, finalDate, discount);
 					saleOffList.add(livro);
 				}

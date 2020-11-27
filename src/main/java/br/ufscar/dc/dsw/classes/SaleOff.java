@@ -7,11 +7,11 @@ public class SaleOff {
 	String bookingSiteURL;
 	Date initialDate;
 	Date finalDate;
-	int discount;
+	double discount;
 	
 	
 	
-	public SaleOff(String hotelCNPJ, String bookingSiteURL, Date initialDate, Date finalDate, int discount) {
+	public SaleOff(String hotelCNPJ, String bookingSiteURL, Date initialDate, Date finalDate, double discount) {
 		super();
 		this.hotelCNPJ = hotelCNPJ;
 		this.bookingSiteURL = bookingSiteURL;
@@ -20,6 +20,16 @@ public class SaleOff {
 		this.discount = discount;
 	}
 	
+	public SaleOff(String hotelCNPJ, String bookingSiteURL, Date initialDate, Date finalDate) {
+		super();
+		this.hotelCNPJ = hotelCNPJ;
+		this.bookingSiteURL = bookingSiteURL;
+		this.initialDate = initialDate;
+		this.finalDate = finalDate;
+	}
+
+
+
 	public String getHotelCNPJ() {
 		return hotelCNPJ;
 	}
@@ -44,10 +54,10 @@ public class SaleOff {
 	public void setFinalDate(Date finalDate) {
 		this.finalDate = finalDate;
 	}
-	public int getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
-	public void setDiscount(int discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
 	
