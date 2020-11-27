@@ -34,11 +34,11 @@ public class IndexController extends HttpServlet {
 				if (user != null) {
 					if (user.getPassword().equalsIgnoreCase(senha)) {
 						request.getSession().setAttribute("userLogado", user);
-						if (user.getRole().equals("ADMIN")) {
+						if (user.getBookingSiteURL() == null && user.getHotelCNPJ() == null) {
 							response.sendRedirect("admin/");
-						} else if (user.getRole().equals("HOTEL")) {
+						} else if (user.getBookingSiteURL() == null && user.getHotelCNPJ() != null) {
 							response.sendRedirect("hotel/");
-						} else if (user.getRole().equals("BOOKINGSITE")) {
+						} else if (user.getBookingSiteURL() != null && user.getHotelCNPJ() == null) {
 							response.sendRedirect("bookingSite/");
 						}
 						return;

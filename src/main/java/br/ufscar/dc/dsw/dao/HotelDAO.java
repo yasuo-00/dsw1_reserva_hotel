@@ -13,7 +13,7 @@ import br.ufscar.dc.dsw.classes.Hotel;
 public class HotelDAO extends GenericDAO<Hotel> {
 
 	public void insert(Hotel hotel) {
-		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate,) VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate) VALUES(?,?,?,?,?)";
 
 		try {
 			Connection connection = this.getConnection();
@@ -25,7 +25,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			statement.setString(3, hotel.getPhone());
 			statement.setString(4, hotel.getCity());
 			//statement.setString(5, hotel.getEmail());
-			statement.setString(6, String.valueOf(hotel.getDailyRate()));
+			statement.setString(5, String.valueOf(hotel.getDailyRate()));
 			//statement.setString(7, hotel.getPassword());
 			statement.executeUpdate();
 
@@ -37,7 +37,9 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public void remove(Hotel hotel) {
-		String sql = "DELETE FROM hotel where cnpj = ?";
+		String sql = "DELETE FROM hotel where cnpj = ?;"
+				+ "DELETE FROM user where hotel_cnpj = ?";
+		
 
 		try {
 			Connection connection = this.getConnection();
@@ -45,6 +47,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, hotel.getCNPJ());
+			statement.setString(2, hotel.getCNPJ());
 
 			statement.executeUpdate();
 
@@ -96,8 +99,8 @@ public class HotelDAO extends GenericDAO<Hotel> {
 					String cnpj = resultSet.getString("cnpj");
 					String name = resultSet.getString("hotel_name");
 					String city = resultSet.getString("city");
-					String password = resultSet.getString("password");
-					String email = resultSet.getString("email");
+					//String password = resultSet.getString("password");
+					//String email = resultSet.getString("email");
 					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
 					String phone = resultSet.getString("phone");
 					Hotel livro = new Hotel(cnpj, name, phone, city, dailyRate);

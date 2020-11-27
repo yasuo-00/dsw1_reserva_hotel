@@ -14,18 +14,18 @@ public class UserDAO extends GenericDAO<User> {
 
 	public void insert(User user) {
 
-		String sql = "INSERT INTO user (name, email, password, role) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO user (name, email, password, hotel_cnpj, booking_site_url) VALUES (?, ?, ?, ?,?)";
 
 		try {
 			Connection connectionection = this.getConnection();
 			PreparedStatement statement = connectionection.prepareStatement(sql);
-			;
 
 			statement = connectionection.prepareStatement(sql);
 			statement.setString(1, user.getName());
 			statement.setString(2, user.getEmail());
 			statement.setString(3, user.getPassword());
-			statement.setString(4, user.getRole());
+			statement.setString(4, user.getHotelCNPJ());
+			statement.setString(5, user.getBookingSiteURL());
 			statement.executeUpdate();
 
 			statement.close();
@@ -42,7 +42,7 @@ public class UserDAO extends GenericDAO<User> {
 			Connection conn = this.getConnection();
 			PreparedStatement statement = conn.prepareStatement(sql);
 
-			// statement.setLong(1, user.getId());
+			statement.setInt(1, user.getId());
 			statement.executeUpdate();
 
 			statement.close();
@@ -61,8 +61,9 @@ public class UserDAO extends GenericDAO<User> {
 			statement.setString(1, user.getName());
 			statement.setString(2, user.getEmail());
 			statement.setString(3, user.getPassword());
-			statement.setString(4, user.getRole());
-			// statement.setLong(5, user.getId());
+			statement.setString(4, user.getHotelCNPJ());
+			statement.setString(5, user.getBookingSiteURL());
+			statement.setInt(6, user.getId());
 			statement.executeUpdate();
 
 			statement.close();
@@ -84,12 +85,13 @@ public class UserDAO extends GenericDAO<User> {
 
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				String id = resultSet.getString("id");
-				String name = resultSet.getString("name");
+				int id = resultSet.getInt("id");
+				String nome = resultSet.getString("name");
 				String email = resultSet.getString("email");
 				String password = resultSet.getString("password");
-				String role = resultSet.getString("role");
-				User user = new User(id, name, email, password, role);
+				String hotelCNPJ = resultSet.getString("hotelCNPJ");
+				String bookingSiteURL = resultSet.getString("bookingSiteURL");
+				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
 				usersList.add(user);
 			}
 
@@ -114,12 +116,13 @@ public class UserDAO extends GenericDAO<User> {
 			statement.setString(1, email);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				String id = resultSet.getString("id");
-				String nome = resultSet.getString("nome");
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
 				String password = resultSet.getString("password");
-				String role = resultSet.getString("role");
+				String hotelCNPJ = resultSet.getString("hotelCNPJ");
+				String bookingSiteURL = resultSet.getString("bookingSiteURL");
 
-				user = new User(id, nome, email, password, role);
+				user = new User(id, name, email, password, hotelCNPJ, bookingSiteURL);
 			}
 
 			resultSet.close();
@@ -131,4 +134,67 @@ public class UserDAO extends GenericDAO<User> {
 		return user;
 
 	}
+
+	public User getByHotelCNPJ(String hotelCNPJ) {
+		User user = null;
+
+		String sql = "SELECT * from User WHERE hotel_cnpj = ?";
+
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setString(1, hotelCNPJ);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				String email = resultSet.getString("email");
+				String password = resultSet.getString("password");
+				String bookingSiteURL = resultSet.getString("bookingSiteURL");
+
+				user = new User(id, name, email, password, hotelCNPJ, bookingSiteURL);
+			}
+
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return user;
+
+	}
+
+	public User getByBookingSiteURL(String bookingSiteURL) {
+		User user = null;
+
+		String sql = "SELECT * from User WHERE booking_site_url = ?";
+
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+
+			statement.setString(1, bookingSiteURL);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				String email = resultSet.getString("email");
+				String password = resultSet.getString("password");
+				String hotelCNPJ = resultSet.getString("hotel_cnpj");
+
+				user = new User(id, name, email, password, hotelCNPJ, bookingSiteURL);
+			}
+
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return user;
+
+	}
+
 }

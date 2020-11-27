@@ -10,13 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.ufscar.dc.dsw.classes.Hotel;
+import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.HotelDAO;
+import br.ufscar.dc.dsw.dao.UserDAO;
 
 //@WebServlet(urlPatterns = {"/Hotel"})
 public class HotelController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private HotelDAO dao;
+	private UserDAO uDAO;
 
 	@Override
 	public void init() {
@@ -43,8 +46,10 @@ public class HotelController extends HttpServlet {
 		String city = request.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+		User user = new User(name, email, password, cnpj, null);
 
 		dao.insert(hotel);
+		uDAO.insert(user);
 		response.sendRedirect("list");
 	}
 
@@ -59,16 +64,22 @@ public class HotelController extends HttpServlet {
 		String city = request.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+		User user = new User(name, email, password, cnpj, null);
 
 		dao.update(hotel);
+		uDAO.update(user);
 		response.sendRedirect("list");
 	}
 
 	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String cnpj = request.getParameter("cnpj");
+		
+		User user = new User();
+		user = uDAO.getByHotelCNPJ(cnpj);
 
 		Hotel hotel = new Hotel(cnpj);
 		dao.remove(hotel);
+		uDAO.remove(user);
 		response.sendRedirect("list");
 	}
 

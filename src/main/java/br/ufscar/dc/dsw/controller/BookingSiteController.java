@@ -10,13 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.ufscar.dc.dsw.classes.BookingSite;
+import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.BookingSiteDAO;
+import br.ufscar.dc.dsw.dao.UserDAO;
 
 //@WebServlet(urlPatterns = {"/BookingSite"})
 public class BookingSiteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private BookingSiteDAO dao;
+	private UserDAO uDAO;
 
 	@Override
 	public void init() {
@@ -41,8 +44,10 @@ public class BookingSiteController extends HttpServlet {
 		String email = request.getParameter("email");
 
 		BookingSite bookingSite = new BookingSite(url, name, phone);
+		User user = new User(name, email, password, null, url);
 
 		dao.insert(bookingSite);
+		uDAO.insert(user);
 		response.sendRedirect("list");
 	}
 
@@ -55,8 +60,10 @@ public class BookingSiteController extends HttpServlet {
 		String email = request.getParameter("email");
 
 		BookingSite bookingSite = new BookingSite(url, name, phone);
+		User user = new User(name, email, password, null, url);
 
 		dao.update(bookingSite);
+		uDAO.update(user);
 		response.sendRedirect("list");
 	}
 
@@ -64,7 +71,12 @@ public class BookingSiteController extends HttpServlet {
 		String url = request.getParameter("url");
 
 		BookingSite bookingSite = new BookingSite(url);
+		User user = new User();
+		user = uDAO.getByBookingSiteURL(url);
+		
+		
 		dao.remove(bookingSite);
+		uDAO.remove(user);
 		response.sendRedirect("list");
 	}
 
