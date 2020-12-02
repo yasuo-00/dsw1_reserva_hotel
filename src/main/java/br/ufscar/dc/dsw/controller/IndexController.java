@@ -37,11 +37,11 @@ public class IndexController extends HttpServlet {
 					if (user.getPassword().equalsIgnoreCase(senha)) {
 						request.getSession().setAttribute("userLogado", user);
 						if (user.getBookingSiteURL() == null && user.getHotelCNPJ() == null) {
-							response.sendRedirect("admin/");
+							response.sendRedirect("Admin/");
 						} else if (user.getBookingSiteURL() == null && user.getHotelCNPJ() != null) {
-							response.sendRedirect("hotel/");
+							response.sendRedirect("Hotel/");
 						} else if (user.getBookingSiteURL() != null && user.getHotelCNPJ() == null) {
-							response.sendRedirect("bookingSite/");
+							response.sendRedirect("BookingSite/");
 						}
 						return;
 					} else {
@@ -56,7 +56,7 @@ public class IndexController extends HttpServlet {
 
 		request.setAttribute("messages", errors);
 
-		String URL = "/email.jsp";
+		String URL = "/home.jsp";
 		RequestDispatcher rd = request.getRequestDispatcher(URL);
 		rd.forward(request, response);
 	}

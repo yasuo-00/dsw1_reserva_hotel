@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,7 @@ import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.BookingSiteDAO;
 import br.ufscar.dc.dsw.dao.UserDAO;
 
-//@WebServlet(urlPatterns = {"/BookingSite"})
+@WebServlet(urlPatterns = {"/BookingSite"})
 public class BookingSiteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

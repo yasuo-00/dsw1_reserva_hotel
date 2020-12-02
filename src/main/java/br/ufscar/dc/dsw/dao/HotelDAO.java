@@ -134,8 +134,8 @@ public class HotelDAO extends GenericDAO<Hotel> {
 					//String email = resultSet.getString("email");
 					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
 					String phone = resultSet.getString("phone");
-					Hotel livro = new Hotel(cnpj, name, phone, city, dailyRate);
-					bookingSitesList.add(livro);
+					Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+					bookingSitesList.add(hotel);
 				}
 
 				resultSet.close();
