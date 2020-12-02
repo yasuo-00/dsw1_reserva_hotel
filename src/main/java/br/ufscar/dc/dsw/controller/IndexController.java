@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.UserDAO;
 import br.ufscar.dc.dsw.error.Error;
 
+@WebServlet(name = "Index", urlPatterns = { "/index.jsp", "/logout.jsp" })
 public class IndexController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -23,7 +25,7 @@ public class IndexController extends HttpServlet {
 			String email = request.getParameter("email");
 			String senha = request.getParameter("senha");
 			if (email == null || email.isEmpty()) {
-				errors.add("Login não informado!");
+				errors.add("Email não informado!");
 			}
 			if (senha == null || senha.isEmpty()) {
 				errors.add("Password não informada!");

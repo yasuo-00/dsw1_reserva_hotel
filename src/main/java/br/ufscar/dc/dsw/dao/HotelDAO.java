@@ -11,6 +11,37 @@ import java.util.List;
 import br.ufscar.dc.dsw.classes.Hotel;
 
 public class HotelDAO extends GenericDAO<Hotel> {
+	
+	public Hotel getByCNPJ(String cnpj) {
+		Hotel hotel = null;
+		
+		String sql = "SELECT * from Hotel h WHERE h.cnpj = ?";
+		
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			 statement.setString(1, cnpj);
+	            ResultSet resultSet = statement.executeQuery();
+	            if (resultSet.next()) {
+	                String name = resultSet.getString("name");
+	                String phone = resultSet.getString("phone");
+	                String city = resultSet.getString("city");
+	                double dailyRate = resultSet.getDouble("daily_rate");
+
+	                hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+	                
+	            }
+
+	            resultSet.close();
+	            statement.close();
+	            connection.close();
+			
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return hotel;
+	}
 
 	public void insert(Hotel hotel) {
 		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate) VALUES(?,?,?,?,?)";

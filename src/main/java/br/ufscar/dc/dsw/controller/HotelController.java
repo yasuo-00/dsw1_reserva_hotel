@@ -13,6 +13,7 @@ import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.HotelDAO;
 import br.ufscar.dc.dsw.dao.UserDAO;
+import br.ufscar.dc.dsw.error.Error;
 
 //@WebServlet(urlPatterns = {"/Hotel"})
 public class HotelController extends HttpServlet {
@@ -27,68 +28,125 @@ public class HotelController extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		doPost(req,res);
+		doPost(req, res);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
+		User user = (User) req.getSession().getAttribute("userLogado");
+		Error error = new Error();
+
+		if (user == null) {
+			res.sendRedirect(req.getContextPath());
+			return;
+		} else if (user.getHotelCNPJ() != null && user.getBookingSiteURL() != null) {
+			error.add("Acesso não autorizado!");
+			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
+			req.setAttribute("mensagens", error);
+			RequestDispatcher rd = req.getRequestDispatcher("/noAuth.jsp");
+			rd.forward(req, res);
+			return;
+		}
+
+		String action = req.getPathInfo();
+		if (action == null) {
+			action = "";
+		}
+
+		try {
+			switch (action) {
+			case "/register":
+				showRegisterForm(req, res);
+				break;
+			case "/insert":
+				insert(req, res);
+				break;
+			case "/remove":
+				remove(req, res);
+				break;
+			case "/edit":
+				showEditForm(req, res);
+				break;
+			case "/update":
+				update(req, res);
+				break;
+			default:
+				listAll(req, res);
+				break;
+			}
+		} catch (RuntimeException | IOException | ServletException e) {
+			throw new ServletException(e);
+		}
 	}
 
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+	private void insert(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
 
-		String cnpj = request.getParameter("cnpj");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		double dailyRate = Double.parseDouble(request.getParameter("dailyRate"));
-		String city = request.getParameter("city");
+		String cnpj = req.getParameter("cnpj");
+		String name = req.getParameter("name");
+		String phone = req.getParameter("phone");
+		String email = req.getParameter("email");
+		String password = req.getParameter("password");
+		double dailyRate = Double.parseDouble(req.getParameter("dailyRate"));
+		String city = req.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
 		User user = new User(name, email, password, cnpj, null);
 
 		dao.insert(hotel);
 		uDAO.insert(user);
-		response.sendRedirect("list");
+		res.sendRedirect("list");
 	}
 
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void update(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-		String cnpj = request.getParameter("cnpj");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		double dailyRate = Double.parseDouble(request.getParameter("dailyRate"));
-		String city = request.getParameter("city");
+		String cnpj = req.getParameter("cnpj");
+		String name = req.getParameter("name");
+		String phone = req.getParameter("phone");
+		String email = req.getParameter("email");
+		String password = req.getParameter("password");
+		double dailyRate = Double.parseDouble(req.getParameter("dailyRate"));
+		String city = req.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
 		User user = new User(name, email, password, cnpj, null);
 
 		dao.update(hotel);
 		uDAO.update(user);
-		response.sendRedirect("list");
+		res.sendRedirect("list");
 	}
 
-	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String cnpj = request.getParameter("cnpj");
-		
+	private void remove(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		String cnpj = req.getParameter("cnpj");
+
 		User user = new User();
 		user = uDAO.getByHotelCNPJ(cnpj);
 
 		Hotel hotel = new Hotel(cnpj);
 		dao.remove(hotel);
 		uDAO.remove(user);
-		response.sendRedirect("list");
+		res.sendRedirect("list");
 	}
 
-	private void listAll(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private void listAll(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		List<Hotel> hotelList = dao.listAll();
 
-		request.setAttribute("hotelList", hotelList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("");
-		dispatcher.forward(request, response);
+		req.setAttribute("hotelList", hotelList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("");
+		dispatcher.forward(req, res);
+	}
+
+	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/form.jsp");
+		dispatcher.forward(req, res);
+	}
+
+	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String cnpj = String.valueOf(req.getParameter("CNPJ"));
+		Hotel hotel = dao.getByCNPJ(cnpj);
+		req.setAttribute("hotel", hotel);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/form.jsp");
+		dispatcher.forward(req, res);
 	}
 }

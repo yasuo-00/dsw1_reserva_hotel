@@ -19,14 +19,13 @@
 				<fmt:message key="hotels.welcome" />
 			</h1>
 			<h2>
-			<!--  
-				<a href="/<%=contextPath%>/livros"> 
-					<fmt:message key="books.entity" />
+				<a href="/<%=contextPath%>/hotels"> 
+					<fmt:message key="hotel.entity" />
 				</a> 
 				&nbsp;&nbsp;&nbsp;
 				<a href="${pageContext.request.contextPath}/logout.jsp"> 
 					<fmt:message key="exit.link" />
-				</a> -->
+				</a> 
 				<br/>
 				<br/>
 				<a href="/<%=contextPath%>/hotels/register">
@@ -41,23 +40,22 @@
 				<tr>
 					<th><fmt:message key="hotel.CNPJ" /></th>
 					<th><fmt:message key="hotel.name" /></th>
+					<th><fmt:message key="hotel.password" /></th>
+					<th><fmt:message key="hotel.phone" /></th>
+					<th><fmt:message key="hotel.city" /></th>
 					<th><fmt:message key="actions.link" /></th>
 				</tr>
 				<c:forEach var="hotel" items="${requestScope.hotelList}">
 					<tr>
 						<td><c:out value="${hotel.CNPJ}" /></td>
-						<td><c:out value="${hotel.nome}" /></td>
+						<td><c:out value="${hotel.name}" /></td>
+						<td><c:out value="${hotel.password}" /></td>
+						<td><c:out value="${hotel.phone}" /></td>
+						<td><c:out value="${hotel.city}" /></td>
 						<td><a
 							href="/<%= contextPath %>/hotels/edit?id=<c:out value='${hotel.cnpj}' />">
 								<fmt:message key="hotels.update" />
-						</a> <c:if test="${hotel.qtdeLivros == 0}">
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a
-									href="/<%= contextPath %>/hotles/remove?id=<c:out value='${hotel.cnpj}' />"
-									onclick="return confirm('<fmt:message key="confirm.link" />');">
-									<fmt:message key="hotels.remove" />
-								</a>
-							</c:if></td>
+						</a></td>
 					</tr>
 				</c:forEach>
 			</table>
