@@ -50,7 +50,6 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, hotel.getCnpj());
 			statement.setString(2, hotel.getName());
 			statement.setString(3, hotel.getPhone());
@@ -74,7 +73,6 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, hotel.getCnpj());
 			statement.setString(2, hotel.getCnpj());
 
@@ -88,7 +86,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public void update(Hotel hotel) {
-		String sql = "UPDATE site_reserva SET hotel_name = ?, phone = ?, city = ?, daily_rate = ?";
+		String sql = "UPDATE hotel SET name = ?, phone = ?, city = ?, daily_rate = ?";
 		sql += ", WHERE cnpj = ?";
 
 		try {
@@ -182,23 +180,32 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public List<Hotel> listByCity(String city) {
-		List<Hotel> hotelList = new ArrayList<>();
+		List<Hotel> hotelList = new ArrayList<Hotel>();
 
 		String sql = "SELECT * from hotel h where h.city = ?";
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
+
 			statement.setString(1, city);
 
-			ResultSet resultSet = statement.executeQuery(sql);
-			while (resultSet.next()) {
-				String cnpj = resultSet.getString("cnpj");
-				String name = resultSet.getString("name");
-				double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
-				String phone = resultSet.getString("phone");
-				Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+			ResultSet resultSet = statement.executeQuery();
+			if (!resultSet.next()) {
+				Hotel hotel = new Hotel();
 				hotelList.add(hotel);
+			} else {
+
+				do {
+					String cnpj = resultSet.getString("cnpj");
+					String name = resultSet.getString("name");
+					// String password = resultSet.getString("password");
+					// String email = resultSet.getString("email");
+					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
+					String phone = resultSet.getString("phone");
+					Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+					hotelList.add(hotel);
+				} while (resultSet.next());
 			}
 
 			resultSet.close();

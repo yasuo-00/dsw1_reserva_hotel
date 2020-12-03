@@ -66,7 +66,6 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getUrl());
 
 			statement.executeUpdate();

@@ -20,7 +20,7 @@
 </form>
 
 <p>Deseja procurar os hotéis de uma cidade?</p>
-<form method="GET" action="Hotel">
+<form method="GET" action="Hotels/listByCity">
 	<label for="city">Cidade:</label><input type="text" name="city">
 	<input type="submit" value="Ver hotéis da cidade">
 </form>

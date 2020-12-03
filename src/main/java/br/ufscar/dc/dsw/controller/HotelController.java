@@ -43,6 +43,8 @@ public class HotelController extends HttpServlet {
 			case "/remove":
 				remove(req, res);
 				break;
+			case "/listByCity":
+				listByCity(req,res);
 			default:
 				listAll(req, res);
 				break;
@@ -165,6 +167,15 @@ public class HotelController extends HttpServlet {
 
 		req.setAttribute("hotelList", hotelList);
 		req.setAttribute("userList", userList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
+		dispatcher.forward(req, res);
+	}
+	
+	
+	private void listByCity(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		List<Hotel> hotelList = dao.listByCity(req.getParameter("city"));
+
+		req.setAttribute("hotelList", hotelList);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
 		dispatcher.forward(req, res);
 	}
