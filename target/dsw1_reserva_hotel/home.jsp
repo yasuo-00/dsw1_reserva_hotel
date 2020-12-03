@@ -14,6 +14,11 @@
 <input type="submit" value="Listar" />
 </form>
 
+<p>Deseja ver todos os sites disponíveis?</p>
+<form action="BookingSites/">
+<input type="submit" value="Listar" />
+</form>
+
 <p>Deseja procurar os hotéis de uma cidade?</p>
 <form method="GET" action="Hotel">
 	<label for="city">Cidade:</label><input type="text" name="city">

@@ -51,7 +51,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement = connection.prepareStatement(sql);
-			statement.setString(1, hotel.getCNPJ());
+			statement.setString(1, hotel.getCnpj());
 			statement.setString(2, hotel.getName());
 			statement.setString(3, hotel.getPhone());
 			statement.setString(4, hotel.getCity());
@@ -75,8 +75,8 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			PreparedStatement statement = connection.prepareStatement(sql);
 
 			statement = connection.prepareStatement(sql);
-			statement.setString(1, hotel.getCNPJ());
-			statement.setString(2, hotel.getCNPJ());
+			statement.setString(1, hotel.getCnpj());
+			statement.setString(2, hotel.getCnpj());
 
 			statement.executeUpdate();
 
@@ -102,7 +102,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			// statement.setString(4, hotel.getEmail());
 			// statement.setString(4, hotel.getPassword());
 			statement.setString(5, String.valueOf(hotel.getDailyRate()));
-			statement.setString(6, String.valueOf(hotel.getCNPJ()));
+			statement.setString(6, String.valueOf(hotel.getCnpj()));
 			statement.executeUpdate();
 
 			statement.close();
@@ -145,7 +145,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public List<Hotel> listAllByCNPJ() {
-		List<Hotel> hotelList = new ArrayList<>();
+		List<Hotel> hotelList = new ArrayList<Hotel>();
 
 		String sql = "SELECT * from hotel h ORDER BY cnpj";
 
@@ -154,7 +154,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 			Statement statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(sql);
-			if (resultSet.next() == false) {
+			if (!resultSet.next()) {
 				Hotel hotel = new Hotel();
 				hotelList.add(hotel);
 			} else {

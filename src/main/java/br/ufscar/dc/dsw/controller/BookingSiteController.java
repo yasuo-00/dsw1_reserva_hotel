@@ -37,9 +37,6 @@ public class BookingSiteController extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/register":
-				showRegisterForm(req, res);
-				break;
 			case "/remove":
 				remove(req, res);
 				break;
@@ -147,10 +144,10 @@ public class BookingSiteController extends HttpServlet {
 	// lista todos os dados dos sites de reserva
 	private void listAll(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<BookingSite> bookingSiteList = dao.listAll();
+		List<BookingSite> bookingSiteList = dao.listAllByURL();
 
 		request.setAttribute("bookingSiteList", bookingSiteList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/account/bookingSite/list.jsp");
 		dispatcher.forward(request, response);
 	}
 

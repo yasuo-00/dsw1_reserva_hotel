@@ -6,6 +6,12 @@ public class BookingSite {
 	private String name;
 	private String phone;
 	
+	public BookingSite() {
+		this.url = "url";
+		this.name = "name";
+		this.phone = "phone";
+	}
+	
 	public BookingSite(String url, String name, String phone) {
 		this.url = url;
 		this.name = name;
