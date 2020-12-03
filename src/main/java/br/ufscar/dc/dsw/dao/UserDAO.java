@@ -108,7 +108,7 @@ public class UserDAO extends GenericDAO<User> {
 
 		List<User> usersList = new ArrayList<>();
 
-		String sql = "SELECT * from User u ORDER BY u.booking_site_url";
+		String sql = "SELECT * from User u WHERE u.booking_site_url IS NOT NULL ORDER BY u.booking_site_url";
 
 		try {
 			Connection connection = this.getConnection();
@@ -120,9 +120,9 @@ public class UserDAO extends GenericDAO<User> {
 				String nome = resultSet.getString("name");
 				String email = resultSet.getString("email");
 				String password = resultSet.getString("password");
-				String hotelCNPJ = resultSet.getString("hotel_cnpj");
+				//String hotelCNPJ = resultSet.getString("hotel_cnpj");
 				String bookingSiteURL = resultSet.getString("booking_site_url");
-				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
+				User user = new User(id, nome, email, password, null, bookingSiteURL);
 				usersList.add(user);
 			}
 
@@ -139,7 +139,7 @@ public class UserDAO extends GenericDAO<User> {
 
 		List<User> usersList = new ArrayList<>();
 
-		String sql = "SELECT * from User u ORDER BY u.booking_site_url";
+		String sql = "SELECT * from User u WHERE u.hotel_cnpj IS NOT NULL ORDER BY u.hotel_cnpj";
 
 		try {
 			Connection connection = this.getConnection();
@@ -152,8 +152,8 @@ public class UserDAO extends GenericDAO<User> {
 				String email = resultSet.getString("email");
 				String password = resultSet.getString("password");
 				String hotelCNPJ = resultSet.getString("hotel_cnpj");
-				String bookingSiteURL = resultSet.getString("booking_site_url");
-				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
+				//String bookingSiteURL = resultSet.getString("booking_site_url");
+				User user = new User(id, nome, email, password, hotelCNPJ, null);
 				usersList.add(user);
 			}
 

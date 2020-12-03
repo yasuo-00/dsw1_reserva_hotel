@@ -18,7 +18,7 @@ import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.SaleOffDAO;
 import br.ufscar.dc.dsw.error.Error;
 
-@WebServlet(urlPatterns = {"/SaleOff"})
+@WebServlet(urlPatterns = {"/SaleOffs"})
 public class SaleOffController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

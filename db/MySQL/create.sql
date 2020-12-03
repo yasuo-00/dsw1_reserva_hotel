@@ -8,36 +8,37 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema db
+-- Schema dsw1_reserva_hotel
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `db` ;
+DROP SCHEMA IF EXISTS `dsw1_reserva_hotel` ;
 
 -- -----------------------------------------------------
--- Schema db
+-- Schema dsw1_reserva_hotel
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `db` DEFAULT CHARACTER SET utf8 ;
-USE `db` ;
+CREATE SCHEMA IF NOT EXISTS `dsw1_reserva_hotel` DEFAULT CHARACTER SET utf8 ;
+USE `dsw1_reserva_hotel` ;
 
 -- -----------------------------------------------------
--- Table `db`.`hotel`
+-- Table `dsw1_reserva_hotel`.`hotel`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `db`.`hotel` ;
+DROP TABLE IF EXISTS `dsw1_reserva_hotel`.`hotel` ;
 
-CREATE TABLE IF NOT EXISTS `db`.`hotel` (
+CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`hotel` (
   `cnpj` VARCHAR(14) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NULL,
   `city` VARCHAR(45) NOT NULL,
+  `daily_rate` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`cnpj`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db`.`booking_site`
+-- Table `dsw1_reserva_hotel`.`booking_site`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `db`.`booking_site` ;
+DROP TABLE IF EXISTS `dsw1_reserva_hotel`.`booking_site` ;
 
-CREATE TABLE IF NOT EXISTS `db`.`booking_site` (
+CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`booking_site` (
   `url` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NULL,
@@ -46,11 +47,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db`.`user`
+-- Table `dsw1_reserva_hotel`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `db`.`user` ;
+DROP TABLE IF EXISTS `dsw1_reserva_hotel`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `db`.`user` (
+CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
@@ -61,23 +62,23 @@ CREATE TABLE IF NOT EXISTS `db`.`user` (
   INDEX `fk_user_booking_site1_idx` (`booking_site_url` ASC) VISIBLE,
   CONSTRAINT `fk_user_hotel1`
     FOREIGN KEY (`hotel_cnpj`)
-    REFERENCES `db`.`hotel` (`cnpj`)
+    REFERENCES `dsw1_reserva_hotel`.`hotel` (`cnpj`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_booking_site1`
     FOREIGN KEY (`booking_site_url`)
-    REFERENCES `db`.`booking_site` (`url`)
+    REFERENCES `dsw1_reserva_hotel`.`booking_site` (`url`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `db`.`sale_off`
+-- Table `dsw1_reserva_hotel`.`sale_off`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `db`.`sale_off` ;
+DROP TABLE IF EXISTS `dsw1_reserva_hotel`.`sale_off` ;
 
-CREATE TABLE IF NOT EXISTS `db`.`sale_off` (
+CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`sale_off` (
   `hotel_cnpj` VARCHAR(14) NOT NULL,
   `booking_site_url` VARCHAR(45) NOT NULL,
   `initial_date` DATE NOT NULL,
@@ -87,13 +88,13 @@ CREATE TABLE IF NOT EXISTS `db`.`sale_off` (
   INDEX `fk_hotel_has_booking_site_booking_site1_idx` (`booking_site_url` ASC) VISIBLE,
   INDEX `fk_hotel_has_booking_site_hotel_idx` (`hotel_cnpj` ASC) VISIBLE,
   CONSTRAINT `fk_hotel_has_booking_site_hotel`
-    FOREIGN KEY (`hotel_cnpj`)quitr
-    REFERENCES `db`.`hotel` (`cnpj`)
+    FOREIGN KEY (`hotel_cnpj`)
+    REFERENCES `dsw1_reserva_hotel`.`hotel` (`cnpj`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_hotel_has_booking_site_booking_site1`
     FOREIGN KEY (`booking_site_url`)
-    REFERENCES `db`.`booking_site` (`url`)
+    REFERENCES `dsw1_reserva_hotel`.`booking_site` (`url`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

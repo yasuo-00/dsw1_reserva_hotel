@@ -16,7 +16,7 @@ import br.ufscar.dc.dsw.dao.HotelDAO;
 import br.ufscar.dc.dsw.dao.UserDAO;
 import br.ufscar.dc.dsw.error.Error;
 
-@WebServlet(urlPatterns = {"/Hotel"})
+@WebServlet(urlPatterns = {"/Hotels/*"})
 public class HotelController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,26 @@ public class HotelController extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		doPost(req, res);
+		String action = req.getPathInfo();
+		if (action == null) {
+			action = "";
+		}
+
+		try {
+			switch (action) {
+			case "/register":
+				showRegisterForm(req, res);
+				break;
+			case "/remove":
+				remove(req, res);
+				break;
+			default:
+				listAll(req, res);
+				break;
+			}
+		} catch (RuntimeException | IOException | ServletException e) {
+			throw new ServletException(e);
+		}
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -135,7 +154,7 @@ public class HotelController extends HttpServlet {
 		List<Hotel> hotelList = dao.listAllByCNPJ();
 
 		req.setAttribute("hotelList", hotelList);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
 		dispatcher.forward(req, res);
 	}
 	
@@ -146,7 +165,7 @@ public class HotelController extends HttpServlet {
 
 		req.setAttribute("hotelList", hotelList);
 		req.setAttribute("userList", userList);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
 		dispatcher.forward(req, res);
 	}
 
@@ -156,10 +175,13 @@ public class HotelController extends HttpServlet {
 		dispatcher.forward(req, res);
 	}
 
+	//passa os dados do hotel e da conta dele para editar
 	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String cnpj = String.valueOf(req.getParameter("CNPJ"));
 		Hotel hotel = dao.getByCNPJ(cnpj);
+		User user = uDAO.getByHotelCNPJ(cnpj);
 		req.setAttribute("hotel", hotel);
+		req.setAttribute("user", user);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/form.jsp");
 		dispatcher.forward(req, res);
 	}

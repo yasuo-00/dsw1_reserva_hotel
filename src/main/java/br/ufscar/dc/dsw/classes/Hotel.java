@@ -7,6 +7,14 @@ public class Hotel {
 	private double dailyRate;
 	private String phone;
 	
+	public Hotel() {
+		this.cnpj="cnpj";
+		this.name = "name";
+		this.phone = "phone";
+		this.city = "city";
+		this.dailyRate = 0;
+	}
+	
 	public Hotel (String cnpj, String name, String phone, String city, double dailyRate) {
 		this.cnpj=cnpj;
 		this.name = name;

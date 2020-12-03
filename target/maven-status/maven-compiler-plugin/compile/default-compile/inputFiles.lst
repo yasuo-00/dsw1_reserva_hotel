@@ -1,5 +1,7 @@
+/home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/dbAccess.java
 /home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/dao/BookingSiteDAO.java
 /home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/classes/User.java
+/home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/controller/UserController.java
 /home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/classes/Hotel.java
 /home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/package-info.java
 /home/yasuo/ufscar/dw1/dsw1_reserva_hotel/src/main/java/br/ufscar/dc/dsw/error/Error.java

@@ -17,10 +17,10 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 		BookingSite bookingSite=null;
 
 		try {
-			Connection connectionection = this.getConnection();
-			PreparedStatement statement = connectionection.prepareStatement(sql);
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connectionection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			statement.setString(1, url);
 
 			ResultSet resultSet = statement.executeQuery(sql);
@@ -41,10 +41,10 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 		String sql = "INSERT INTO bookingSite(url,name, phone) VALUES(?,?,?)";
 
 		try {
-			Connection connectionection = this.getConnection();
-			PreparedStatement statement = connectionection.prepareStatement(sql);
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connectionection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getUrl());
 			statement.setString(2, bookingSite.getName());
 			statement.setString(3, String.valueOf(bookingSite.getPhone()));
@@ -52,7 +52,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			statement.executeUpdate();
 
 			statement.close();
-			connectionection.close();
+			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -62,16 +62,16 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 		String sql = "DELETE FROM site_reserva where url = ?";
 
 		try {
-			Connection connectionection = this.getConnection();
-			PreparedStatement statement = connectionection.prepareStatement(sql);
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connectionection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getUrl());
 
 			statement.executeUpdate();
 
 			statement.close();
-			connectionection.close();
+			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -82,10 +82,10 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 		sql += ", WHERE url = ?";
 
 		try {
-			Connection connectionection = this.getConnection();
-			PreparedStatement statement = connectionection.prepareStatement(sql);
+			Connection connection = this.getConnection();
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connectionection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getName());
 			statement.setString(2, String.valueOf(bookingSite.getPhone()));
 			// statement.setString(3, bookingSite.getPassword());
@@ -95,7 +95,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			statement.executeUpdate();
 
 			statement.close();
-			connectionection.close();
+			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

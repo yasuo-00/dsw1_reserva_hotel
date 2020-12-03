@@ -23,25 +23,26 @@ public class IndexController extends HttpServlet {
 		Error errors = new Error();
 		if (request.getParameter("bOK") != null) {
 			String email = request.getParameter("email");
-			String senha = request.getParameter("senha");
+			String password = request.getParameter("password");
 			if (email == null || email.isEmpty()) {
 				errors.add("Email não informado!");
 			}
-			if (senha == null || senha.isEmpty()) {
+			if (password == null || password.isEmpty()) {
 				errors.add("Password não informada!");
 			}
 			if (!errors.isThereError()) {
+				System.out.println("entrou");
 				UserDAO dao = new UserDAO();
 				User user = dao.getByEmail(email);
 				if (user != null) {
-					if (user.getPassword().equalsIgnoreCase(senha)) {
-						request.getSession().setAttribute("userLogado", user);
+					if (user.getPassword().equalsIgnoreCase(password)) {
+						request.getSession().setAttribute("logeddUser", user);
 						if (user.getBookingSiteURL() == null && user.getHotelCNPJ() == null) {
 							response.sendRedirect("Admin/");
 						} else if (user.getBookingSiteURL() == null && user.getHotelCNPJ() != null) {
-							response.sendRedirect("Hotel/");
+							response.sendRedirect("Hotels/");
 						} else if (user.getBookingSiteURL() != null && user.getHotelCNPJ() == null) {
-							response.sendRedirect("BookingSite/");
+							response.sendRedirect("BookingSites/");
 						}
 						return;
 					} else {

@@ -19,7 +19,7 @@
 				<fmt:message key="bookingSites.welcome" />
 			</h1>
 			<h2>
-				<a href="/<%=contextPath%>/bookingSites"> 
+				<a href="/<%=contextPath%>/BookingSites"> 
 					<fmt:message key="bookingSite.entity" />
 				</a> 
 				&nbsp;&nbsp;&nbsp;
@@ -28,7 +28,7 @@
 				</a> 
 				<br/>
 				<br/>
-				<a href="/<%=contextPath%>/bookingSites/register">
+				<a href="/<%=contextPath%>/BookingSites/register">
 					<fmt:message key="bookingSites.create" />
 				</a> 
 			</h2>
@@ -53,7 +53,7 @@
 						<td><c:out value="${userList[status.index].email}" /></td>
 						<td><c:out value="${userList[status.index].password}" /></td>
 						<td><a
-							href="/<%= contextPath %>/bookingSites/edit?id=<c:out value='${bookingSite.url}' />">
+							href="/<%= contextPath %>/BookingSites/edit?id=<c:out value='${bookingSite.url}' />">
 								<fmt:message key="bookingSites.update" />
 						</a></td>
 					</tr>

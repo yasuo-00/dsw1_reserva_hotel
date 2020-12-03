@@ -4,13 +4,15 @@
 <body>
 <!-- test -->
 <form action="index.jsp" method="POST">
-	<label for="username">Usuário:</label><input type="text" name="username">
+	<label for="email">Email:</label><input type="text" name="email">
 	<label for="password">Senha:</label><input type="password" name="password">
 	<input type="submit" value="Entrar">
 </form>
 
 <p>Deseja ver todos os hotéis disponíveis?</p>
-<button>Listar hotéis</button>
+<form action="Hotels/">
+<input type="submit" value="Listar" />
+</form>
 
 <p>Deseja procurar os hotéis de uma cidade?</p>
 <form method="GET" action="Hotel">

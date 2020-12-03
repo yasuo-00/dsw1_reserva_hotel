@@ -14,7 +14,7 @@ abstract class GenericDAO<T> {
         	Class.forName("com.mysql.cj.jdbc.Driver");
             
         } catch (Exception e) {
-            e.printStackTrace();
+        	throw new RuntimeException(e);
         }
     }
     
@@ -27,6 +27,6 @@ abstract class GenericDAO<T> {
     abstract List<T> listAll();
     
     protected Connection getConnection() throws SQLException{
-    	return  DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "password");
+    	return  DriverManager.getConnection("jdbc:mysql://localhost:3306/dsw1_reserva_hotel", "root", "password");
     }
 }
