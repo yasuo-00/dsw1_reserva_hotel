@@ -35,7 +35,7 @@ public class IndexController extends HttpServlet {
 				User user = dao.getByEmail(email);
 				if (user != null) {
 					if (user.getPassword().equalsIgnoreCase(password)) {
-						request.getSession().setAttribute("logeddUser", user);
+						request.getSession().setAttribute("loggedUser", user);
 						if (user.getBookingSiteURL() == null && user.getHotelCNPJ() == null) {
 							response.sendRedirect(request.getContextPath()+"/account/admin/adminMenu.jsp");
 						} else if (user.getBookingSiteURL() == null && user.getHotelCNPJ() != null) {

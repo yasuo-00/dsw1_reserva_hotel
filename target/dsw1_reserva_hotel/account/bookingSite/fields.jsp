@@ -34,13 +34,13 @@
 		<td><label for="email"> <fmt:message key="bookingSite.email" />
 		</label></td>
 		<td><input type="text" id="email" name="email" size="45" required
-			value="${bookingSite.email}" /></td>
+			value="${user.email}" /></td>
 	</tr>
 	<tr>
 		<td><label for="password"> <fmt:message key="bookingSite.password" />
 		</label></td>
 		<td><input type="password" id="password" name="password" size="45" required
-			value="${bookingSite.password}" /></td>
+			value="${user.password}" /></td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center"><input type="submit"

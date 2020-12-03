@@ -40,13 +40,13 @@
 		<td><label for="email"> <fmt:message key="hotel.email" />
 		</label></td>
 		<td><input type="text" id="email" name="email" size="45" required
-			value="${hotel.email}" /></td>
+			value="${user.email}" /></td>
 	</tr>
 	<tr>
 		<td><label for="password"> <fmt:message key="hotel.password" />
 		</label></td>
 		<td><input type="password" id="password" name="password" size="45" required
-			value="${hotel.password}" /></td>
+			value="${user.password}" /></td>
 	</tr>
 	<tr>
 		<td><label for="dailyRate"> <fmt:message key="hotel.dailyRate" />
