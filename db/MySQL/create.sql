@@ -101,6 +101,12 @@ ENGINE = InnoDB;
 
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('admin','admin', null, null);
 
+INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('123','hotel', '1234', 'abc',50);
+INSERT INTO `booking_site`(url, name, phone) VALUES ('url','abceda', '443123');
+
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel','hotel', '123', null);
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('site','site', null, 'url');
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

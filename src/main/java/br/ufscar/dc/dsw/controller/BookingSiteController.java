@@ -106,7 +106,7 @@ public class BookingSiteController extends HttpServlet {
 		String email = request.getParameter("email");
 
 		BookingSite bookingSite = new BookingSite(url, name, phone);
-		User user = new User(name, email, password, null, url);
+		User user = new User( email, password, null, url);
 
 		dao.insert(bookingSite);
 		uDAO.insert(user);
@@ -122,7 +122,7 @@ public class BookingSiteController extends HttpServlet {
 		String email = request.getParameter("email");
 
 		BookingSite bookingSite = new BookingSite(url, name, phone);
-		User user = new User(name, email, password, null, url);
+		User user = new User( email, password, null, url);
 
 		dao.update(bookingSite);
 		uDAO.update(user);
@@ -171,7 +171,7 @@ public class BookingSiteController extends HttpServlet {
 
 	// passa os dados do site de reserva e da conta dele para editar
 	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String url = String.valueOf(req.getParameter("URL"));
+		String url = req.getParameter("url");
 		BookingSite bookingSite = dao.getByURL(url);
 		User user = uDAO.getByBookingSiteURL(url);
 		req.setAttribute("bookingSite", bookingSite);

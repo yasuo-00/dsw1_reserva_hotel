@@ -2,7 +2,6 @@ package br.ufscar.dc.dsw.classes;
 
 public class User {
 	int id;
-	String name;
 	String email;
 	String password;
 	String hotelCNPJ;
@@ -17,17 +16,15 @@ public class User {
 	}
 	
 
-	public User(int id, String name, String email, String password, String hotelCNPJ, String bookingSiteURL) {
+	public User(int id, String email, String password, String hotelCNPJ, String bookingSiteURL) {
 		this.id = id;
-		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.hotelCNPJ = hotelCNPJ;
 		this.bookingSiteURL = bookingSiteURL;
 	}
 	
-	public User(String name, String email, String password, String hotelCNPJ, String bookingSiteURL) {
-		this.name = name;
+	public User(String email, String password, String hotelCNPJ, String bookingSiteURL) {
 		this.email = email;
 		this.password = password;
 		this.hotelCNPJ = hotelCNPJ;
@@ -49,12 +46,7 @@ public class User {
 	public void setBookingSiteURL(String bookingSiteURL) {
 		this.bookingSiteURL = bookingSiteURL;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public String getEmail() {
 		return email;
 	}

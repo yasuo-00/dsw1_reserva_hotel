@@ -5,55 +5,56 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
 
-	<head>
+<head>
 <title>Title</title>
-	</head>
+</head>
 
-	<body>
-		<%
-			String contextPath = request.getContextPath().replace("/", "");
-		%>
-		<div align="center">
-			<h1>
-				Welcome
-			</h1>
-			<h2>
-				<a href="/<%=contextPath%>/BookingSites"> 
-					Entity
-				</a> 
-				&nbsp;&nbsp;&nbsp;
-				<a href="${pageContext.request.contextPath}/logout.jsp"> 
-					Exit
-				</a> 
-				<br/>
-				<br/>
-				<a href="/<%=contextPath%>/BookingSites/register">
-					Create
-				</a> 
-			</h2>
-			<h3>List</h3>
-			<br/>
-		</div>
-		<div align="center">
-			<table border="1">
+<body>
+	<%
+		String contextPath = request.getContextPath().replace("/", "");
+	%>
+	<div align="center">
+		<h1>Welcome</h1>
+		<h2>
+			<a href="/<%=contextPath%>/BookingSites"> Entity </a>
+			&nbsp;&nbsp;&nbsp; <a
+				href="${pageContext.request.contextPath}/logout.jsp"> Exit </a> <br />
+			<br /> <form action="/<%=contextPath%>/BookingSites/register"
+							method="POST">
+							<input type="hidden" value='${ bookingSite.url}' name="url">
+							<input type="submit" value="Register">
+						</form>
+		</h2>
+		<h3>List</h3>
+		<br />
+	</div>
+	<div align="center">
+		<table border="1">
+			<tr>
+				<th>URL</th>
+				<th>Name</th>
+				<th>Phone</th>
+			</tr>
+			<c:forEach var="bookingSite" items="${requestScope.bookingSiteList}"
+				varStatus="status">
 				<tr>
-					<th>URL</th>
-					<th>Name</th>
-					<th>Phone</th>
+					<td><c:out value="${bookingSite.url}" /></td>
+					<td><c:out value="${bookingSite.name}" /></td>
+					<td><c:out value="${bookingSite.phone}" /></td>
+					<td><form action="/<%=contextPath%>/BookingSites/edit"
+							method="POST">
+							<input type="hidden" value='${ bookingSite.url}' name="url">
+							<input type="submit" value="Edit">
+						</form>
+						<form action="/<%=contextPath%>/BookingSites/remove"
+							method="POST">
+							<input type="hidden" value='${ bookingSite.url}' name="url">
+							<input type="submit" value="Remove">
+						</form></td>
 				</tr>
-				<c:forEach var="bookingSite" items="${requestScope.bookingSiteList}" varStatus="status">
-					<tr>
-						<td><c:out value="${bookingSite.url}" /></td>
-						<td><c:out value="${bookingSite.name}" /></td>
-						<td><c:out value="${bookingSite.phone}" /></td>
-						<td><a
-							href="/<%= contextPath %>/BookingSites/edit?id=<c:out value='${bookingSite.url}' />">
-								Update
-						</a></td>
-					</tr>
-				</c:forEach>
-			</table>
-		</div>
-	</body>
+			</c:forEach>
+		</table>
+	</div>
+</body>
 
 </html>

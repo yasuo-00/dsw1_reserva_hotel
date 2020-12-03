@@ -44,7 +44,7 @@
 			</c:choose>
 		</div>
 		<c:if test="${!empty requestScope.messages}">
-			<ul class="erro">
+			<ul class="error">
 				<c:forEach items="${requestScope.messages}" var="message">
 					<li>${message}</li>
 				</c:forEach>

@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-<!-- test -->
+
 <form action="index.jsp" method="POST">
 	<label for="email">Email:</label><input type="text" name="email">
 	<label for="password">Senha:</label><input type="password" name="password">
-	<input type="submit" value="Entrar">
+	<input type="submit" value="Entrar" name="bOK">
 </form>
 
 <p>Deseja ver todos os hotéis disponíveis?</p>

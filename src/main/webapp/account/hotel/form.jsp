@@ -4,10 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
-<fmt:bundle basename="message">
 
 	<head>
-<title><fmt:message key="page.title" /></title>
+<title>Form Hotel</title>
 	</head>
 
 	<body>
@@ -16,16 +15,16 @@
 		%>
 		<div align="center">
 			<h1>
-				<fmt:message key="hotel.welcome" />
+				Welcome
 			</h1>
 			<h2>
 				<br/>
 				<a href="listSaleOff"> 
-					<fmt:message key="hotel.listSaleOff" />
+					List sale off
 				</a>
 				&nbsp;&nbsp;&nbsp;
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
-					<fmt:message key="exit.link" /></a>
+					Exit</a>
 				<br/>
 			</h2>
 		</div>
@@ -43,14 +42,6 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${!empty requestScope.messages}">
-			<ul class="erro">
-				<c:forEach items="${requestScope.messages}" var="message">
-					<li>${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
 	</body>
-</fmt:bundle>
 
 </html>

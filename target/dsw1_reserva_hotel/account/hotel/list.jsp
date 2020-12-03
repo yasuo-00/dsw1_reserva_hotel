@@ -50,10 +50,15 @@
 						<td><c:out value="${hotel.phone}" /></td>
 						<td><c:out value="${hotel.city}" /></td>
 						<td><c:out value="${hotel.dailyRate}" /></td>
-						<td><a
-							href="/<%= contextPath %>/Hotels/edit?id=<c:out value='#{hotel.cnpj}' />">
-								Update
-						</a></td>
+						<td><form action="/<%= contextPath %>/Hotels/edit" method="POST">
+							<input type="hidden" value='${ hotel.cnpj}' name="cnpj">
+							<input type="submit" value="Edit">
+						</form>
+							<form action="/<%= contextPath %>/Hotels/remove" method="POST">
+							<input type="hidden" value='${ hotel.cnpj}' name ="cnpj">
+							<input type="submit" value="Remove">
+						</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

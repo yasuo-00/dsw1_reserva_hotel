@@ -37,12 +37,6 @@ public class HotelController extends HttpServlet {
 
 		try {
 			switch (action) {
-			case "/register":
-				showRegisterForm(req, res);
-				break;
-			case "/remove":
-				remove(req, res);
-				break;
 			case "/listByCity":
 				listByCity(req,res);
 			default:
@@ -56,13 +50,13 @@ public class HotelController extends HttpServlet {
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 
-		User user = (User) req.getSession().getAttribute("userLogado");
+		User user = (User) req.getSession().getAttribute("loggedUser");
 		Error error = new Error();
 
 		if (user == null) {
 			res.sendRedirect(req.getContextPath());
 			return;
-		} else if (user.getHotelCNPJ() != null && user.getBookingSiteURL() != null) {
+		} else if (user.getBookingSiteURL() != null) {
 			error.add("Acesso não autorizado!");
 			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
 			req.setAttribute("mensagens", error);
@@ -114,7 +108,7 @@ public class HotelController extends HttpServlet {
 		String city = req.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
-		User user = new User(name, email, password, cnpj, null);
+		User user = new User( email, password, cnpj, null);
 
 		dao.insert(hotel);
 		uDAO.insert(user);
@@ -132,7 +126,7 @@ public class HotelController extends HttpServlet {
 		String city = req.getParameter("city");
 
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
-		User user = new User(name, email, password, cnpj, null);
+		User user = new User( email, password, cnpj, null);
 
 		dao.update(hotel);
 		uDAO.update(user);

@@ -30,15 +30,14 @@ public class IndexController extends HttpServlet {
 			if (password == null || password.isEmpty()) {
 				errors.add("Password não informada!");
 			}
-			if (!errors.isThereError()) {
-				System.out.println("entrou");
+			if (true) {
 				UserDAO dao = new UserDAO();
 				User user = dao.getByEmail(email);
 				if (user != null) {
 					if (user.getPassword().equalsIgnoreCase(password)) {
 						request.getSession().setAttribute("logeddUser", user);
 						if (user.getBookingSiteURL() == null && user.getHotelCNPJ() == null) {
-							response.sendRedirect("Admin/");
+							response.sendRedirect(request.getContextPath()+"/account/admin/adminMenu.jsp");
 						} else if (user.getBookingSiteURL() == null && user.getHotelCNPJ() != null) {
 							response.sendRedirect("Hotels/");
 						} else if (user.getBookingSiteURL() != null && user.getHotelCNPJ() == null) {
