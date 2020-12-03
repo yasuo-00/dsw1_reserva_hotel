@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.ufscar.dc.dsw.classes.BookingSite;
+import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.BookingSiteDAO;
 import br.ufscar.dc.dsw.dao.UserDAO;
+import br.ufscar.dc.dsw.error.Error;
 
 @WebServlet(urlPatterns = {"/BookingSite"})
 public class BookingSiteController extends HttpServlet {
@@ -32,7 +34,50 @@ public class BookingSiteController extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+		User user = (User) req.getSession().getAttribute("userLogado");
+		Error error = new Error();
 
+		if (user == null) {
+			res.sendRedirect(req.getContextPath());
+			return;
+		} else if (user.getHotelCNPJ() != null && user.getBookingSiteURL() != null) {
+			error.add("Acesso não autorizado!");
+			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
+			req.setAttribute("mensagens", error);
+			RequestDispatcher rd = req.getRequestDispatcher("/noAuth.jsp");
+			rd.forward(req, res);
+			return;
+		}
+
+		String action = req.getPathInfo();
+		if (action == null) {
+			action = "";
+		}
+
+		try {
+			switch (action) {
+			case "/register":
+				showRegisterForm(req, res);
+				break;
+			case "/insert":
+				insert(req, res);
+				break;
+			case "/remove":
+				remove(req, res);
+				break;
+			case "/edit":
+				showEditForm(req, res);
+				break;
+			case "/update":
+				update(req, res);
+				break;
+			default:
+				listAll(req, res);
+				break;
+			}
+		} catch (RuntimeException | IOException | ServletException e) {
+			throw new ServletException(e);
+		}
 	}
 
 	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -81,6 +126,7 @@ public class BookingSiteController extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
+	//lista todos os dados dos sites de reserva
 	private void listAll(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<BookingSite> bookingSiteList = dao.listAll();
@@ -88,5 +134,31 @@ public class BookingSiteController extends HttpServlet {
 		request.setAttribute("bookingSiteList", bookingSiteList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("");
 		dispatcher.forward(request, response);
+	}
+	
+	//lista todos os dados dos sites de reserva e da conta deles
+	private void listAllAccounts(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<BookingSite> bookingSiteList = dao.listAllByURL();
+		List<User> userList = uDAO.listAllByURL();
+
+		request.setAttribute("bookingSiteList", bookingSiteList);
+		request.setAttribute("userList", userList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("");
+		dispatcher.forward(request, response);
+	}
+	
+	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/bookingSite/form.jsp");
+		dispatcher.forward(req, res);
+	}
+
+	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String url = String.valueOf(req.getParameter("URL"));
+		BookingSite bookingSite = dao.getByURL(url);
+		req.setAttribute("bookingSite", bookingSite);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/bookingSite/form.jsp");
+		dispatcher.forward(req, res);
 	}
 }

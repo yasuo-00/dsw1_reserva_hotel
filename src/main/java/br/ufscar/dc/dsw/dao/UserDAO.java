@@ -72,7 +72,7 @@ public class UserDAO extends GenericDAO<User> {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public List<User> listAll() {
 
 		List<User> usersList = new ArrayList<>();
@@ -89,8 +89,70 @@ public class UserDAO extends GenericDAO<User> {
 				String nome = resultSet.getString("name");
 				String email = resultSet.getString("email");
 				String password = resultSet.getString("password");
-				String hotelCNPJ = resultSet.getString("hotelCNPJ");
-				String bookingSiteURL = resultSet.getString("bookingSiteURL");
+				String hotelCNPJ = resultSet.getString("hotel_cnpj");
+				String bookingSiteURL = resultSet.getString("booking_site_url");
+				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
+				usersList.add(user);
+			}
+
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return usersList;
+	}
+
+	public List<User> listAllByURL() {
+
+		List<User> usersList = new ArrayList<>();
+
+		String sql = "SELECT * from User u ORDER BY u.booking_site_url";
+
+		try {
+			Connection connection = this.getConnection();
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String nome = resultSet.getString("name");
+				String email = resultSet.getString("email");
+				String password = resultSet.getString("password");
+				String hotelCNPJ = resultSet.getString("hotel_cnpj");
+				String bookingSiteURL = resultSet.getString("booking_site_url");
+				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
+				usersList.add(user);
+			}
+
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return usersList;
+	}
+	
+	public List<User> listAllByCNPJ() {
+
+		List<User> usersList = new ArrayList<>();
+
+		String sql = "SELECT * from User u ORDER BY u.booking_site_url";
+
+		try {
+			Connection connection = this.getConnection();
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String nome = resultSet.getString("name");
+				String email = resultSet.getString("email");
+				String password = resultSet.getString("password");
+				String hotelCNPJ = resultSet.getString("hotel_cnpj");
+				String bookingSiteURL = resultSet.getString("booking_site_url");
 				User user = new User(id, nome, email, password, hotelCNPJ, bookingSiteURL);
 				usersList.add(user);
 			}

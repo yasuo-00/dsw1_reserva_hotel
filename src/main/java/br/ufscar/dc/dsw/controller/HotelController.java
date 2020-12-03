@@ -26,6 +26,7 @@ public class HotelController extends HttpServlet {
 	@Override
 	public void init() {
 		dao = new HotelDAO();
+		uDAO = new UserDAO();
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -129,10 +130,22 @@ public class HotelController extends HttpServlet {
 		res.sendRedirect("list");
 	}
 
+	//lista apenas dados do hotel
 	private void listAll(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		List<Hotel> hotelList = dao.listAll();
+		List<Hotel> hotelList = dao.listAllByCNPJ();
 
 		req.setAttribute("hotelList", hotelList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("");
+		dispatcher.forward(req, res);
+	}
+	
+	//lista os dados do hotel e da conta do hotel
+	private void listAllAccounts(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		List<Hotel> hotelList = dao.listAllByCNPJ();
+		List<User> userList = uDAO.listAllByCNPJ();
+
+		req.setAttribute("hotelList", hotelList);
+		req.setAttribute("userList", userList);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("");
 		dispatcher.forward(req, res);
 	}

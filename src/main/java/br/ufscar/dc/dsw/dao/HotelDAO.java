@@ -15,7 +15,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	public Hotel getByCNPJ(String cnpj) {
 		Hotel hotel = null;
 		
-		String sql = "SELECT * from Hotel h WHERE h.cnpj = ?";
+		String sql = "SELECT * from hotel h WHERE h.cnpj = ?";
 		
 		try {
 			Connection connection = this.getConnection();
@@ -119,7 +119,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 		public List<Hotel> listAll() {
 			List<Hotel> bookingSitesList = new ArrayList<>();
 
-			String sql = "SELECT * from Hotel";
+			String sql = "SELECT * from hotel";
 
 			try {
 				Connection connection = this.getConnection();
@@ -132,6 +132,66 @@ public class HotelDAO extends GenericDAO<Hotel> {
 					String city = resultSet.getString("city");
 					//String password = resultSet.getString("password");
 					//String email = resultSet.getString("email");
+					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
+					String phone = resultSet.getString("phone");
+					Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+					bookingSitesList.add(hotel);
+				}
+
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			return bookingSitesList;
+		}
+		
+		public List<Hotel> listAllByCNPJ() {
+			List<Hotel> bookingSitesList = new ArrayList<>();
+
+			String sql = "SELECT * from hotel h ORDER BY cnpj";
+
+			try {
+				Connection connection = this.getConnection();
+				Statement statement = connection.createStatement();
+
+				ResultSet resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+					String cnpj = resultSet.getString("cnpj");
+					String name = resultSet.getString("hotel_name");
+					String city = resultSet.getString("city");
+					//String password = resultSet.getString("password");
+					//String email = resultSet.getString("email");
+					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
+					String phone = resultSet.getString("phone");
+					Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
+					bookingSitesList.add(hotel);
+				}
+
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			return bookingSitesList;
+		}
+		
+		public List<Hotel> listByCity(String city) {
+			List<Hotel> bookingSitesList = new ArrayList<>();
+
+			String sql = "SELECT * from hotel h where h.city = ?";
+
+			try {
+				Connection connection = this.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement.setString(1, city);
+
+				ResultSet resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+					String cnpj = resultSet.getString("cnpj");
+					String name = resultSet.getString("hotel_name");
 					double dailyRate = Double.parseDouble(resultSet.getString("daily_rate"));
 					String phone = resultSet.getString("phone");
 					Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);

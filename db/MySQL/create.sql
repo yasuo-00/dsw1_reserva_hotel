@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `db`.`sale_off` (
   INDEX `fk_hotel_has_booking_site_booking_site1_idx` (`booking_site_url` ASC) VISIBLE,
   INDEX `fk_hotel_has_booking_site_hotel_idx` (`hotel_cnpj` ASC) VISIBLE,
   CONSTRAINT `fk_hotel_has_booking_site_hotel`
-    FOREIGN KEY (`hotel_cnpj`)
+    FOREIGN KEY (`hotel_cnpj`)quitr
     REFERENCES `db`.`hotel` (`cnpj`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `db`.`sale_off` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('admin','admin', null, null);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

@@ -45,11 +45,12 @@
 					<th><fmt:message key="hotel.city" /></th>
 					<th><fmt:message key="actions.link" /></th>
 				</tr>
-				<c:forEach var="hotel" items="${requestScope.hotelList}">
+				<c:forEach var="hotel" items="${requestScope.hotelList} varStatus="status">
 					<tr>
-						<td><c:out value="${hotel.CNPJ}" /></td>
+						<td><c:out value="${hotel.cnpj}" /></td>
 						<td><c:out value="${hotel.name}" /></td>
-						<td><c:out value="${hotel.password}" /></td>
+						<td><c:out value="${userList[status.index].email}" /></td>
+						<td><c:out value="${userList[status.index].password}" /></td>
 						<td><c:out value="${hotel.phone}" /></td>
 						<td><c:out value="${hotel.city}" /></td>
 						<td><a

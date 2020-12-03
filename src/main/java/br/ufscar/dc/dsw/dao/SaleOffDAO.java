@@ -12,6 +12,33 @@ import java.util.List;
 import br.ufscar.dc.dsw.classes.SaleOff;
 
 public class SaleOffDAO extends GenericDAO<SaleOff>{
+	
+	public SaleOff getSaleOff(String hotelCNPJ, String bookingSiteURL, java.util.Date initialDate, java.util.Date finalDate) {
+		String sql = "SELECT * FROM sale_off s where s.hotel_cnpj = ?, s.booking_site_url = ?, s.initial_date = ?, s.final_date = ?";
+		SaleOff saleOff=null;
+
+		try {
+			Connection connectionection = this.getConnection();
+			PreparedStatement statement = connectionection.prepareStatement(sql);
+
+			statement = connectionection.prepareStatement(sql);
+			statement.setString(1, hotelCNPJ);
+			statement.setString(2, bookingSiteURL);
+			statement.setDate(3, new java.sql.Date(initialDate.getTime()));
+			statement.setDate(4, new java.sql.Date(finalDate.getTime()));
+			
+			ResultSet resultSet = statement.executeQuery(sql);
+			double discount = resultSet.getDouble("discount");
+			saleOff = new SaleOff(hotelCNPJ, bookingSiteURL, initialDate, finalDate, discount);
+
+			resultSet.close();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return saleOff;
+	}
 
 	public void insert(SaleOff saleOff) {
 		String sql = "INSERT INTO saleOff(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES(?,?,?,?,?)";

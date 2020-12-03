@@ -19,9 +19,6 @@
 				<fmt:message key="hotel.welcome" />
 			</h1>
 			<h2>
-				<a href="/<%=contextPath%>/editoras">
-					<fmt:message key="publishers.entity" />
-				</a>
 				<br/>
 				<a href="listSaleOff"> 
 					<fmt:message key="hotel.listSaleOff" />
@@ -35,21 +32,21 @@
 		<div align="center">
 			<c:choose>
 				<c:when test="${hotel != null}">
-					<form action="atualizacao" method="post">
-						<%@include file="campos.jsp"%>
+					<form action="update" method="post">
+						<%@include file="fields.jsp"%>
 					</form>
 				</c:when>
 				<c:otherwise>
-					<form action="insercao" method="post">
-						<%@include file="campos.jsp"%>
+					<form action="insert" method="post">
+						<%@include file="fields.jsp"%>
 					</form>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${!empty requestScope.mensagens}">
+		<c:if test="${!empty requestScope.messages}">
 			<ul class="erro">
-				<c:forEach items="${requestScope.mensagens}" var="mensagem">
-					<li>${mensagem}</li>
+				<c:forEach items="${requestScope.messages}" var="message">
+					<li>${message}</li>
 				</c:forEach>
 			</ul>
 		</c:if>

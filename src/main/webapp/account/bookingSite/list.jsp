@@ -45,13 +45,13 @@
 					<th><fmt:message key="bookingSite.password" /></th>
 					<th><fmt:message key="actions.link" /></th>
 				</tr>
-				<c:forEach var="bookingSite" items="${requestScope.bookingSiteList}">
+				<c:forEach var="bookingSite" items="${requestScope.bookingSiteList} varStatus="status">
 					<tr>
 						<td><c:out value="${bookingSite.url}" /></td>
 						<td><c:out value="${bookingSite.name}" /></td>
 						<td><c:out value="${bookingSite.phone}" /></td>
-						<td><c:out value="${bookingSite.email}" /></td>
-						<td><c:out value="${bookingSite.password}" /></td>
+						<td><c:out value="${userList[status.index].email}" /></td>
+						<td><c:out value="${userList[status.index].password}" /></td>
 						<td><a
 							href="/<%= contextPath %>/bookingSites/edit?id=<c:out value='${bookingSite.url}' />">
 								<fmt:message key="bookingSites.update" />
