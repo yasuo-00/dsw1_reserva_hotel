@@ -25,7 +25,7 @@
 				</a>
 				&nbsp;&nbsp;&nbsp;
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
-					<fmt:message key="exit.link" /></a>
+					<fmt:message key="exit" /></a>
 				<br/>
 			</h2>
 		</div>

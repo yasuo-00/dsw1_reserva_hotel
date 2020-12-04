@@ -18,10 +18,6 @@
 				Welcome
 			</h1>
 			<h2>
-				<a href="/<%=contextPath%>/SaleOffs"> 
-					Entidade
-				</a> 
-				&nbsp;&nbsp;&nbsp;
 				<a href="${pageContext.request.contextPath}/logout.jsp"> 
 					Exit
 				</a>

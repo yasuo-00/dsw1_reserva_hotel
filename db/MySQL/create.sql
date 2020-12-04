@@ -96,14 +96,36 @@ CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`sale_off` (
 ENGINE = InnoDB;
 
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('admin','admin', null, null);
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel1','hotel1', '234', null);
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel2','hotel2', '541', null);
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel3','hotel3', '442', null);
 
-INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('123','hotel', '1234', 'abc',50);
-INSERT INTO `booking_site`(url, name, phone) VALUES ('url','abceda', '443123');
+
+INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('123','hotel1', '1234', 'abc',50);
+INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('234','hotel2', '3214', 'abc',70);
+INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('541','hotel3', '2222', 'bcd',80);
+INSERT INTO `hotel`(cnpj, name, phone, city, daily_rate) VALUES ('442','hotel4', '5555', 'ad',100);
+
+
+INSERT INTO `booking_site`(url, name, phone) VALUES ('url.com','siteA', '443123');
+INSERT INTO `booking_site`(url, name, phone) VALUES ('url.br','siteB', '99999');
+INSERT INTO `booking_site`(url, name, phone) VALUES ('url.com.br','siteC', '9898998');
+INSERT INTO `booking_site`(url, name, phone) VALUES ('url.tv','siteD', '65478487');
+
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel3','hotel3', null, 'url.com');
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel3','hotel3', null, 'url.br');
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel3','hotel3', null, 'url.com.br');
+INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel3','hotel3', null, 'url.tv');
 
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel','hotel', '123', null);
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('site','site', null, 'url');
 
-INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('123','url','20201010', '20201011',5);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('123','url.com','20201010', '20201011',5);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('123','url.com','20201114', '20201121',15);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('234','url.com','20201010', '20201011',5);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('442','url.tv','20200505', '20200605',10);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('123','url.tv','20200910', '20200915',5.5);
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('442','url.br','20201010', '20201011',6);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

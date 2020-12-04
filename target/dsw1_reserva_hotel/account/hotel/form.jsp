@@ -22,7 +22,6 @@
 				<a href="listSaleOff"> 
 					List sale off
 				</a>
-				&nbsp;&nbsp;&nbsp;
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
 					Exit</a>
 				<br/>

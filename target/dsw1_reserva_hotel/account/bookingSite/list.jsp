@@ -16,9 +16,7 @@
 	<div align="center">
 		<h1>Welcome</h1>
 		<h2>
-			<a href="/<%=contextPath%>/BookingSites"> Entity </a>
-			&nbsp;&nbsp;&nbsp; <a
-				href="${pageContext.request.contextPath}/logout.jsp"> Exit </a> <br />
+			<a href="${pageContext.request.contextPath}/logout.jsp"> Exit </a> <br />
 			<br /> 
 			<c:if test="${sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null && sessionScope.loggedUser.email != null}">
 			<form action="/<%=contextPath%>/BookingSites/register"
@@ -27,7 +25,7 @@
 							<input type="submit" value="Register">
 						</form>
 			</c:if>
-		</h2>x
+		</h2>
 		<h3>List</h3>
 		<br />
 	</div>
