@@ -19,6 +19,7 @@
 
 <p>List SaleOff</p>
 <form action="../../SaleOffs/list" method="POST">
+<input type="hidden" value="${sessionScope.loggedUser.hotelCnpj}" name="hotelCnpj"/>
 <input type="submit" value="Listar" />
 </form>
 

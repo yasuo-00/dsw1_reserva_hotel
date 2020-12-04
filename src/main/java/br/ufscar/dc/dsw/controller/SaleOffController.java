@@ -82,14 +82,14 @@ public class SaleOffController extends HttpServlet {
 		}
 	}
 
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
-		request.setCharacterEncoding("UTF-8");
+	private void insert(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException, ParseException {
+		req.setCharacterEncoding("UTF-8");
 
-		String hotelCnpj = request.getParameter("hotelCnpj");
-		String bookingSiteUrl = request.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(request.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(request.getParameter("finalDate"));
-		double discount = Double.parseDouble(request.getParameter("discount"));
+		String hotelCnpj = req.getParameter("hotelCnpj");
+		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
+		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
+		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		double discount = Double.parseDouble(req.getParameter("discount"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
 
@@ -97,13 +97,13 @@ public class SaleOffController extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
+	private void update(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException, ParseException {
 
-		String hotelCnpj = request.getParameter("hotelCnpj");
-		String bookingSiteUrl = request.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(request.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(request.getParameter("finalDate"));
-		double discount = Double.parseDouble(request.getParameter("discount"));
+		String hotelCnpj = req.getParameter("hotelCnpj");
+		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
+		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
+		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		double discount = Double.parseDouble(req.getParameter("discount"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
 
@@ -111,11 +111,11 @@ public class SaleOffController extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
-		String hotelCnpj = request.getParameter("hotelCnpj");
-		String bookingSiteUrl = request.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(request.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(request.getParameter("finalDate"));
+	private void remove(HttpServletRequest req, HttpServletResponse response) throws IOException, ParseException {
+		String hotelCnpj = req.getParameter("hotelCnpj");
+		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
+		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
+		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate);
 
@@ -123,18 +123,18 @@ public class SaleOffController extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void listAll(HttpServletRequest request, HttpServletResponse response)
+	private void listAll(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<SaleOff> saleOffList = dao.listAll();
+		List<SaleOff> saleOffList = dao.listAllOffHotel(req.getParameter("hotelCnpj"));
 
-		request.setAttribute("saleOffList", saleOffList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("");
-		dispatcher.forward(request, response);
+		req.setAttribute("saleOffList", saleOffList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/list.jsp");
+		dispatcher.forward(req, response);
 	}
 	
 	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/saleOff/form.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/form.jsp");
 		dispatcher.forward(req, res);
 	}
 
@@ -146,7 +146,7 @@ public class SaleOffController extends HttpServlet {
 		SaleOff saleOff = dao.getSaleOff(cnpj,url, initialDate, finalDate);
 		req.setAttribute("saleOff", saleOff);
 		//arrumar essa rota
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/saleOff/form.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/form.jsp");
 		dispatcher.forward(req, res);
 	}
 }

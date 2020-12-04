@@ -3,27 +3,27 @@ package br.ufscar.dc.dsw.classes;
 import java.util.Date;
 
 public class SaleOff {
-	String hotelCNPJ;
-	String bookingSiteURL;
+	String hotelCnpj;
+	String bookingSiteUrl;
 	Date initialDate;
 	Date finalDate;
 	double discount;
 	
 	
 	
-	public SaleOff(String hotelCNPJ, String bookingSiteURL, Date initialDate, Date finalDate, double discount) {
+	public SaleOff(String hotelCnpj, String bookingSiteUrl, Date initialDate, Date finalDate, double discount) {
 		super();
-		this.hotelCNPJ = hotelCNPJ;
-		this.bookingSiteURL = bookingSiteURL;
+		this.hotelCnpj = hotelCnpj;
+		this.bookingSiteUrl = bookingSiteUrl;
 		this.initialDate = initialDate;
 		this.finalDate = finalDate;
 		this.discount = discount;
 	}
 	
-	public SaleOff(String hotelCNPJ, String bookingSiteURL, Date initialDate, Date finalDate) {
+	public SaleOff(String hotelCnpj, String bookingSiteUrl, Date initialDate, Date finalDate) {
 		super();
-		this.hotelCNPJ = hotelCNPJ;
-		this.bookingSiteURL = bookingSiteURL;
+		this.hotelCnpj = hotelCnpj;
+		this.bookingSiteUrl = bookingSiteUrl;
 		this.initialDate = initialDate;
 		this.finalDate = finalDate;
 	}
@@ -31,16 +31,16 @@ public class SaleOff {
 
 
 	public String getHotelCNPJ() {
-		return hotelCNPJ;
+		return hotelCnpj;
 	}
-	public void setHotelCNPJ(String hotelCNPJ) {
-		this.hotelCNPJ = hotelCNPJ;
+	public void setHotelCNPJ(String hotelCnpj) {
+		this.hotelCnpj = hotelCnpj;
 	}
 	public String getBookingSiteURL() {
-		return bookingSiteURL;
+		return bookingSiteUrl;
 	}
-	public void setBookingSiteURL(String bookingSiteURL) {
-		this.bookingSiteURL = bookingSiteURL;
+	public void setBookingSiteURL(String bookingSiteUrl) {
+		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	public Date getInitialDate() {
 		return initialDate;
