@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufscar.dc.dsw.classes.Hotel;
+import br.ufscar.dc.dsw.classes.User;
 
 public class HotelDAO extends GenericDAO<Hotel> {
 
@@ -44,7 +45,7 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public void insert(Hotel hotel) {
-		String sql = "INSERT INTO hotel(cnpj,hotel_name, phone, city, daily_rate) VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO hotel(cnpj,name, phone, city, daily_rate) VALUES(?,?,?,?,?)";
 
 		try {
 			Connection connection = this.getConnection();
@@ -67,43 +68,54 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public void remove(Hotel hotel) {
-		String sql = "DELETE FROM hotel where cnpj = ?;" + "DELETE FROM user where hotel_cnpj = ?";
+		String sql = "DELETE FROM hotel where cnpj = ?;";
+		String sqlUser = "DELETE FROM user where hotel_cnpj = ?;";
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement userStatement = connection.prepareStatement(sqlUser);
 
 			statement.setString(1, hotel.getCnpj());
-			statement.setString(2, hotel.getCnpj());
+			userStatement.setString(1, hotel.getCnpj());
 
 			statement.executeUpdate();
+			userStatement.executeUpdate();
 
 			statement.close();
+			userStatement.close();
 			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
 	public void update(Hotel hotel) {
-		String sql = "UPDATE hotel SET name = ?, phone = ?, city = ?, daily_rate = ?";
-		sql += ", WHERE cnpj = ?";
+		
+	}
+
+	public void update(Hotel hotel, User user) {
+		String sql = "UPDATE hotel SET name = ?, phone = ?, city = ?, daily_rate = ?, WHERE cnpj = ?;";
+		String sqlUser = "UPDATE user SET email=?, password=?, WHERE hotel_cnpj = ?;";
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement userStatement = connection.prepareStatement(sqlUser);
 
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, hotel.getName());
 			statement.setString(2, hotel.getPhone());
 			statement.setString(3, hotel.getCity());
-			// statement.setString(4, hotel.getEmail());
-			// statement.setString(4, hotel.getPassword());
-			statement.setString(5, String.valueOf(hotel.getDailyRate()));
-			statement.setString(6, String.valueOf(hotel.getCnpj()));
+			statement.setString(4, String.valueOf(hotel.getDailyRate()));
+			statement.setString(5, String.valueOf(hotel.getCnpj()));
+
+			userStatement.setString(1, user.getEmail());
+			userStatement.setString(2, user.getPassword());
+			statement.setString(3, String.valueOf(hotel.getCnpj()));
 			statement.executeUpdate();
 
 			statement.close();
+			userStatement.close();
 			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

@@ -9,22 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufscar.dc.dsw.classes.BookingSite;
-
+import br.ufscar.dc.dsw.classes.User;
 
 public class BookingSiteDAO extends GenericDAO<BookingSite> {
 
 	public BookingSite getByURL(String url) {
-		String sql = "SELECT * FROM booking_site b where b.url = ?";
+		String sql = "SELECT * FROM booking_site WHERE url=?;";
 		BookingSite bookingSite = null;
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, url);
 
-			ResultSet resultSet = statement.executeQuery(sql);
+			ResultSet resultSet = statement.executeQuery();
+			resultSet.next();
 			String name = resultSet.getString("name");
 			String phone = resultSet.getString("phone");
 			bookingSite = new BookingSite(url, name, phone);
@@ -39,7 +39,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 	}
 
 	public void insert(BookingSite bookingSite) {
-		String sql = "INSERT INTO booking_site(url,name, phone) VALUES(?,?,?)";
+		String sql = "INSERT INTO booking_site(url,name, phone) VALUES(?,?,?);";
 
 		try {
 			Connection connection = this.getConnection();
@@ -48,7 +48,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getUrl());
 			statement.setString(2, bookingSite.getName());
-			statement.setString(3, String.valueOf(bookingSite.getPhone()));
+			statement.setString(3, bookingSite.getPhone());
 
 			statement.executeUpdate();
 
@@ -60,17 +60,22 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 	}
 
 	public void remove(BookingSite bookingSite) {
-		String sql = "DELETE FROM booking_site where url = ?";
+		String sql = "DELETE FROM booking_site where url=?;";
+		String sqlUser = "DELETE FROM user where booking_site_url=?;";
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement userStatement = connection.prepareStatement(sqlUser);
 
 			statement.setString(1, bookingSite.getUrl());
+			userStatement.setString(1, bookingSite.getUrl());
 
 			statement.executeUpdate();
+			userStatement.executeUpdate();
 
 			statement.close();
+			userStatement.close();
 			connection.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -78,21 +83,27 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 	}
 
 	public void update(BookingSite bookingSite) {
-		String sql = "UPDATE booking_site SET name = ?, phone = ?";
-		sql += ", WHERE url = ?";
+	}
+
+	public void update(BookingSite bookingSite, User user) {
+		String sql = "UPDATE booking_site SET name=?, phone=? WHERE url=?;";
+		String sqlUser = "UPDATE user SET email=?, password=? WHERE booking_site_url=?;";
 
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement userStatement = connection.prepareStatement(sqlUser);
 
-			statement = connection.prepareStatement(sql);
 			statement.setString(1, bookingSite.getName());
-			statement.setString(2, String.valueOf(bookingSite.getPhone()));
-			// statement.setString(3, bookingSite.getPassword());
-			// statement.setString(4, bookingSite.getEmail());
-			statement.setString(6, bookingSite.getUrl());
+			statement.setString(2,bookingSite.getPhone());
+			statement.setString(3, bookingSite.getUrl());
+
+			userStatement.setString(1, user.getPassword());
+			userStatement.setString(2, user.getEmail());
+			userStatement.setString(3, bookingSite.getUrl());
 
 			statement.executeUpdate();
+			userStatement.executeUpdate();
 
 			statement.close();
 			connection.close();
@@ -104,7 +115,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 	public List<BookingSite> listAll() {
 		List<BookingSite> bookingSitesList = new ArrayList<>();
 
-		String sql = "SELECT * from booking_site b";
+		String sql = "SELECT * from booking_site;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -131,7 +142,7 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 	public List<BookingSite> listAllByURL() {
 		List<BookingSite> bookingSiteList = new ArrayList<BookingSite>();
 
-		String sql = "SELECT * from booking_site b ORDER BY b.url";
+		String sql = "SELECT * from booking_site ORDER BY url;";
 
 		try {
 			Connection connection = this.getConnection();

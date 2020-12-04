@@ -27,9 +27,11 @@
 				</a>
 				<br/>
 				<br/>
-				<a href="/<%=contextPath%>/Hotels/register">
-					Create
-				</a> 
+				<c:if test="${(sessionScope.loggedUser.bookingSiteUrl == null) && (sessionScope.loggedUser.hotelCnpj == null) && (sessionScope.loggedUser != null)}">
+				<form action="/<%= contextPath %>/Hotels/register" method="POST">
+							<input type="submit" value="Register">
+						</form>
+						</c:if>
 			</h2>
 			<h3>List</h3>
 			<br/>
@@ -50,6 +52,7 @@
 						<td><c:out value="${hotel.phone}" /></td>
 						<td><c:out value="${hotel.city}" /></td>
 						<td><c:out value="${hotel.dailyRate}" /></td>
+						<c:if test="${(sessionScope.loggedUser.bookingSiteUrl == null) && (sessionScope.loggedUser.hotelCnpj == null) && (sessionScope.loggedUser != null)}">
 						<td><form action="/<%= contextPath %>/Hotels/edit" method="POST">
 							<input type="hidden" value='${ hotel.cnpj}' name="cnpj">
 							<input type="submit" value="Edit">
@@ -59,6 +62,7 @@
 							<input type="submit" value="Remove">
 						</form>
 						</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</table>

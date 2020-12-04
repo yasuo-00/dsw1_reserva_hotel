@@ -41,7 +41,7 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 	}
 
 	public void insert(SaleOff saleOff) {
-		String sql = "INSERT INTO saleOff(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO sale_off(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES(?,?,?,?,?)";
 
 		try {
 			Connection connection = this.getConnection();
@@ -52,7 +52,7 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 			statement.setString(2, saleOff.getBookingSiteURL());
 			statement.setDate(3, new java.sql.Date(saleOff.getInitialDate().getTime()));
 			statement.setDate(4, new java.sql.Date(saleOff.getFinalDate().getTime()));
-			statement.setDouble(4, saleOff.getDiscount());
+			statement.setDouble(5, saleOff.getDiscount());
 			statement.executeUpdate();
 
 			statement.close();
@@ -63,7 +63,7 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 	}
 
 	public void remove(SaleOff saleOff) {
-		String sql = "DELETE FROM saleOff where hotel_cnpj = ?, booking_site_url = ?, initial_date = ?, final_date = ?";
+		String sql = "DELETE FROM sale_off where hotel_cnpj = ?, booking_site_url = ?, initial_date = ?, final_date = ?";
 
 		try {
 			Connection connection = this.getConnection();
@@ -112,7 +112,7 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 		public List<SaleOff> listAll() {
 			List<SaleOff> saleOffList = new ArrayList<>();
 
-			String sql = "SELECT * from SaleOff";
+			String sql = "SELECT * from sale_off";
 
 			try {
 				Connection connection = this.getConnection();
@@ -120,13 +120,42 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 
 				ResultSet resultSet = statement.executeQuery(sql);
 				while (resultSet.next()) {
-					String hotelCNPJ = resultSet.getString("cnpj");
-					String bookingSiteURL = resultSet.getString("hotel_name");
+					String hotelCNPJ = resultSet.getString("hotel_cnpj");
+					String bookingSiteURL = resultSet.getString("booking_site_url");
 					int discount = resultSet.getInt("discount");
 					Date initialDate = resultSet.getDate("initial_date");
 					Date finalDate = resultSet.getDate("final_date");
-					SaleOff livro = new SaleOff(hotelCNPJ, bookingSiteURL, initialDate, finalDate, discount);
-					saleOffList.add(livro);
+					SaleOff saleOff = new SaleOff(hotelCNPJ, bookingSiteURL, initialDate, finalDate, discount);
+					saleOffList.add(saleOff);
+				}
+
+				resultSet.close();
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+			return saleOffList;
+		}
+		
+		public List<SaleOff> listAllOffHotel(String cnpj) {
+			List<SaleOff> saleOffList = new ArrayList<SaleOff>();
+
+			String sql = "SELECT * from sale_off where hotel_cnpj=?";
+
+			try {
+				Connection connection = this.getConnection();
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement.setString(1, cnpj);
+
+				ResultSet resultSet = statement.executeQuery();
+				while (resultSet.next()) {
+					String bookingSiteURL = resultSet.getString("booking_site_url");
+					int discount = resultSet.getInt("discount");
+					Date initialDate = resultSet.getDate("initial_date");
+					Date finalDate = resultSet.getDate("final_date");
+					SaleOff saleOff = new SaleOff(cnpj, bookingSiteURL, initialDate, finalDate, discount);
+					saleOffList.add(saleOff);
 				}
 
 				resultSet.close();

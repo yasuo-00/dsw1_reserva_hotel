@@ -32,7 +32,7 @@ public class UserController extends HttpServlet {
 		if (user == null) {
 			response.sendRedirect(request.getContextPath());
 			return;
-		} else if (user.getBookingSiteURL() != null || user.getHotelCNPJ() != null) {
+		} else if (user.getBookingSiteUrl() != null || user.getHotelCnpj() != null) {
 			error.add("Acesso não autorizado!");
 			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
 			request.setAttribute("mensagens", error);

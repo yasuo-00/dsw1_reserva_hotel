@@ -19,12 +19,15 @@
 			<a href="/<%=contextPath%>/BookingSites"> Entity </a>
 			&nbsp;&nbsp;&nbsp; <a
 				href="${pageContext.request.contextPath}/logout.jsp"> Exit </a> <br />
-			<br /> <form action="/<%=contextPath%>/BookingSites/register"
+			<br /> 
+			<c:if test="${sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null && sessionScope.loggedUser.email != null}">
+			<form action="/<%=contextPath%>/BookingSites/register"
 							method="POST">
 							<input type="hidden" value='${ bookingSite.url}' name="url">
 							<input type="submit" value="Register">
 						</form>
-		</h2>
+			</c:if>
+		</h2>x
 		<h3>List</h3>
 		<br />
 	</div>
@@ -41,16 +44,18 @@
 					<td><c:out value="${bookingSite.url}" /></td>
 					<td><c:out value="${bookingSite.name}" /></td>
 					<td><c:out value="${bookingSite.phone}" /></td>
+					<c:if test="${sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null && sessionScope.loggedUser.email != null}">
 					<td><form action="/<%=contextPath%>/BookingSites/edit"
 							method="POST">
-							<input type="hidden" value='${ bookingSite.url}' name="url">
+							<input type="hidden" value='${bookingSite.url}' name="url">
 							<input type="submit" value="Edit">
 						</form>
 						<form action="/<%=contextPath%>/BookingSites/remove"
 							method="POST">
-							<input type="hidden" value='${ bookingSite.url}' name="url">
+							<input type="hidden" value='${bookingSite.url}' name="url">
 							<input type="submit" value="Remove">
 						</form></td>
+						</c:if>
 				</tr>
 			</c:forEach>
 		</table>

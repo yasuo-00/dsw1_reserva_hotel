@@ -27,6 +27,7 @@ public class BookingSiteController extends HttpServlet {
 	@Override
 	public void init() {
 		dao = new BookingSiteDAO();
+		uDAO = new UserDAO();
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -56,7 +57,7 @@ public class BookingSiteController extends HttpServlet {
 		if (user == null) {
 			res.sendRedirect(req.getContextPath());
 			return;
-		} else if (user.getHotelCNPJ() != null || user.getBookingSiteURL() == null) {
+		} else if (user.getHotelCnpj() != null) {
 			error.add("Acesso não autorizado!");
 			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
 			req.setAttribute("mensagens", error);
@@ -107,6 +108,7 @@ public class BookingSiteController extends HttpServlet {
 
 		BookingSite bookingSite = new BookingSite(url, name, phone);
 		User user = new User( email, password, null, url);
+		user.getBookingSiteUrl();
 
 		dao.insert(bookingSite);
 		uDAO.insert(user);
@@ -124,8 +126,8 @@ public class BookingSiteController extends HttpServlet {
 		BookingSite bookingSite = new BookingSite(url, name, phone);
 		User user = new User( email, password, null, url);
 
-		dao.update(bookingSite);
-		uDAO.update(user);
+		dao.update(bookingSite, user);
+		//uDAO.update(user);
 		response.sendRedirect("list");
 	}
 

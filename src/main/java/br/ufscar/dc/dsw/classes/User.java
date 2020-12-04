@@ -4,8 +4,8 @@ public class User {
 	int id;
 	String email;
 	String password;
-	String hotelCNPJ;
-	String bookingSiteURL;
+	String hotelCnpj;
+	String bookingSiteUrl;
 	
 	
 	public User() {
@@ -16,35 +16,35 @@ public class User {
 	}
 	
 
-	public User(int id, String email, String password, String hotelCNPJ, String bookingSiteURL) {
+	public User(int id, String email, String password, String hotelCnpj, String bookingSiteUrl) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.hotelCNPJ = hotelCNPJ;
-		this.bookingSiteURL = bookingSiteURL;
+		this.hotelCnpj = hotelCnpj;
+		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	
-	public User(String email, String password, String hotelCNPJ, String bookingSiteURL) {
+	public User(String email, String password, String hotelCnpj, String bookingSiteUrl) {
 		this.email = email;
 		this.password = password;
-		this.hotelCNPJ = hotelCNPJ;
-		this.bookingSiteURL = bookingSiteURL;
+		this.hotelCnpj = hotelCnpj;
+		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	
 	public int getId() {
 		return id;
 	}
-	public String getHotelCNPJ() {
-		return hotelCNPJ;
+	public String getHotelCnpj() {
+		return hotelCnpj;
 	}
-	public void setHotelCNPJ(String hotelCNPJ) {
-		this.hotelCNPJ = hotelCNPJ;
+	public void setHotelCnpj(String hotelCnpj) {
+		this.hotelCnpj = hotelCnpj;
 	}
-	public String getBookingSiteURL() {
-		return bookingSiteURL;
+	public String getBookingSiteUrl() {
+		return bookingSiteUrl;
 	}
-	public void setBookingSiteURL(String bookingSiteURL) {
-		this.bookingSiteURL = bookingSiteURL;
+	public void setBookingSiteUrl(String bookingSiteUrl) {
+		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	
 	public String getEmail() {

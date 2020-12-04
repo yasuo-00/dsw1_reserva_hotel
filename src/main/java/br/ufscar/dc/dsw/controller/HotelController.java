@@ -56,7 +56,7 @@ public class HotelController extends HttpServlet {
 		if (user == null) {
 			res.sendRedirect(req.getContextPath());
 			return;
-		} else if (user.getBookingSiteURL() != null) {
+		} else if (user.getBookingSiteUrl() != null) {
 			error.add("Acesso não autorizado!");
 			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
 			req.setAttribute("mensagens", error);
@@ -128,8 +128,8 @@ public class HotelController extends HttpServlet {
 		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate);
 		User user = new User( email, password, cnpj, null);
 
-		dao.update(hotel);
-		uDAO.update(user);
+		dao.update(hotel, user);
+		//uDAO.update(user);
 		res.sendRedirect("list");
 	}
 
@@ -182,7 +182,7 @@ public class HotelController extends HttpServlet {
 
 	//passa os dados do hotel e da conta dele para editar
 	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String cnpj = String.valueOf(req.getParameter("CNPJ"));
+		String cnpj = req.getParameter("cnpj");
 		Hotel hotel = dao.getByCNPJ(cnpj);
 		User user = uDAO.getByHotelCNPJ(cnpj);
 		req.setAttribute("hotel", hotel);

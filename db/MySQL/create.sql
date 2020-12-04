@@ -63,13 +63,11 @@ CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`user` (
   CONSTRAINT `fk_user_hotel1`
     FOREIGN KEY (`hotel_cnpj`)
     REFERENCES `dsw1_reserva_hotel`.`hotel` (`cnpj`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_user_booking_site1`
     FOREIGN KEY (`booking_site_url`)
     REFERENCES `dsw1_reserva_hotel`.`booking_site` (`url`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -90,13 +88,11 @@ CREATE TABLE IF NOT EXISTS `dsw1_reserva_hotel`.`sale_off` (
   CONSTRAINT `fk_hotel_has_booking_site_hotel`
     FOREIGN KEY (`hotel_cnpj`)
     REFERENCES `dsw1_reserva_hotel`.`hotel` (`cnpj`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_hotel_has_booking_site_booking_site1`
     FOREIGN KEY (`booking_site_url`)
     REFERENCES `dsw1_reserva_hotel`.`booking_site` (`url`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('admin','admin', null, null);
@@ -106,6 +102,8 @@ INSERT INTO `booking_site`(url, name, phone) VALUES ('url','abceda', '443123');
 
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('hotel','hotel', '123', null);
 INSERT INTO `user`(email, password,hotel_cnpj, booking_site_url) VALUES ('site','site', null, 'url');
+
+INSERT INTO `sale_off`(hotel_cnpj, booking_site_url, initial_date, final_date, discount) VALUES ('123','url','20201010', '20201011',5);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

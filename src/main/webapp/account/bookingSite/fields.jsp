@@ -19,6 +19,12 @@
 		<input type="text" name="url" value="${bookingSite.url}" readonly="readonly" />
 	</c:if>
 	<tr>
+		<td><label for="url"> <fmt:message key="bookingSite.url" />
+		</label></td>
+		<td><input type="text" id="url" name="url" size="45"
+			required value="${bookingSite.url}" /></td>
+	</tr>
+	<tr>
 		<td><label for="name"> <fmt:message key="bookingSite.name" />
 		</label></td>
 		<td><input type="text" id="name" name="name" size="45"

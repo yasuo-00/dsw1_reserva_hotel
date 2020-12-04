@@ -19,6 +19,12 @@
 		<input type="text" name="cpnj" value="${hotel.cnpj}" readonly="readonly" />
 	</c:if>
 	<tr>
+		<td><label for="cnpj"> <fmt:message key="hotel.cnpj" />
+		</label></td>
+		<td><input type="text" id="cnpj" name="cnpj" size="45"
+			required value="${hotel.cnpj}" /></td>
+	</tr>
+	<tr>
 		<td><label for="name"> <fmt:message key="hotel.name" />
 		</label></td>
 		<td><input type="text" id="name" name="name" size="45"

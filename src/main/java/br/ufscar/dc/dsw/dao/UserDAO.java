@@ -23,8 +23,8 @@ public class UserDAO extends GenericDAO<User> {
 			statement = connectionection.prepareStatement(sql);
 			statement.setString(1, user.getEmail());
 			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getHotelCNPJ());
-			statement.setString(4, user.getBookingSiteURL());
+			statement.setString(3, user.getHotelCnpj());
+			statement.setString(4, user.getBookingSiteUrl());
 			statement.executeUpdate();
 
 			statement.close();
@@ -35,7 +35,7 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public void remove(User user) {
-		String sql = "DELETE FROM User where id = ?";
+		String sql = "DELETE FROM user where id = ?";
 
 		try {
 			Connection conn = this.getConnection();
@@ -51,7 +51,7 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	public void update(User user) {
-		String sql = "UPDATE User SET  email = ?, password = ?, role = ? WHERE id = ?";
+		String sql = "UPDATE user SET  email = ?, password = ? WHERE id = ?";
 
 		try {
 			Connection conn = this.getConnection();
@@ -59,9 +59,7 @@ public class UserDAO extends GenericDAO<User> {
 
 			statement.setString(1, user.getEmail());
 			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getHotelCNPJ());
-			statement.setString(4, user.getBookingSiteURL());
-			statement.setInt(5, user.getId());
+			statement.setInt(3, user.getId());
 			statement.executeUpdate();
 
 			statement.close();
@@ -105,7 +103,7 @@ public class UserDAO extends GenericDAO<User> {
 
 		List<User> usersList = new ArrayList<>();
 
-		String sql = "SELECT * from User u WHERE u.booking_site_url IS NOT NULL ORDER BY u.booking_site_url";
+		String sql = "SELECT * from User u WHERE u.booking_site_url IS NOT NULL ORDER BY u.booking_site_url;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -135,7 +133,7 @@ public class UserDAO extends GenericDAO<User> {
 
 		List<User> usersList = new ArrayList<>();
 
-		String sql = "SELECT * from User u WHERE u.hotel_cnpj IS NOT NULL ORDER BY u.hotel_cnpj";
+		String sql = "SELECT * from User u WHERE u.hotel_cnpj IS NOT NULL ORDER BY u.hotel_cnpj;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -164,7 +162,7 @@ public class UserDAO extends GenericDAO<User> {
 	public User getByEmail(String email) {
 		User user = null;
 
-		String sql = "SELECT * from user WHERE email = ?";
+		String sql = "SELECT * from user WHERE email = ?;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -194,7 +192,7 @@ public class UserDAO extends GenericDAO<User> {
 	public User getByHotelCNPJ(String hotelCNPJ) {
 		User user = null;
 
-		String sql = "SELECT * from user WHERE hotel_cnpj = ?";
+		String sql = "SELECT * from user WHERE hotel_cnpj = ?;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -224,7 +222,7 @@ public class UserDAO extends GenericDAO<User> {
 	public User getByBookingSiteURL(String bookingSiteURL) {
 		User user = null;
 
-		String sql = "SELECT * from user WHERE booking_site_url = ?";
+		String sql = "SELECT * from user WHERE booking_site_url = ?;";
 
 		try {
 			Connection connection = this.getConnection();
