@@ -3,7 +3,8 @@ package br.ufscar.dc.dsw.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -23,12 +24,12 @@ public class SaleOffController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private SaleOffDAO dao;
-	private SimpleDateFormat dateFormatter;
+	private DateTimeFormatter dateTimeFormatter;
 
 	@Override
 	public void init() {
 		dao = new SaleOffDAO();
-		dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+		dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
@@ -87,8 +88,8 @@ public class SaleOffController extends HttpServlet {
 
 		String hotelCnpj = req.getParameter("hotelCnpj");
 		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		LocalDate initialDate = LocalDate.parse(req.getParameter("initialDate"));
+		LocalDate finalDate = LocalDate.parse(req.getParameter("finalDate"));
 		double discount = Double.parseDouble(req.getParameter("discount"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
@@ -101,8 +102,8 @@ public class SaleOffController extends HttpServlet {
 
 		String hotelCnpj = req.getParameter("hotelCnpj");
 		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		LocalDate initialDate = LocalDate.parse(req.getParameter("initialDate"));
+		LocalDate finalDate = LocalDate.parse(req.getParameter("finalDate"));
 		double discount = Double.parseDouble(req.getParameter("discount"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
@@ -114,8 +115,8 @@ public class SaleOffController extends HttpServlet {
 	private void remove(HttpServletRequest req, HttpServletResponse response) throws IOException, ParseException {
 		String hotelCnpj = req.getParameter("hotelCnpj");
 		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		LocalDate initialDate = LocalDate.parse(req.getParameter("initialDate"));
+		LocalDate finalDate = LocalDate.parse(req.getParameter("finalDate"));
 
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate);
 
@@ -125,28 +126,29 @@ public class SaleOffController extends HttpServlet {
 
 	private void listAll(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException, IOException {
-		List<SaleOff> saleOffList = dao.listAllOffHotel(req.getParameter("hotelCnpj"));
+		List<SaleOff> saleOffList = dao.listAllOfHotel(req.getParameter("hotelCnpj"));
 
 		req.setAttribute("saleOffList", saleOffList);
-		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/list.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/saleOff/list.jsp");
 		dispatcher.forward(req, response);
 	}
 	
 	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/form.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/saleOff/form.jsp");
 		dispatcher.forward(req, res);
 	}
 
+	
 	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException, ParseException {
 		String cnpj = req.getParameter("hotelCnpj");
 		String url = req.getParameter("bookingSiteUrl");
-		Date initialDate = dateFormatter.parse(req.getParameter("initialDate"));
-		Date finalDate = dateFormatter.parse(req.getParameter("finalDate"));
+		LocalDate initialDate = LocalDate.parse(req.getParameter("initialDate"));
+		LocalDate finalDate = LocalDate.parse(req.getParameter("finalDate"));
 		SaleOff saleOff = dao.getSaleOff(cnpj,url, initialDate, finalDate);
 		req.setAttribute("saleOff", saleOff);
 		//arrumar essa rota
-		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath()+"/saleOff/form.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/saleOff/form.jsp");
 		dispatcher.forward(req, res);
 	}
 }

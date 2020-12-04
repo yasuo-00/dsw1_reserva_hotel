@@ -1,17 +1,17 @@
 package br.ufscar.dc.dsw.classes;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SaleOff {
 	String hotelCnpj;
 	String bookingSiteUrl;
-	Date initialDate;
-	Date finalDate;
+	LocalDate initialDate;
+	LocalDate finalDate;
 	double discount;
 	
 	
 	
-	public SaleOff(String hotelCnpj, String bookingSiteUrl, Date initialDate, Date finalDate, double discount) {
+	public SaleOff(String hotelCnpj, String bookingSiteUrl, LocalDate initialDate, LocalDate finalDate, double discount) {
 		super();
 		this.hotelCnpj = hotelCnpj;
 		this.bookingSiteUrl = bookingSiteUrl;
@@ -20,7 +20,7 @@ public class SaleOff {
 		this.discount = discount;
 	}
 	
-	public SaleOff(String hotelCnpj, String bookingSiteUrl, Date initialDate, Date finalDate) {
+	public SaleOff(String hotelCnpj, String bookingSiteUrl, LocalDate initialDate, LocalDate finalDate) {
 		super();
 		this.hotelCnpj = hotelCnpj;
 		this.bookingSiteUrl = bookingSiteUrl;
@@ -30,28 +30,28 @@ public class SaleOff {
 
 
 
-	public String getHotelCNPJ() {
+	public String getHotelCnpj() {
 		return hotelCnpj;
 	}
-	public void setHotelCNPJ(String hotelCnpj) {
+	public void setHotelCnpj(String hotelCnpj) {
 		this.hotelCnpj = hotelCnpj;
 	}
-	public String getBookingSiteURL() {
+	public String getBookingSiteUrl() {
 		return bookingSiteUrl;
 	}
-	public void setBookingSiteURL(String bookingSiteUrl) {
+	public void setBookingSiteUrl(String bookingSiteUrl) {
 		this.bookingSiteUrl = bookingSiteUrl;
 	}
-	public Date getInitialDate() {
+	public LocalDate getInitialDate() {
 		return initialDate;
 	}
-	public void setInitialDate(Date initialDate) {
+	public void setInitialDate(LocalDate initialDate) {
 		this.initialDate = initialDate;
 	}
-	public Date getFinalDate() {
+	public LocalDate getFinalDate() {
 		return finalDate;
 	}
-	public void setFinalDate(Date finalDate) {
+	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
 	}
 	public double getDiscount() {

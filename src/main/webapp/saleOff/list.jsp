@@ -6,7 +6,7 @@
 <html>
 
 	<head>
-<title>Title</title>
+<title>Title Sale Off</title>
 	</head>
 
 	<body>
@@ -39,11 +39,11 @@
 		<div align="center">
 			<table border="1">
 				<tr>
-					<th> CNPJ</th>
-					<th> Name</th>
-					<th> Phone</th>
-					<th> City</th>
-					<th> Daily Rate</th>
+					<th> hotelCnpj</th>
+					<th> bookingSiteUrl</th>
+					<th> initialDate</th>
+					<th> finalDate</th>
+					<th> discount</th>
 				</tr>
 				<c:forEach var="saleOff" items="${requestScope.saleOffList}" varStatus="status">
 					<tr>
@@ -54,11 +54,18 @@
 						<td><c:out value="${saleOff.discount}" /></td>
 						<c:if test="${sessionScope.loggedUser.hotelCnpj != null}">
 						<td><form action="/<%= contextPath %>/SaleOffs/edit" method="POST">
-							<input type="hidden" value='${ saleOff.cnpj}' name="cnpj">
+							<input type="hidden" value='${ saleOff.hotelCnpj}' name="hotelCnpj">
+							<input type="hidden" value='${ saleOff.bookingSiteUrl}' name="bookingSiteUrl">
+							<input type="hidden" value='${ saleOff.initialDate}' name="initialDate">
+							<input type="hidden" value='${ saleOff.finalDate}' name="finalDate">
+							<input type="hidden" value='${ saleOff.discount}' name="discount">
 							<input type="submit" value="Edit">
 						</form>
 							<form action="/<%= contextPath %>/SaleOffs/remove" method="POST">
-							<input type="hidden" value='${ saleOff.cnpj}' name ="cnpj">
+							<input type="hidden" value='${ saleOff.hotelCnpj}' name="hotelCnpj">
+							<input type="hidden" value='${ saleOff.bookingSiteUrl}' name="bookingSiteUrl">
+							<input type="hidden" value='${ saleOff.initialDate}' name="initialDate">
+							<input type="hidden" value='${ saleOff.finalDate}' name="finalDate">
 							<input type="submit" value="Remove">
 						</form>
 						</td>

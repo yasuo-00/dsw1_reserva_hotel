@@ -15,14 +15,45 @@
 			</c:otherwise>
 		</c:choose>
 	</caption>
-	<c:if test="${saleOff != null}">
-		<input type="text" name="cpnj" value="${saleOff.hotelCnpj}" readonly="readonly" />
-	</c:if>
+	<c:choose>
+	<c:when test="${saleOff != null}">
+	<tr>
+		<td><label for="url"> <fmt:message key="saleOff.url" />
+		</label></td>
+		<td><input type="text" id="bookingSiteUrl" name="bookingSiteUrl" size="45"
+			value="${saleOff.bookingSiteUrl}" /></td>
+	</tr>
 	<tr>
 		<td><label for="cnpj"> <fmt:message key="saleOff.cnpj" />
 		</label></td>
-		<td><input type="text" id="cnpj" name="cnpj" size="45"
-			required value="${saleOff.hotelCnpj}" /></td>
+		<td><input type="text" id="hotelCnpj" name="hotelCnpj" size="45"
+			required value="${sessionScope.loggedUser.hotelCnpj}" readonly="readonly"/></td>
+	</tr>
+	<tr>
+		<td><label for="initialDate"> <fmt:message key="saleOff.initialDate" />
+		</label></td>
+		<td><input type="text" id="initialDate" name="initialDate" size="45" required
+			value="${saleOff.initialDate}" readonly="readonly"/></td>
+	</tr>
+	<tr>
+		<td><label for="finalDate"> <fmt:message key="saleOff.finalDate" />
+		</label></td>
+		<td><input type="finalDate" id="finalDate" name="finalDate" size="45" required
+			value="${saleOff.finalDate}" readonly="readonly"/></td>
+	</tr>
+	</c:when>
+	<c:otherwise>
+	<tr>
+		<td><label for="url"> <fmt:message key="saleOff.url" />
+		</label></td>
+		<td><input type="text" id="bookingSiteUrl" name="bookingSiteUrl" size="45"
+			value="${saleOff.bookingSiteUrl}" /></td>
+	</tr>
+	<tr>
+		<td><label for="cnpj"> <fmt:message key="saleOff.cnpj" />
+		</label></td>
+		<td><input type="text" id="hotelCnpj" name="hotelCnpj" size="45"
+			required value="${sessionScope.loggedUser.hotelCnpj}"  readonly="readonly"/></td>
 	</tr>
 	<tr>
 		<td><label for="initialDate"> <fmt:message key="saleOff.initialDate" />
@@ -36,6 +67,8 @@
 		<td><input type="finalDate" id="finalDate" name="finalDate" size="45" required
 			value="${saleOff.finalDate}" /></td>
 	</tr>
+	</c:otherwise>
+	</c:choose>
 	<tr>
 		<td><label for="discount"> <fmt:message key="saleOff.discount" />
 		</label></td>

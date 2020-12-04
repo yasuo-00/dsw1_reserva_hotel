@@ -15,14 +15,19 @@
 			</c:otherwise>
 		</c:choose>
 	</caption>
-	<c:if test="${hotel != null}">
-		<input type="text" name="cpnj" value="${hotel.cnpj}" readonly="readonly" />
-	</c:if>
 	<tr>
 		<td><label for="cnpj"> <fmt:message key="hotel.cnpj" />
 		</label></td>
+		<c:choose>
+		<c:when test="${hotel != null}">
 		<td><input type="text" id="cnpj" name="cnpj" size="45"
+			required value="${hotel.cnpj}" readonly="readonly" /></td>
+			</c:when>
+			<c:otherwise>
+			<td><input type="text" id="cnpj" name="cnpj" size="45"
 			required value="${hotel.cnpj}" /></td>
+			</c:otherwise>
+			</c:choose>
 	</tr>
 	<tr>
 		<td><label for="name"> <fmt:message key="hotel.name" />

@@ -21,8 +21,16 @@
 	<tr>
 		<td><label for="url"> <fmt:message key="bookingSite.url" />
 		</label></td>
+		<c:choose>
+		<c:when test="${bookingSite != null}">
 		<td><input type="text" id="url" name="url" size="45"
+			required value="${bookingSite.url}" readonly="readonly" /></td>
+			</c:when>
+			<c:otherwise>
+			<td><input type="text" id="url" name="url" size="45"
 			required value="${bookingSite.url}" /></td>
+			</c:otherwise>
+			</c:choose>
 	</tr>
 	<tr>
 		<td><label for="name"> <fmt:message key="bookingSite.name" />

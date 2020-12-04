@@ -94,8 +94,8 @@ public class HotelDAO extends GenericDAO<Hotel> {
 	}
 
 	public void update(Hotel hotel, User user) {
-		String sql = "UPDATE hotel SET name = ?, phone = ?, city = ?, daily_rate = ?, WHERE cnpj = ?;";
-		String sqlUser = "UPDATE user SET email=?, password=?, WHERE hotel_cnpj = ?;";
+		String sql = "UPDATE hotel SET name = ?, phone = ?, city = ?, daily_rate = ? WHERE cnpj = ?;";
+		String sqlUser = "UPDATE user SET email=?, password=? WHERE hotel_cnpj = ?;";
 
 		try {
 			Connection connection = this.getConnection();
@@ -111,8 +111,9 @@ public class HotelDAO extends GenericDAO<Hotel> {
 
 			userStatement.setString(1, user.getEmail());
 			userStatement.setString(2, user.getPassword());
-			statement.setString(3, String.valueOf(hotel.getCnpj()));
+			userStatement.setString(3, String.valueOf(hotel.getCnpj()));
 			statement.executeUpdate();
+			userStatement.executeUpdate();
 
 			statement.close();
 			userStatement.close();
