@@ -27,6 +27,13 @@
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
 					<fmt:message key="exit" /></a>
 				<br/>
+					<c:if test="${sessionScope.loggedUser!=null && sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null}">
+				&nbsp;&nbsp;&nbsp;
+			    <a href="${pageContext.request.contextPath}/account/admin/adminMenu.jsp">
+					<fmt:message key="go_back" /></a>
+				<br/>
+				</c:if>
+				<br/>
 			</h2>
 		</div>
 		<div align="center">

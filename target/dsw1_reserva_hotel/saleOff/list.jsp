@@ -4,9 +4,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
-
+<fmt:bundle basename="message">
 	<head>
-<title>Title Sale Off</title>
+<title><fmt:message key="list"/></title>
 	</head>
 
 	<body>
@@ -15,31 +15,31 @@
 		%>
 		<div align="center">
 			<h1>
-				Welcome
+				<fmt:message key="welcome"/>
 			</h1>
 			<h2>
 				<a href="${pageContext.request.contextPath}/logout.jsp"> 
-					Exit
+					<fmt:message key="exit"/>
 				</a>
 				<br/>
 				<br/>
 				<c:if test="${sessionScope.loggedUser.hotelCnpj != null}">
 				<form action="/<%= contextPath %>/SaleOffs/register" method="POST">
-							<input type="submit" value="Register">
+							<input type="submit" value="<fmt:message key="button_register"/>">
 						</form>
 						</c:if>
 			</h2>
-			<h3>List</h3>
+			<h3><fmt:message key="list"/></h3>
 			<br/>
 		</div>
 		<div align="center">
 			<table border="1">
 				<tr>
-					<th> hotelCnpj</th>
-					<th> bookingSiteUrl</th>
-					<th> initialDate</th>
-					<th> finalDate</th>
-					<th> discount</th>
+					<th> <fmt:message key="cnpj"/></th>
+					<th> <fmt:message key="url"/></th>
+					<th> <fmt:message key="initial_date"/></th>
+					<th> <fmt:message key="final_date"/></th>
+					<th> <fmt:message key="discount"/></th>
 				</tr>
 				<c:forEach var="saleOff" items="${requestScope.saleOffList}" varStatus="status">
 					<tr>
@@ -55,14 +55,14 @@
 							<input type="hidden" value='${ saleOff.initialDate}' name="initialDate">
 							<input type="hidden" value='${ saleOff.finalDate}' name="finalDate">
 							<input type="hidden" value='${ saleOff.discount}' name="discount">
-							<input type="submit" value="Edit">
+							<input type="submit" value="<fmt:message key="button_edit"/>">
 						</form>
 							<form action="/<%= contextPath %>/SaleOffs/remove" method="POST">
 							<input type="hidden" value='${ saleOff.hotelCnpj}' name="hotelCnpj">
 							<input type="hidden" value='${ saleOff.bookingSiteUrl}' name="bookingSiteUrl">
 							<input type="hidden" value='${ saleOff.initialDate}' name="initialDate">
 							<input type="hidden" value='${ saleOff.finalDate}' name="finalDate">
-							<input type="submit" value="Remove">
+							<input type="submit" value="<fmt:message key="button_remove"/>">
 						</form>
 						</td>
 						</c:if>
@@ -71,5 +71,5 @@
 			</table>
 		</div>
 	</body>
-
+</fmt:bundle>
 </html>

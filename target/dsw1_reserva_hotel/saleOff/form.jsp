@@ -7,7 +7,7 @@
 <fmt:bundle basename="message">
 
 	<head>
-<title>Title Sale Off Form</title>
+<title><fmt:message key="list"/></title>
 	</head>
 
 	<body>
@@ -16,16 +16,13 @@
 		%>
 		<div align="center">
 			<h1>
-				Welcome
+				<fmt:message key="welcome"/>
 			</h1>
 			<h2>
 				<br/>
-				<a href="listSaleOff"> 
-					<fmt:message key="saleOff.listSaleOff" />
-				</a>
 				&nbsp;&nbsp;&nbsp;
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
-					<fmt:message key="exit.link" /></a>
+					<fmt:message key="exit" /></a>
 				<br/>
 			</h2>
 		</div>

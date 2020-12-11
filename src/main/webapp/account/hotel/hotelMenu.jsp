@@ -8,7 +8,7 @@
 <body>
 
 <p><fmt:message key="saleoff_list"/></p>
-<form action="../../SaleOffs/list" method="POST">
+<form action="../../SaleOffs/listAllFromHotel" method="POST">
 <input type="hidden" value="${sessionScope.loggedUser.hotelCnpj}" name="hotelCnpj"/>
 <input type="submit" value="<fmt:message key="button_list"/>" />
 </form>

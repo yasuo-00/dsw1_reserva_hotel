@@ -22,6 +22,12 @@
 					<fmt:message key="exit"/>
 				</a>
 				<br/>
+				<c:if test="${sessionScope.loggedUser!=null && sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null}">
+				&nbsp;&nbsp;&nbsp;
+			    <a href="${pageContext.request.contextPath}/account/admin/adminMenu.jsp">
+					<fmt:message key="go_back" /></a>
+				<br/>
+				</c:if>
 				<br/>
 				<c:if test="${(sessionScope.loggedUser.bookingSiteUrl == null) && (sessionScope.loggedUser.hotelCnpj == null) && (sessionScope.loggedUser != null)}">
 				<form action="/<%= contextPath %>/Hotels/register" method="POST">

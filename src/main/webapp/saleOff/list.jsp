@@ -29,7 +29,7 @@
 						</form>
 						</c:if>
 			</h2>
-			<h3><fmt:message key="ist"/></h3>
+			<h3><fmt:message key="list"/></h3>
 			<br/>
 		</div>
 		<div align="center">

@@ -4,26 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
+<fmt:bundle basename="message">
 <body>
 
-
-<p>Add SaleOff</p>
-<form action="../../SaleOffs/insert" method="POST">
+<p><fmt:message key="saleoff_list"/></p>
+<form action="../../SaleOffs/listAllFromHotel" method="POST">
 <input type="hidden" value="${sessionScope.loggedUser.hotelCnpj}" name="hotelCnpj"/>
-<input type="text" value="Initial Date" name="initialDate" />
-<input type="text" value="Final Date" name="finalDate" />
-<input type="text" value="Discount" name="discount"/>
-<input type="text" value="Booking Site" name="bookingSiteUrl"/>
-<input type="submit" value="Add" />
-</form>
-
-<p>List SaleOff</p>
-<form action="../../SaleOffs/list" method="POST">
-<input type="hidden" value="${sessionScope.loggedUser.hotelCnpj}" name="hotelCnpj"/>
-<input type="submit" value="Listar" />
+<input type="submit" value="<fmt:message key="button_list"/>" />
 </form>
 
 
 
 </body>
+</fmt:bundle>
 </html>

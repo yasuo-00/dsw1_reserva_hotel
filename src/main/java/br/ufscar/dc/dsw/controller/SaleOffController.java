@@ -98,7 +98,8 @@ public class SaleOffController extends HttpServlet {
 
 		dao.insert(saleOff);
 		req.setAttribute("hotelCnpj", hotelCnpj);
-		response.sendRedirect("list");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/SaleOffs/listAllFromHotel");
+		dispatcher.forward(req, response);
 	}
 
 	private void update(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException, ParseException {
@@ -112,10 +113,12 @@ public class SaleOffController extends HttpServlet {
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
 
 		dao.update(saleOff);
-		response.sendRedirect("list");
+		req.setAttribute("hotelCnpj", hotelCnpj);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/SaleOffs/listAllFromHotel");
+		dispatcher.forward(req, response);
 	}
 
-	private void remove(HttpServletRequest req, HttpServletResponse response) throws IOException, ParseException {
+	private void remove(HttpServletRequest req, HttpServletResponse response) throws IOException, ParseException, ServletException {
 		String hotelCnpj = req.getParameter("hotelCnpj");
 		String bookingSiteUrl = req.getParameter("bookingSiteUrl");
 		LocalDate initialDate = LocalDate.parse(req.getParameter("initialDate"));
@@ -124,7 +127,9 @@ public class SaleOffController extends HttpServlet {
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate);
 
 		dao.remove(saleOff);
-		response.sendRedirect("list");
+		req.setAttribute("hotelCnpj", hotelCnpj);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/SaleOffs/listAllFromHotel");
+		dispatcher.forward(req, response);
 	}
 
 	private void listAllFromHotel(HttpServletRequest req, HttpServletResponse response)

@@ -20,9 +20,6 @@
 			</h1>
 			<h2>
 				<br/>
-				<a href="listSaleOff"> 
-					<fmt:message key="saleoff_list" />
-				</a>
 				&nbsp;&nbsp;&nbsp;
 			    <a href="${pageContext.request.contextPath}/logout.jsp">
 					<fmt:message key="exit" /></a>

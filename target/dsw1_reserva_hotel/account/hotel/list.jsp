@@ -4,9 +4,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <html>
-
+<fmt:bundle basename="message">
 	<head>
-<title>Title</title>
+<title><fmt:message key="title_list"/></title>
 	</head>
 
 	<body>
@@ -15,31 +15,37 @@
 		%>
 		<div align="center">
 			<h1>
-				Welcome
+				<fmt:message key="welcome"/>
 			</h1>
 			<h2>
 				<a href="${pageContext.request.contextPath}/logout.jsp"> 
-					Exit
+					<fmt:message key="exit"/>
 				</a>
 				<br/>
+				<c:if test="${sessionScope.loggedUser!=null && sessionScope.loggedUser.bookingSiteUrl == null && sessionScope.loggedUser.hotelCnpj == null}">
+				&nbsp;&nbsp;&nbsp;
+			    <a href="${pageContext.request.contextPath}/account/admin/adminMenu.jsp">
+					<fmt:message key="go_back" /></a>
+				<br/>
+				</c:if>
 				<br/>
 				<c:if test="${(sessionScope.loggedUser.bookingSiteUrl == null) && (sessionScope.loggedUser.hotelCnpj == null) && (sessionScope.loggedUser != null)}">
 				<form action="/<%= contextPath %>/Hotels/register" method="POST">
-							<input type="submit" value="Register">
+							<input type="submit" value="<fmt:message key="register"/>">
 						</form>
 						</c:if>
 			</h2>
-			<h3>List</h3>
+			<h3><fmt:message key="list"/></h3>
 			<br/>
 		</div>
 		<div align="center">
 			<table border="1">
 				<tr>
-					<th> CNPJ</th>
-					<th> Name</th>
-					<th> Phone</th>
-					<th> City</th>
-					<th> Daily Rate</th>
+					<th> <fmt:message key="cnpj"/></th>
+					<th> <fmt:message key="name"/></th>
+					<th> <fmt:message key="phone"/></th>
+					<th> <fmt:message key="city"/></th>
+					<th> <fmt:message key="hotel_dailyRate"/></th>
 				</tr>
 				<c:forEach var="hotel" items="${requestScope.hotelList}" varStatus="status">
 					<tr>
@@ -51,11 +57,11 @@
 						<c:if test="${(sessionScope.loggedUser.bookingSiteUrl == null) && (sessionScope.loggedUser.hotelCnpj == null) && (sessionScope.loggedUser != null)}">
 						<td><form action="/<%= contextPath %>/Hotels/edit" method="POST">
 							<input type="hidden" value='${ hotel.cnpj}' name="cnpj">
-							<input type="submit" value="Edit">
+							<input type="submit" value="<fmt:message key="button_edit"/>">
 						</form>
 							<form action="/<%= contextPath %>/Hotels/remove" method="POST">
 							<input type="hidden" value='${ hotel.cnpj}' name ="cnpj">
-							<input type="submit" value="Remove">
+							<input type="submit" value="<fmt:message key="button_remove"/>">
 						</form>
 						</td>
 						</c:if>
@@ -64,5 +70,5 @@
 			</table>
 		</div>
 	</body>
-
+</fmt:bundle>
 </html>
