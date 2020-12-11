@@ -4,39 +4,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<fmt:bundle basename="message">
 <table border="1">
 	<caption>
 		<c:choose>
 			<c:when test="${saleOff != null}">
-				<fmt:message key="saleOff.update" />
+				<fmt:message key="update" />
 			</c:when>
 			<c:otherwise>
-				<fmt:message key="saleOff.create" />
+				<fmt:message key="create" />
 			</c:otherwise>
 		</c:choose>
 	</caption>
 	<c:choose>
 	<c:when test="${saleOff != null}">
 	<tr>
-		<td><label for="url"> <fmt:message key="saleOff.url" />
+		<td><label for="url"> <fmt:message key="url" />
 		</label></td>
 		<td><input type="text" id="bookingSiteUrl" name="bookingSiteUrl" size="45"
 			value="${saleOff.bookingSiteUrl}" /></td>
 	</tr>
 	<tr>
-		<td><label for="cnpj"> <fmt:message key="saleOff.cnpj" />
+		<td><label for="cnpj"> <fmt:message key="cnpj" />
 		</label></td>
 		<td><input type="text" id="hotelCnpj" name="hotelCnpj" size="45"
 			required value="${sessionScope.loggedUser.hotelCnpj}" readonly="readonly"/></td>
 	</tr>
 	<tr>
-		<td><label for="initialDate"> <fmt:message key="saleOff.initialDate" />
+		<td><label for="initialDate"> <fmt:message key="initial_date" />
 		</label></td>
 		<td><input type="text" id="initialDate" name="initialDate" size="45" required
 			value="${saleOff.initialDate}" readonly="readonly"/></td>
 	</tr>
 	<tr>
-		<td><label for="finalDate"> <fmt:message key="saleOff.finalDate" />
+		<td><label for="finalDate"> <fmt:message key="final_date" />
 		</label></td>
 		<td><input type="finalDate" id="finalDate" name="finalDate" size="45" required
 			value="${saleOff.finalDate}" readonly="readonly"/></td>
@@ -44,25 +45,25 @@
 	</c:when>
 	<c:otherwise>
 	<tr>
-		<td><label for="url"> <fmt:message key="saleOff.url" />
+		<td><label for="url"> <fmt:message key="url" />
 		</label></td>
 		<td><input type="text" id="bookingSiteUrl" name="bookingSiteUrl" size="45"
 			value="${saleOff.bookingSiteUrl}" /></td>
 	</tr>
 	<tr>
-		<td><label for="cnpj"> <fmt:message key="saleOff.cnpj" />
+		<td><label for="cnpj"> <fmt:message key="cnpj" />
 		</label></td>
 		<td><input type="text" id="hotelCnpj" name="hotelCnpj" size="45"
 			required value="${sessionScope.loggedUser.hotelCnpj}"  readonly="readonly"/></td>
 	</tr>
 	<tr>
-		<td><label for="initialDate"> <fmt:message key="saleOff.initialDate" />
+		<td><label for="initialDate"> <fmt:message key="initial_date" />
 		</label></td>
 		<td><input type="text" id="initialDate" name="initialDate" size="45" required
 			value="${saleOff.initialDate}" /></td>
 	</tr>
 	<tr>
-		<td><label for="finalDate"> <fmt:message key="saleOff.finalDate" />
+		<td><label for="finalDate"> <fmt:message key="final_date" />
 		</label></td>
 		<td><input type="finalDate" id="finalDate" name="finalDate" size="45" required
 			value="${saleOff.finalDate}" /></td>
@@ -70,13 +71,14 @@
 	</c:otherwise>
 	</c:choose>
 	<tr>
-		<td><label for="discount"> <fmt:message key="saleOff.discount" />
+		<td><label for="discount"> <fmt:message key="discount" />
 		</label></td>
 		<td><input type="number" id="discount" name="discount" required
 			min="0.01" step="any" size="5" value="${saleOff.discount}" /></td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center"><input type="submit"
-			value="<fmt:message key="save.link" />" /></td>
+			value="<fmt:message key="button_save" />" /></td>
 	</tr>
 </table>
+</fmt:bundle>
