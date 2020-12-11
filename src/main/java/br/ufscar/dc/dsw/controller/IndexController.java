@@ -21,34 +21,41 @@ public class IndexController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Error errors = new Error();
+		String action = request.getPathInfo();
+		if(action==null) {
+			action ="";
+		}
+		System.out.println(action);
+		if (action.compareTo("/index.jsp")==0 || action.compareTo("")==0 ) {
 
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		if (email == null || email.isEmpty()) {
-			errors.add("Email não informado!");
-		}
-		if (password == null || password.isEmpty()) {
-			errors.add("Password não informada!");
-		}
-		if (true) {
-			UserDAO dao = new UserDAO();
-			User user = dao.getByEmail(email);
-			if (user != null) {
-				if (user.getPassword().equalsIgnoreCase(password)) {
-					request.getSession().setAttribute("loggedUser", user);
-					if (user.getBookingSiteUrl() == null && user.getHotelCnpj() == null) {
-						response.sendRedirect(request.getContextPath() + "/account/admin/adminMenu.jsp");
-					} else if (user.getBookingSiteUrl() == null && user.getHotelCnpj() != null) {
-						response.sendRedirect(request.getContextPath() + "/account/hotel/hotelMenu.jsp");
-					} else if (user.getBookingSiteUrl() != null && user.getHotelCnpj() == null) {
-						response.sendRedirect("BookingSites/");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			if (email == null || email.isEmpty()) {
+				errors.add("Email não informado!");
+			}
+			if (password == null || password.isEmpty()) {
+				errors.add("Password não informada!");
+			}
+			if (!errors.isThereError()) {
+				UserDAO dao = new UserDAO();
+				User user = dao.getByEmail(email);
+				if (user != null) {
+					if (user.getPassword().equalsIgnoreCase(password)) {
+						request.getSession().setAttribute("loggedUser", user);
+						if (user.getBookingSiteUrl() == null && user.getHotelCnpj() == null) {
+							response.sendRedirect(request.getContextPath() + "/account/admin/adminMenu.jsp");
+						} else if (user.getBookingSiteUrl() == null && user.getHotelCnpj() != null) {
+							response.sendRedirect(request.getContextPath() + "/account/hotel/hotelMenu.jsp");
+						} else if (user.getBookingSiteUrl() != null && user.getHotelCnpj() == null) {
+							response.sendRedirect("BookingSites/");
+						}
+						return;
+					} else {
+						errors.add("Password inválida!");
 					}
-					return;
 				} else {
-					errors.add("Password inválida!");
+					errors.add("Usuário não encontrado!");
 				}
-			} else {
-				errors.add("Usuário não encontrado!");
 			}
 		}
 

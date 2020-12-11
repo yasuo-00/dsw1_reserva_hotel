@@ -23,7 +23,8 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 		try {
 			Connection connection = this.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
-
+			
+			
 			statement.setString(1, hotelCNPJ);
 			statement.setString(2, bookingSiteURL);
 			statement.setString(3, initialDate.toString());

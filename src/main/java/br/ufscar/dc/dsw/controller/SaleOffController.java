@@ -74,6 +74,8 @@ public class SaleOffController extends HttpServlet {
 			case "/update":
 				update(req, res);
 				break;
+			case "/listAllFromHotel":
+				listAllFromHotel(req, res);
 			default:
 				listAll(req, res);
 				break;
@@ -95,6 +97,7 @@ public class SaleOffController extends HttpServlet {
 		SaleOff saleOff = new SaleOff(hotelCnpj, bookingSiteUrl, initialDate, finalDate, discount);
 
 		dao.insert(saleOff);
+		req.setAttribute("hotelCnpj", hotelCnpj);
 		response.sendRedirect("list");
 	}
 
@@ -124,9 +127,18 @@ public class SaleOffController extends HttpServlet {
 		response.sendRedirect("list");
 	}
 
-	private void listAll(HttpServletRequest req, HttpServletResponse response)
+	private void listAllFromHotel(HttpServletRequest req, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<SaleOff> saleOffList = dao.listAllOfHotel(req.getParameter("hotelCnpj"));
+
+		req.setAttribute("saleOffList", saleOffList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/saleOff/list.jsp");
+		dispatcher.forward(req, response);
+	}
+	
+	private void listAll(HttpServletRequest req, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<SaleOff> saleOffList = dao.listAll();
 
 		req.setAttribute("saleOffList", saleOffList);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/saleOff/list.jsp");

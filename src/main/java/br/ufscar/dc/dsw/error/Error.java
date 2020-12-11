@@ -24,8 +24,7 @@ public final class Error implements Serializable {
 	}
 
 	public boolean isThereError() {
-		return false;
-		//return !error.isEmpty();
+		return !error.isEmpty();
 	}
 
 	public List<String> getError() {
