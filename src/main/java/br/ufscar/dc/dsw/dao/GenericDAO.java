@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 
 abstract class GenericDAO<T> {
 
-    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAU");
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAPU");
     
     protected EntityManager getEntityManager() {
     	return emf.createEntityManager();

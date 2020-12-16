@@ -1,7 +1,11 @@
 package br.ufscar.dc.dsw.classes;
 
+import java.util.List;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +26,9 @@ public class Hotel extends User{
 	
 	@Column(nullable = false, unique = false, length = 13)
 	private String phone;
+	
+	@OneToMany(mappedBy = "hotel")
+	private List<SaleOff> saleOffs;
 	
 	public Hotel() {
 		this.cnpj="cnpj";
@@ -73,6 +80,29 @@ public class Hotel extends User{
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(city, cnpj, dailyRate, name, phone, saleOffs);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Hotel other = (Hotel) obj;
+		return Objects.equals(city, other.city) && Objects.equals(cnpj, other.cnpj)
+				&& Double.doubleToLongBits(dailyRate) == Double.doubleToLongBits(other.dailyRate)
+				&& Objects.equals(name, other.name) && Objects.equals(phone, other.phone)
+				&& Objects.equals(saleOffs, other.saleOffs);
 	}
 	
 	

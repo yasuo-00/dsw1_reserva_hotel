@@ -1,18 +1,11 @@
 package br.ufscar.dc.dsw.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.classes.Hotel;
 
 public class HotelDAO extends GenericDAO<Hotel> {
