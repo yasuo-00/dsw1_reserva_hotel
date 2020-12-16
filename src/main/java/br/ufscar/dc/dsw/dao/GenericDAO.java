@@ -1,32 +1,30 @@
 package br.ufscar.dc.dsw.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 abstract class GenericDAO<T> {
 
-    protected Connection connection;
-
-    public GenericDAO() {
-        try {
-        	Class.forName("com.mysql.cj.jdbc.Driver");
-            
-        } catch (Exception e) {
-        	throw new RuntimeException(e);
-        }
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAU");
+    
+    protected EntityManager getEntityManager() {
+    	return emf.createEntityManager();
     }
-    
-    abstract public void insert(T t);
-    
-    abstract public void remove(T t);
-    
-    abstract public void update(T t);
 
-    abstract List<T> listAll();
-    
-    protected Connection getConnection() throws SQLException{
-    	return  DriverManager.getConnection("jdbc:mysql://localhost:3306/dsw1_reserva_hotel", "root", "password");
-    }
+    public abstract T find(Long id);
+
+	public abstract List<T> findAll();
+
+	public abstract void save(T t);
+
+	public abstract void update(T t);
+
+	public abstract void delete(Long id);
+	
+	public static void close() {
+		emf.close();
+	}
 }

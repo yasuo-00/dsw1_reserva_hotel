@@ -1,104 +1,69 @@
 package br.ufscar.dc.dsw.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.User;
 
 public class UserDAO extends GenericDAO<User> {
 
-	public void insert(User user) {
-
-		String sql = "INSERT INTO user (email, password, hotel_cnpj, booking_site_url) VALUES (?, ?, ?, ?)";
-
-		try {
-			Connection connectionection = this.getConnection();
-			PreparedStatement statement = connectionection.prepareStatement(sql);
-
-			statement = connectionection.prepareStatement(sql);
-			statement.setString(1, user.getEmail());
-			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getHotelCnpj());
-			statement.setString(4, user.getBookingSiteUrl());
-			statement.executeUpdate();
-
-			statement.close();
-			connectionection.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void remove(User user) {
-		String sql = "DELETE FROM user where id = ?";
-
-		try {
-			Connection conn = this.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-
-			statement.setInt(1, user.getId());
-			statement.executeUpdate();
-
-			statement.close();
-			conn.close();
-		} catch (SQLException e) {
-		}
-	}
-
-	public void update(User user) {
-		String sql = "UPDATE user SET  email = ?, password = ? WHERE id = ?";
-
-		try {
-			Connection conn = this.getConnection();
-			PreparedStatement statement = conn.prepareStatement(sql);
-
-			statement.setString(1, user.getEmail());
-			statement.setString(2, user.getPassword());
-			statement.setInt(3, user.getId());
-			statement.executeUpdate();
-
-			statement.close();
-			conn.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	@Override
+	public User find(Long id) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		User user = em.find(User.class, id);
+		tx.commit();
+		em.close();
+		return user;
 	}
 	
-	public List<User> listAll() {
-
-		List<User> usersList = new ArrayList<>();
-
-		String sql = "SELECT * from User u";
-
-		try {
-			Connection connection = this.getConnection();
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				String email = resultSet.getString("email");
-				String password = resultSet.getString("password");
-				String hotelCNPJ = resultSet.getString("hotel_cnpj");
-				String bookingSiteURL = resultSet.getString("booking_site_url");
-				User user = new User(id, email, password, hotelCNPJ, bookingSiteURL);
-				usersList.add(user);
-			}
-
-			resultSet.close();
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-		return usersList;
+	@Override
+	public void save(User user) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(user);
+		tx.commit();
+		em.close();
 	}
-
+	
+	@Override
+	public void update(User user) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.merge(user);
+		em.close();
+	}
+	
+	@Override
+	public void delete(Long id) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		User user = em.getReference(User.class, id);
+		tx.begin();
+		em.remove(user);
+		tx.commit();
+		em.close();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> findAll() {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Query q = em.createQuery("Select u FROM user u");
+		List<User> list = q.getResultList();
+		tx.commit();
+		em.close();
+		return list;
+	}
+	/**
 	public List<User> listAllByURL() {
 
 		List<User> usersList = new ArrayList<>();
@@ -247,6 +212,6 @@ public class UserDAO extends GenericDAO<User> {
 		}
 		return user;
 
-	}
+	}**/
 
 }

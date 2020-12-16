@@ -1,18 +1,70 @@
 package br.ufscar.dc.dsw.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.SaleOff;
 
 public class SaleOffDAO extends GenericDAO<SaleOff>{
+	
+	@Override
+	public SaleOff find(Long id) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		SaleOff saleOff = em.find(SaleOff.class, id);
+		tx.commit();
+		em.close();
+		return saleOff;
+	}
+	
+	@Override
+	public void save(SaleOff saleOff) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(saleOff);
+		tx.commit();
+		em.close();
+	}
+	
+	@Override
+	public void update(SaleOff saleOff) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.merge(saleOff);
+		em.close();
+	}
+	
+	@Override
+	public void delete(Long id) {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		SaleOff saleOff = em.getReference(SaleOff.class, id);
+		tx.begin();
+		em.remove(saleOff);
+		tx.commit();
+		em.close();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SaleOff> findAll() {
+		EntityManager em = this.getEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		Query q = em.createQuery("Select u FROM saleOff u");
+		List<SaleOff> list = q.getResultList();
+		tx.commit();
+		em.close();
+		return list;
+	}
+	
+	/**
 	
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -170,5 +222,5 @@ public class SaleOffDAO extends GenericDAO<SaleOff>{
 				throw new RuntimeException(e);
 			}
 			return saleOffList;
-		}
+		}**/
 }

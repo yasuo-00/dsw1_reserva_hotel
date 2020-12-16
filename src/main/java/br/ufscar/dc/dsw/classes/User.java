@@ -1,12 +1,27 @@
 package br.ufscar.dc.dsw.classes;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
-	int id;
-	String email;
-	String password;
-	String hotelCnpj;
-	String bookingSiteUrl;
 	
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	int id;
+	
+	@Column(nullable = false, unique = true, length = 60)
+	String email;
+	
+	@Column(nullable = false, unique = true, length = 60)	
+	String password;
 	
 	public User() {
 	}
@@ -20,31 +35,16 @@ public class User {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.hotelCnpj = hotelCnpj;
-		this.bookingSiteUrl = bookingSiteUrl;
+
 	}
 	
 	public User(String email, String password, String hotelCnpj, String bookingSiteUrl) {
 		this.email = email;
 		this.password = password;
-		this.hotelCnpj = hotelCnpj;
-		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	
 	public int getId() {
 		return id;
-	}
-	public String getHotelCnpj() {
-		return hotelCnpj;
-	}
-	public void setHotelCnpj(String hotelCnpj) {
-		this.hotelCnpj = hotelCnpj;
-	}
-	public String getBookingSiteUrl() {
-		return bookingSiteUrl;
-	}
-	public void setBookingSiteUrl(String bookingSiteUrl) {
-		this.bookingSiteUrl = bookingSiteUrl;
 	}
 	
 	public String getEmail() {

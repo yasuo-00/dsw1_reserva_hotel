@@ -1,10 +1,26 @@
 package br.ufscar.dc.dsw.classes;
 
-public class Hotel {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "hotel")
+public class Hotel extends User{
+	
+	@Column(nullable = false, unique = true, length = 14)
 	private String cnpj;
+	
+	@Column(nullable = false, unique = false, length = 60)
 	private String name;
+	
+	@Column(nullable = false, unique = false, length = 60)
 	private String city;
+	
+	@Column(nullable = false, unique = false, length = 60)
 	private double dailyRate;
+	
+	@Column(nullable = false, unique = false, length = 13)
 	private String phone;
 	
 	public Hotel() {
