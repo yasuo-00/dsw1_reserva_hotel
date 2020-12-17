@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class SaleOff {
 
 	@EmbeddedId
-	private SaleOffId saleOffId;
+	private SaleOffId saleOffId = new SaleOffId();
 
 	@ManyToOne
 	@MapsId("hotelCnpj")
@@ -27,11 +27,11 @@ public class SaleOff {
 	@JoinColumn(name = "booking_site_url")
 	BookingSite bookingSite;
 
-	@MapsId("initialDate")
-	LocalDate initialDate;
-
-	@MapsId("finalDate")
-	LocalDate finalDate;
+	/*
+	 * @MapsId("initialDate") LocalDate initialDate;
+	 * 
+	 * @MapsId("finalDate") LocalDate finalDate;
+	 */
 
 	private double discount;
 
@@ -39,14 +39,13 @@ public class SaleOff {
 		super();
 	}
 
-	public SaleOff(SaleOffId saleOffId, Hotel hotel, BookingSite bookingSite, LocalDate initialDate,
-			LocalDate finalDate, double discount) {
-		super();
+	public SaleOff(SaleOffId saleOffId, Hotel hotel, BookingSite bookingSite,  double discount) {
 		this.saleOffId = saleOffId;
 		this.hotel = hotel;
 		this.bookingSite = bookingSite;
-		this.initialDate = initialDate;
-		this.finalDate = finalDate;
+		/*
+		 * this.initialDate = initialDate; this.finalDate = finalDate;
+		 */
 		this.discount = discount;
 	}
 
@@ -82,25 +81,9 @@ public class SaleOff {
 		this.discount = discount;
 	}
 
-	public LocalDate getInitialDate() {
-		return initialDate;
-	}
-
-	public void setInitialDate(LocalDate initialDate) {
-		this.initialDate = initialDate;
-	}
-
-	public LocalDate getFinalDate() {
-		return finalDate;
-	}
-
-	public void setFinalDate(LocalDate finalDate) {
-		this.finalDate = finalDate;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookingSite, discount, finalDate, hotel, initialDate, saleOffId);
+		return Objects.hash(bookingSite, discount, hotel, saleOffId);
 	}
 
 	@Override
@@ -114,8 +97,34 @@ public class SaleOff {
 		SaleOff other = (SaleOff) obj;
 		return Objects.equals(bookingSite, other.bookingSite)
 				&& Double.doubleToLongBits(discount) == Double.doubleToLongBits(other.discount)
-				&& Objects.equals(finalDate, other.finalDate) && Objects.equals(hotel, other.hotel)
-				&& Objects.equals(initialDate, other.initialDate) && Objects.equals(saleOffId, other.saleOffId);
+				&& Objects.equals(hotel, other.hotel) && Objects.equals(saleOffId, other.saleOffId);
 	}
+
+	/*
+	 * public LocalDate getInitialDate() { return initialDate; }
+	 * 
+	 * public void setInitialDate(LocalDate initialDate) { this.initialDate =
+	 * initialDate; }
+	 * 
+	 * public LocalDate getFinalDate() { return finalDate; }
+	 * 
+	 * public void setFinalDate(LocalDate finalDate) { this.finalDate = finalDate; }
+	 */
+
+	/*
+	 * @Override public int hashCode() { return Objects.hash(bookingSite, discount,
+	 * finalDate, hotel, initialDate, saleOffId); }
+	 * 
+	 * @Override public boolean equals(Object obj) { if (this == obj) return true;
+	 * if (obj == null) return false; if (getClass() != obj.getClass()) return
+	 * false; SaleOff other = (SaleOff) obj; return Objects.equals(bookingSite,
+	 * other.bookingSite) && Double.doubleToLongBits(discount) ==
+	 * Double.doubleToLongBits(other.discount) && Objects.equals(finalDate,
+	 * other.finalDate) && Objects.equals(hotel, other.hotel) &&
+	 * Objects.equals(initialDate, other.initialDate) && Objects.equals(saleOffId,
+	 * other.saleOffId); }
+	 */
+	
+	
 
 }

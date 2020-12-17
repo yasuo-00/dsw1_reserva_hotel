@@ -8,13 +8,12 @@ import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.BookingSite;
 
-public class BookingSiteDAO extends GenericDAO<BookingSite> {
-	@Override
-	public BookingSite find(Long id) {
+public class BookingSiteDAO extends GenericDAO<BookingSite, String> {
+	public BookingSite find(String url) {
 		EntityManager em = this.getEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		BookingSite bookingSite = em.find(BookingSite.class, id);
+		BookingSite bookingSite = em.find(BookingSite.class, url);
 		tx.commit();
 		em.close();
 		return bookingSite;
@@ -39,11 +38,10 @@ public class BookingSiteDAO extends GenericDAO<BookingSite> {
 		em.close();
 	}
 	
-	@Override
-	public void delete(Long id) {
+	public void delete(String url) {
 		EntityManager em = this.getEntityManager();
 		EntityTransaction tx = em.getTransaction();
-		BookingSite bookingSite = em.getReference(BookingSite.class, id);
+		BookingSite bookingSite = em.getReference(BookingSite.class, url);
 		tx.begin();
 		em.remove(bookingSite);
 		tx.commit();

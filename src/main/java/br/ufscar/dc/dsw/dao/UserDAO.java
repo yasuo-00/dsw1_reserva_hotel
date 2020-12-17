@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.User;
 
-public class UserDAO extends GenericDAO<User> {
+public class UserDAO extends GenericDAO<User, Long> {
 
 	@Override
 	public User find(Long id) {

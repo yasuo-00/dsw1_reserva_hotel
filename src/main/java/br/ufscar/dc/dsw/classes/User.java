@@ -17,35 +17,35 @@ import javax.persistence.Table;
 public class User {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	int id;
+	Long id;
 	
 	@Column(nullable = false, unique = true, length = 60)
 	String email;
 	
-	@Column(nullable = false, unique = true, length = 60)	
+	@Column(nullable = false, unique = false, length = 60)	
 	String password;
 	
 	public User() {
 	}
 	
-	public User(int id) {
+	public User(Long id) {
 		this.id = id;
 	}
 	
 
-	public User(int id, String email, String password, String hotelCnpj, String bookingSiteUrl) {
+	public User(Long id, String email, String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 
 	}
 	
-	public User(String email, String password, String hotelCnpj, String bookingSiteUrl) {
+	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	

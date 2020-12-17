@@ -10,7 +10,7 @@ version="2.0">
     <properties>
         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/JPA" />
         <property name="javax.persistence.jdbc.user" value="root" />
-        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+        <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
         <property name="javax.persistence.jdbc.password" value="password" />
         <property name="javax.persistence.schema-generation.database.action" value="drop-and-create" />
         <property name="hibernate.show_sql" value="true" />

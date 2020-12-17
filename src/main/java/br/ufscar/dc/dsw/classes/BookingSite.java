@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "booking_site")
-public class BookingSite {
+public class BookingSite extends User{
 	
 	@Column(nullable = false, unique = true, length = 60)
 	private String url;
@@ -21,7 +21,7 @@ public class BookingSite {
 	@Column(nullable = false, unique = false, length = 13)
 	private String phone;
 	
-	@OneToMany(mappedBy = "booking_site")
+	@OneToMany(mappedBy = "bookingSite")
 	private List<SaleOff> saleOffs;
 	
 	public BookingSite() {
@@ -30,7 +30,8 @@ public class BookingSite {
 		this.phone = "phone";
 	}
 	
-	public BookingSite(String url, String name, String phone) {
+	public BookingSite(String url, String name, String phone, String email, String password) {
+		super(email, password);
 		this.url = url;
 		this.name = name;
 		this.phone = phone;

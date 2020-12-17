@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.SaleOff;
 
-public class SaleOffDAO extends GenericDAO<SaleOff>{
+public class SaleOffDAO extends GenericDAO<SaleOff, Long>{
 	
 	@Override
 	public SaleOff find(Long id) {

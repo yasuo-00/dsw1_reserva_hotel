@@ -10,11 +10,11 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class SaleOffId implements Serializable {
 	
-	@Column(name= "hotel_cnpj")
-	private String hotelCnpj;
+	@Column(name= "hotel_id")
+	private Long hotelId;
 	
-	@Column(name = "booking_site_url")
-	private String bookingSiteUrl;
+	@Column(name = "booking_site_id")
+	private Long bookingSiteId;
 	
 	@Column(name = "initial_date")
 	private LocalDate initialDate;
@@ -26,30 +26,30 @@ public class SaleOffId implements Serializable {
 		super();
 	}
 
-	public SaleOffId(String hotelCnpj, String bookingSiteUrl, LocalDate initialDate, LocalDate finalDate) {
+	public SaleOffId(Long hotelId,Long bookingSiteId, LocalDate initialDate, LocalDate finalDate) {
 		super();
-		this.hotelCnpj = hotelCnpj;
-		this.bookingSiteUrl = bookingSiteUrl;
+		this.hotelId = hotelId;
+		this.bookingSiteId = bookingSiteId;
 		this.initialDate = initialDate;
 		this.finalDate = finalDate;
 	}
 
 	
 	
-	public String getHotelCnpj() {
-		return hotelCnpj;
+	public Long getHotelCnpj() {
+		return hotelId;
 	}
 
-	public void setHotelCnpj(String hotelCnpj) {
-		this.hotelCnpj = hotelCnpj;
+	public void setHotelCnpj(Long hotelId) {
+		this.hotelId = hotelId;
 	}
 
-	public String getBookingSiteUrl() {
-		return bookingSiteUrl;
+	public Long getBookingSiteUrl() {
+		return bookingSiteId;
 	}
 
-	public void setBookingSiteUrl(String bookingSiteUrl) {
-		this.bookingSiteUrl = bookingSiteUrl;
+	public void setBookingSiteUrl(Long bookingSiteId) {
+		this.bookingSiteId = bookingSiteId;
 	}
 
 	public LocalDate getInitialDate() {
@@ -70,7 +70,7 @@ public class SaleOffId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookingSiteUrl, finalDate, hotelCnpj, initialDate);
+		return Objects.hash(bookingSiteId, finalDate, hotelId, initialDate);
 	}
 
 	@Override
@@ -82,8 +82,8 @@ public class SaleOffId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SaleOffId other = (SaleOffId) obj;
-		return Objects.equals(bookingSiteUrl, other.bookingSiteUrl) && Objects.equals(finalDate, other.finalDate)
-				&& Objects.equals(hotelCnpj, other.hotelCnpj) && Objects.equals(initialDate, other.initialDate);
+		return Objects.equals(bookingSiteId, other.bookingSiteId) && Objects.equals(finalDate, other.finalDate)
+				&& Objects.equals(hotelId, other.hotelId) && Objects.equals(initialDate, other.initialDate);
 	}
 
 

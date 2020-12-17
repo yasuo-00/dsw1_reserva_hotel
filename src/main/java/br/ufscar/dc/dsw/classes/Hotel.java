@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,7 +39,8 @@ public class Hotel extends User{
 		this.dailyRate = 0;
 	}
 	
-	public Hotel (String cnpj, String name, String phone, String city, double dailyRate) {
+	public Hotel (String cnpj, String name, String phone, String city, double dailyRate, String email, String password) {
+		super(email, password);
 		this.cnpj=cnpj;
 		this.name = name;
 		this.phone = phone;
