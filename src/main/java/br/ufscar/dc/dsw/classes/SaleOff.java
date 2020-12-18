@@ -10,28 +10,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 @Entity
 @Table(name = "sale_off")
 public class SaleOff {
 
 	@EmbeddedId
-	private SaleOffId saleOffId = new SaleOffId();
+	private SaleOffId saleOffId;
 
 	@ManyToOne
-	@MapsId("hotelCnpj")
-	@JoinColumn(name = "hotel_cnpj")
+	@MapsId("hotelId")
+	@JoinColumn(name = "hotel_id")
 	Hotel hotel;
 
 	@ManyToOne
-	@MapsId("bookingSiteUrl")
-	@JoinColumn(name = "booking_site_url")
+	@MapsId("bookingSiteId")
+	@JoinColumn(name = "booking_site_id")
 	BookingSite bookingSite;
 
-	/*
-	 * @MapsId("initialDate") LocalDate initialDate;
-	 * 
-	 * @MapsId("finalDate") LocalDate finalDate;
-	 */
 
 	private double discount;
 
@@ -43,9 +41,6 @@ public class SaleOff {
 		this.saleOffId = saleOffId;
 		this.hotel = hotel;
 		this.bookingSite = bookingSite;
-		/*
-		 * this.initialDate = initialDate; this.finalDate = finalDate;
-		 */
 		this.discount = discount;
 	}
 

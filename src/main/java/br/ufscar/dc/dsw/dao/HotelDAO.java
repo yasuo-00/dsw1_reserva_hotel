@@ -8,10 +8,10 @@ import javax.persistence.Query;
 
 import br.ufscar.dc.dsw.classes.Hotel;
 
-public class HotelDAO extends GenericDAO<Hotel, String> {
+public class HotelDAO extends GenericDAO<Hotel, Long> {
 	
 	@Override
-	public Hotel find(String id) {
+	public Hotel find(Long id) {
 		EntityManager em = this.getEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -41,7 +41,7 @@ public class HotelDAO extends GenericDAO<Hotel, String> {
 	}
 	
 	@Override
-	public void delete(String id) {
+	public void delete(Long id) {
 		EntityManager em = this.getEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		Hotel hotel = em.getReference(Hotel.class, id);
