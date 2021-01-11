@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+		<nav class="navbar navbar-expand-md bg-light">
+			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><i class="oi oi-caret-right"></i>
+						<span th:text="#{saleOff.register.label}"></span></li>
+				</ul>
+			</div>
+			<a class="btn btn-primary btn-md" th:href="@{/saleOff/listAll}"
+				role="button"> <span class="oi oi-spreadsheet" title="Register"
+				aria-hidden="true"></span> <span th:text="#{saleOff.list.label}"></span>
+			</a>
+		</nav>
+		<div class="container" id="register">
+		
+		<div th:replace="fragments/alert"></div>
+			<form
+				th:action="${saleOff.id == null} ? @{/saleOff/save} : @{/saleOff/edit}"
+				th:object="${saleOff}" method="POST">
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label th:text="#{initialDate}" for="initialDate"></label> <input
+							type="text" class="form-control" id="initialDate" placeholder="Name"
+							autofocus="autofocus" th:field="*{initialDate}"
+							th:classappend="${#fields.hasErrors('initialDate')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{initialDate}"></span>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label th:text="#{finalDate}" for="finalDate"></label> <input
+							type="text" class="form-control" id="finalDate" placeholder="Name"
+							autofocus="autofocus" th:field="*{finalDate}"
+							th:classappend="${#fields.hasErrors('finalDate')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{finalDate}"></span>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label th:text="#{bookingSite}" for="bookingSite"></label> <input
+							type="text" class="form-control" id="bookingSite" placeholder="Name"
+							autofocus="autofocus" th:field="*{bookingSite}"
+							th:classappend="${#fields.hasErrors('bookingSite')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{bookingSite}"></span>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label th:text="#{hotel}" for="hotel"></label> <input
+							type="text" class="form-control" id="hotel" placeholder="Name"
+							autofocus="autofocus" th:field="*{hotel}"
+							th:classappend="${#fields.hasErrors('hotel')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{hotel}"></span>
+						</div>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label th:text="#{discount}" for="discount"></label> <input
+							type="text" class="form-control" id="discount" placeholder="Name"
+							autofocus="autofocus" th:field="*{discount}"
+							th:classappend="${#fields.hasErrors('discount')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{discount}"></span>
+						</div>
+					</div>
+					
+					<input type="hidden" id="id" th:field="*{id}" />
+					<button type="submit" th:text="#{button.save}"
+						class="btn btn-primary btn-sm"></button>
+			</form>
+		</div>
+	</section>
+</body>
+</html>
