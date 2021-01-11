@@ -1,189 +1,88 @@
 package br.ufscar.dc.dsw.controller;
 
-import java.io.IOException;
-import java.util.List;
+import javax.validation.Valid;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.classes.Hotel;
-import br.ufscar.dc.dsw.classes.User;
-import br.ufscar.dc.dsw.dao.HotelDAO;
-import br.ufscar.dc.dsw.dao.UserDAO;
-import br.ufscar.dc.dsw.error.Error;
+import br.ufscar.dc.dsw.service.spec.IHotelService;
+import br.ufscar.dc.dsw.service.spec.IUserService;
 
-@WebServlet(urlPatterns = {"/Hotels/*"})
-public class HotelController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping("/hotel")
+public class HotelController {
 
-	private HotelDAO dao;
-	private UserDAO uDAO;
+	@Autowired
+	private IHotelService hotelService;
 
-	@Override
-	public void init() {
-		dao = new HotelDAO();
-		uDAO = new UserDAO();
-	}
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		String action = req.getPathInfo();
-		if (action == null) {
-			action = "";
+	@GetMapping("/list")
+	public String list(@RequestParam(value = "city", required = false) String city, ModelMap model) {
+		// caso o campo "city" nao seja passado ou seja passado em branco busca por
+		// todas as cidades
+		// caso contrario procura todas as cidades com o nome passado
+		if (city == "" || city == null) {
+			model.addAttribute("hotels", hotelService.findAll());
+		} else {
+			model.addAttribute("hotels", hotelService.findAllByCity(city));
 		}
+		return "hotel/list";
+	}
 
-		try {
-			switch (action) {
-			case "/listByCity":
-				listByCity(req,res);
-			default:
-				listAll(req, res);
-				break;
-			}
-		} catch (RuntimeException | IOException | ServletException e) {
-			throw new ServletException(e);
+	@PostMapping("/save")
+	public String save(@Valid Hotel hotel, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			return "hotel/register";
 		}
+		hotel.setPassword(encoder.encode(hotel.getPassword()));
+		hotelService.save(hotel);
+		attr.addFlashAttribute("success", "Hotel inserted successfully");
+		return "redirect:/hotel/list";
 	}
 
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+	@GetMapping("/register")
+	public String register(Hotel hotel) {
+		return "hotel/register";
+	}
 
-		User user = (User) req.getSession().getAttribute("loggedUser");
-		Error error = new Error();
+	// talvez tenha que mudar para post
+	@GetMapping("/edit/{id}")
+	public String preEdit(@PathVariable("id") Long id, ModelMap model) {
+		model.addAttribute("hotel", hotelService.findById(id));
+		return "hotel/register";
+	}
 
-		if (user == null) {
-			res.sendRedirect(req.getContextPath());
-			return;
-		} /*
-			 * else if (user.getBookingSiteUrl() != null) {
-			 * error.add("Acesso não autorizado!");
-			 * error.add("Apenas Papel [ADMIN] tem acesso a essa página");
-			 * req.setAttribute("mensagens", error); RequestDispatcher rd =
-			 * req.getRequestDispatcher("/noAuth.jsp"); rd.forward(req, res); return; }
-			 */
-
-		String action = req.getPathInfo();
-		if (action == null) {
-			action = "";
+	@PostMapping("/edit")
+	public String edit(@Valid Hotel hotel, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			return "hotel/register";
 		}
+		if (hotel.getPassword() != null) {
 
-		try {
-			switch (action) {
-			case "/register":
-				showRegisterForm(req, res);
-				break;
-			case "/insert":
-				insert(req, res);
-				break;
-			case "/remove":
-				remove(req, res);
-				break;
-			case "/edit":
-				showEditForm(req, res);
-				break;
-			case "/update":
-				update(req, res);
-				break;
-			default:
-				listAll(req, res);
-				break;
-			}
-		} catch (RuntimeException | IOException | ServletException e) {
-			throw new ServletException(e);
+			hotel.setPassword(encoder.encode(hotel.getPassword()));
 		}
+		hotelService.save(hotel);
+		attr.addFlashAttribute("success", "Hotel edited successfully");
+		return "redirect:/hotel/list";
 	}
 
-	private void insert(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-
-		String cnpj = req.getParameter("cnpj");
-		String name = req.getParameter("name");
-		String phone = req.getParameter("phone");
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
-		double dailyRate = Double.parseDouble(req.getParameter("dailyRate"));
-		String city = req.getParameter("city");
-
-		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate, email, password);
-
-		dao.save(hotel);
-		res.sendRedirect("list");
+	@GetMapping("/remove/{id}")
+	public String remove(@PathVariable("id") Long id, RedirectAttributes attr) {
+		hotelService.remove(id);
+		attr.addFlashAttribute("success", "Hotel removed successfully");
+		return "redirect:/hotel/list";
 	}
 
-	private void update(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-		String cnpj = req.getParameter("cnpj");
-		String name = req.getParameter("name");
-		String phone = req.getParameter("phone");
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
-		double dailyRate = Double.parseDouble(req.getParameter("dailyRate"));
-		String city = req.getParameter("city");
-
-		Hotel hotel = new Hotel(cnpj, name, phone, city, dailyRate, email, password);
-		dao.update(hotel);
-		res.sendRedirect("list");
-	}
-
-	private void remove(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		String cnpj = req.getParameter("cnpj");
-
-		User user = new User();
-		//user = uDAO.getByHotelCNPJ(cnpj);
-
-		Hotel hotel = new Hotel(cnpj);
-		dao.delete(cnpj);
-		//uDAO.remove(user);
-		res.sendRedirect("list");
-	}
-
-	//lista apenas dados do hotel
-	private void listAll(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		List<Hotel> hotelList = dao.findAll();
-
-		req.setAttribute("hotelList", hotelList);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
-		dispatcher.forward(req, res);
-	}
-	
-	/*
-	 * //lista os dados do hotel e da conta do hotel private void
-	 * listAllAccounts(HttpServletRequest req, HttpServletResponse res) throws
-	 * ServletException, IOException { List<Hotel> hotelList = dao.listAllByCNPJ();
-	 * List<User> userList = uDAO.listAllByCNPJ();
-	 * 
-	 * req.setAttribute("hotelList", hotelList); req.setAttribute("userList",
-	 * userList); RequestDispatcher dispatcher =
-	 * req.getRequestDispatcher("/account/hotel/list.jsp"); dispatcher.forward(req,
-	 * res); }
-	 */
-	
-	
-	private void listByCity(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		List<Hotel> hotelList = dao.findAll();
-		//List<Hotel> hotelList = dao.listByCity(req.getParameter("city"));
-
-		req.setAttribute("hotelList", hotelList);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/list.jsp");
-		dispatcher.forward(req, res);
-	}
-
-	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/form.jsp");
-		dispatcher.forward(req, res);
-	}
-
-	//passa os dados do hotel e da conta dele para editar
-	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String cnpj = req.getParameter("cnpj");
-		Hotel hotel = dao.find(cnpj);
-		//User user = uDAO.getByHotelCNPJ(cnpj);
-		req.setAttribute("hotel", hotel);
-		//req.setAttribute("user", user);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/hotel/form.jsp");
-		dispatcher.forward(req, res);
-	}
 }

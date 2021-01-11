@@ -5,12 +5,16 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "hotel")
+@DynamicUpdate
 public class Hotel extends User{
 	
 	@Column(nullable = false, unique = true, length = 14)
@@ -29,18 +33,14 @@ public class Hotel extends User{
 	private String phone;
 	
 	@OneToMany(mappedBy = "hotel")
+	@Cascade(CascadeType.ALL)
 	private List<SaleOff> saleOffs;
 	
 	public Hotel() {
-		this.cnpj="cnpj";
-		this.name = "name";
-		this.phone = "phone";
-		this.city = "city";
-		this.dailyRate = 0;
 	}
 	
 	public Hotel (String cnpj, String name, String phone, String city, double dailyRate, String email, String password) {
-		super(email, password);
+		super(email, password, "ROLE_HOTEL");
 		this.cnpj=cnpj;
 		this.name = name;
 		this.phone = phone;

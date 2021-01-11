@@ -1,178 +1,85 @@
 package br.ufscar.dc.dsw.controller;
 
-import java.io.IOException;
-import java.util.List;
+import javax.validation.Valid;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.classes.BookingSite;
 import br.ufscar.dc.dsw.classes.Hotel;
-import br.ufscar.dc.dsw.classes.User;
-import br.ufscar.dc.dsw.dao.BookingSiteDAO;
-import br.ufscar.dc.dsw.dao.UserDAO;
-import br.ufscar.dc.dsw.error.Error;
+import br.ufscar.dc.dsw.service.spec.IBookingSiteService;
 
-@WebServlet(urlPatterns = { "/BookingSites/*" })
-public class BookingSiteController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	private BookingSiteDAO dao;
-	private UserDAO uDAO;
+@Controller
+@RequestMapping("/bookingSite")
+public class BookingSiteController {
 
-	@Override
-	public void init() {
-		dao = new BookingSiteDAO();
-		uDAO = new UserDAO();
-	}
-
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		String action = req.getPathInfo();
-		if (action == null) {
-			action = "";
-		}
-
-		try {
-			switch (action) {
-			case "/remove":
-				remove(req, res);
-				break;
-			default:
-				listAll(req, res);
-				break;
-			}
-		} catch (RuntimeException | IOException | ServletException e) {
-			throw new ServletException(e);
-		}
-	}
-
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		User user = (User) req.getSession().getAttribute("loggedUser");
-		Error error = new Error();
-
-		if (user == null) {
-			res.sendRedirect(req.getContextPath());
-			return;
-		}/** else if (user.getHotelCnpj() != null) {
-			error.add("Acesso não autorizado!");
-			error.add("Apenas Papel [ADMIN] tem acesso a essa página");
-			req.setAttribute("mensagens", error);
-			RequestDispatcher rd = req.getRequestDispatcher("/noAuth.jsp");
-			rd.forward(req, res);
-			return;
-		}**/
-
-		String action = req.getPathInfo();
-		if (action == null) {
-			action = "";
-		}
-
-		try {
-			switch (action) {
-			case "/register":
-				showRegisterForm(req, res);
-				break;
-			case "/insert":
-				insert(req, res);
-				break;
-			case "/remove":
-				remove(req, res);
-				break;
-			case "/edit":
-				showEditForm(req, res);
-				break;
-			case "/update":
-				update(req, res);
-				break;
-			default:
-				listAll(req, res);
-				break;
-			}
-		} catch (RuntimeException | IOException | ServletException e) {
-			throw new ServletException(e);
-		}
-	}
-
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-
-		String url = request.getParameter("url");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String password = request.getParameter("password");
-		String email = request.getParameter("email");
-
-		BookingSite bookingSite = new BookingSite(url, name, phone, email, password);
-
-		dao.save(bookingSite);
-		response.sendRedirect("list");
-	}
-
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String url = request.getParameter("url");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String password = request.getParameter("password");
-		String email = request.getParameter("email");
-
-		BookingSite bookingSite = new BookingSite(url, name, phone, email, password);
-
-		dao.update(bookingSite);
-		response.sendRedirect("list");
-	}
-
-	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String url = request.getParameter("url");
-
-		BookingSite bookingSite = new BookingSite(url);
-		User user = new User();
-		//user = uDAO.getByBookingSiteURL(url);
-
-		dao.delete(url);
-		//uDAO.remove(user);
-		response.sendRedirect("list");
-	}
-
-	// lista todos os dados dos sites de reserva
-	private void listAll(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		List<BookingSite> bookingSiteList = dao.findAll();
-
-		request.setAttribute("bookingSiteList", bookingSiteList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/account/bookingSite/list.jsp");
-		dispatcher.forward(request, response);
-	}
-
+	@Autowired
+	private IBookingSiteService bookingSiteService;
+	
 	/*
-	 * // lista todos os dados dos sites de reserva e da conta deles private void
-	 * listAllAccounts(HttpServletRequest request, HttpServletResponse response)
-	 * throws ServletException, IOException { List<BookingSite> bookingSiteList =
-	 * dao.listAllByURL(); List<User> userList = uDAO.listAllByURL();
-	 * 
-	 * request.setAttribute("bookingSiteList", bookingSiteList);
-	 * request.setAttribute("userList", userList); RequestDispatcher dispatcher =
-	 * request.getRequestDispatcher(""); dispatcher.forward(request, response); }
+	 * @Autowired private IUserService userService;
 	 */
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
-	private void showRegisterForm(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/bookingSite/form.jsp");
-		dispatcher.forward(req, res);
+
+	@GetMapping("/list")
+	public String listAll(ModelMap model) {
+		model.addAttribute("bookingSites", bookingSiteService.findAll());
+		return "bookingSite/list";
 	}
 
-	// passa os dados do site de reserva e da conta dele para editar
-	private void showEditForm(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		String url = req.getParameter("url");
-		BookingSite bookingSite = dao.find(url);
-		//User user = uDAO.getByBookingSiteURL(url);
-		req.setAttribute("bookingSite", bookingSite);
-		//req.setAttribute("user", user);
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/account/bookingSite/form.jsp");
-		dispatcher.forward(req, res);
+	@PostMapping("/save")
+	public String save(@Valid BookingSite bookingSite, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			return "bookingSite/register";
+		}
+		
+		bookingSite.setPassword(encoder.encode(bookingSite.getPassword()));
+		bookingSiteService.save(bookingSite);
+		attr.addFlashAttribute("success", "BookingSite inserted successfully");
+		return "redirect:/bookingSite/list";
 	}
+	
+	@GetMapping("/register")
+	public String register(BookingSite bookingSite) {
+		return "bookingSite/register";
+	}
+
+	// talvez tenha que mudar para post
+	@GetMapping("/edit/{id}")
+	public String preEdit(@PathVariable("id") Long id, ModelMap model) {
+		model.addAttribute("bookingSite", bookingSiteService.findById(id));
+		return "bookingSite/register";
+	}
+
+	@PostMapping("/edit")
+	public String edit(@Valid BookingSite bookingSite, BindingResult result, RedirectAttributes attr) {
+		if (result.hasErrors()) {
+			return "bookingSite/register";
+		}
+
+		bookingSiteService.save(bookingSite);
+		attr.addFlashAttribute("success", "BookingSite edited successfully");
+		return "redirect:/bookingSite/list";
+	}
+
+	@GetMapping("/remove/{id}")
+	public String remove(@PathVariable("id") Long id, RedirectAttributes attr) {
+		bookingSiteService.remove(id);
+		attr.addFlashAttribute("success", "BookingSite removed successfully");
+		return "redirect:/bookingSite/list";
+	}
+
+
 }

@@ -8,8 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
 @Table(name = "booking_site")
+@DynamicUpdate
 public class BookingSite extends User{
 	
 	@Column(nullable = false, unique = true, length = 60)
@@ -22,16 +27,14 @@ public class BookingSite extends User{
 	private String phone;
 	
 	@OneToMany(mappedBy = "bookingSite")
+	@Cascade(CascadeType.ALL)
 	private List<SaleOff> saleOffs;
 	
 	public BookingSite() {
-		this.url = "url";
-		this.name = "name";
-		this.phone = "phone";
 	}
 	
 	public BookingSite(String url, String name, String phone, String email, String password) {
-		super(email, password);
+		super(email, password, "ROLE_BOOKINGSITE");
 		this.url = url;
 		this.name = name;
 		this.phone = phone;

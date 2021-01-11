@@ -17,6 +17,7 @@ import javax.persistence.Table;
 public class User {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(columnDefinition = "INTEGER")
 	Long id;
 	
 	@Column(nullable = false, unique = true, length = 60)
@@ -24,6 +25,9 @@ public class User {
 	
 	@Column(nullable = false, unique = false, length = 60)	
 	String password;
+	
+	@Column(nullable = false, length = 20)
+    private String role;
 	
 	public User() {
 	}
@@ -43,6 +47,14 @@ public class User {
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
+		this.role="ROLE_ADMIN";
+	}
+	
+	public User(String email, String password, String role) {
+		this.email = email;
+		this.password = password;
+		this.role=role;
+		System.out.println(role);
 	}
 	
 	public Long getId() {
@@ -60,6 +72,15 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override
