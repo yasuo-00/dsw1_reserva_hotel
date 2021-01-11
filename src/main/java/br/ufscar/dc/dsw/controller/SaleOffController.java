@@ -1,28 +1,29 @@
 package br.ufscar.dc.dsw.controller;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufscar.dc.dsw.classes.BookingSite;
+import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.classes.SaleOff;
+import br.ufscar.dc.dsw.security.UserAccount;
+import br.ufscar.dc.dsw.service.spec.IBookingSiteService;
+import br.ufscar.dc.dsw.service.spec.IHotelService;
 import br.ufscar.dc.dsw.service.spec.ISaleOffService;
 
 @Controller
@@ -32,13 +33,21 @@ public class SaleOffController {
 	@Autowired
 	private ISaleOffService saleOffService;
 	
+	@Autowired
+	private IHotelService hotelService;
+	
+	@Autowired
+	private IBookingSiteService bookingSiteService;
+	
 
 	@GetMapping("/list")
-	public String listAll(@RequestParam(value="hotelId", required=false) Long hotelId ,ModelMap model) {
-		if(hotelId==null) {
-			model.addAttribute("saleOffs", saleOffService.findAll());
-		}else {
+	public String listAll(@RequestParam(value="hotelId", required=false) Long hotelId , @RequestParam(value="bookingSiteId", required=false) Long bookingSiteId ,ModelMap model) {
+		if(hotelId!=null) {
 			model.addAttribute("saleOffs", saleOffService.findAllByHotel(hotelId));
+		}else if (bookingSiteId!=null){
+			model.addAttribute("saleOffs", saleOffService.findAllByBookingSite(bookingSiteId));
+		}else {
+			model.addAttribute("saleOffs", saleOffService.findAll());
 		}
 		
 		return "saleOff/list";
@@ -53,18 +62,20 @@ public class SaleOffController {
 
 		saleOffService.save(saleOff);
 		attr.addFlashAttribute("success", "SaleOff inserted successfully");
-		return "redirect:/saleOff/listAll";
+		return "redirect:/saleOff/list";
 	}
 	
 	@GetMapping("/register")
-	public String register(SaleOff saleOff) {
+	public String register(Model model, @AuthenticationPrincipal UserAccount currentUser, SaleOff saleOff) {
+		model.addAttribute("hotelId",currentUser.getId());
+		System.out.println(currentUser.getId());
 		return "/saleOff/register";
 	}
 
 	// talvez tenha que mudar para post
 	@GetMapping("/edit/{id}")
 	public String preEdit(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("SaleOff", saleOffService.findById(id));
+		model.addAttribute("saleOff", saleOffService.findById(id));
 		return "saleOff/register";
 	}
 
@@ -85,6 +96,15 @@ public class SaleOffController {
 		attr.addFlashAttribute("success", "SaleOff removed successfully");
 		return "redirect:/saleOff/list";
 	}
-
+	
+	@ModelAttribute("hotels")
+	public List<Hotel> listHotel(){
+		return hotelService.findAll();
+	}
+	
+	@ModelAttribute("bookingSites")
+	public List<BookingSite> listBookingSite(){
+		return bookingSiteService.findAll();
+	}
 
 }

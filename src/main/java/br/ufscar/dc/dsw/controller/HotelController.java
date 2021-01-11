@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.service.spec.IHotelService;
-import br.ufscar.dc.dsw.service.spec.IUserService;
 
 @Controller
 @RequestMapping("/hotel")

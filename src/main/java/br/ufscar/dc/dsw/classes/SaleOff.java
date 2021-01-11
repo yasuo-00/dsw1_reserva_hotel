@@ -15,6 +15,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "sale_off", 
@@ -29,18 +30,19 @@ public class SaleOff {
 	
 	@ManyToOne
 	@JoinColumn(name = "hotel_id")
-	@Cascade(CascadeType.REMOVE)
 	Hotel hotel;
 
 	@ManyToOne
 	@JoinColumn(name = "site_id")
-	@Cascade(CascadeType.REMOVE)
 	BookingSite bookingSite;
 
+	
 	@Column(name = "initial_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate initialDate;
 	
 	@Column(name = "final_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate finalDate;
 	
 	@Column(name = "discount", columnDefinition = "DECIMAL")
@@ -131,30 +133,6 @@ public class SaleOff {
 				&& Objects.equals(hotel, other.hotel);
 	}
 
-	/*
-	 * public LocalDate getInitialDate() { return initialDate; }
-	 * 
-	 * public void setInitialDate(LocalDate initialDate) { this.initialDate =
-	 * initialDate; }
-	 * 
-	 * public LocalDate getFinalDate() { return finalDate; }
-	 * 
-	 * public void setFinalDate(LocalDate finalDate) { this.finalDate = finalDate; }
-	 */
-
-	/*
-	 * @Override public int hashCode() { return Objects.hash(bookingSite, discount,
-	 * finalDate, hotel, initialDate, saleOffId); }
-	 * 
-	 * @Override public boolean equals(Object obj) { if (this == obj) return true;
-	 * if (obj == null) return false; if (getClass() != obj.getClass()) return
-	 * false; SaleOff other = (SaleOff) obj; return Objects.equals(bookingSite,
-	 * other.bookingSite) && Double.doubleToLongBits(discount) ==
-	 * Double.doubleToLongBits(other.discount) && Objects.equals(finalDate,
-	 * other.finalDate) && Objects.equals(hotel, other.hotel) &&
-	 * Objects.equals(initialDate, other.initialDate) && Objects.equals(saleOffId,
-	 * other.saleOffId); }
-	 */
 	
 	
 

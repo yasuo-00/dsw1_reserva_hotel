@@ -48,7 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/","/error", "/hotel/list").permitAll()
 				.antMatchers("/login/**", "/js/**", "/css/**", "/image/**", "/webjars/**").permitAll()
 				.antMatchers("/admin/*","hotel/register", "bookingSite/register").hasRole("ADMIN")
-				.antMatchers("/saleOff/**").hasAnyRole("ADMIN","HOTEL")
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()
