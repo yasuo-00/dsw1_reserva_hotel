@@ -1,8 +1,8 @@
 # dsw1_reserva_hotel
-Banco de dados MySQL
-Nome: dsw1_reserva_hotel
-User: root
-Password: password
+Banco de dados MySQL  
+Nome: dsw1_reserva_hotel  
+User: root   
+Password: password  
 
 Executar mvn spring-boot:run para rodar o projeto
 Acessar pelo endereço localhost:8080
