@@ -9,13 +9,15 @@
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><i class="oi oi-caret-right"></i>
-						<span th:text="#{saleOff.list.label}"></span></li>
+						<span th:text="#{saleoff_list}"></span></li>
 				</ul>
 			</div>
-			<a class="btn btn-primary btn-md" th:href="@{/saleOff/register}"
-				role="button"> <span class="oi oi-plus" title="Register"
-				aria-hidden="true"></span> <span th:text="#{saleOff.register.label}"></span>
-			</a>
+			<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
+				<a class="btn btn-primary btn-md" th:href="@{/saleOffs/register}"
+					role="button"> <span class="oi oi-plus" title="Register"
+					aria-hidden="true"></span> <span th:text="#{register}"></span>
+				</a>
+			</div>
 		</nav>
 
 		<div class="container" id="list">
@@ -27,37 +29,45 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th th:text="#{saleOff.saleOff.id.label}"></th>
-							<th th:text="#{saleOff.bookingSite.url.label}"></th>
-							<th th:text="#{saleOff.hotel.cnpj.label}"></th>
-							<th th:text="#{saleOff.initialDate.label}"></th>
-							<th th:text="#{saleOff.finalDate.label}"></th>
-							<th th:text="#{saleOff.discount.label}"></th>
-							<th th:text="#{action.label}"></th>
+							<th th:text="#{url}"></th>
+							<th th:text="#{cnpj}"></th>
+							<th th:text="#{initial_date}"></th>
+							<th th:text="#{final_date}"></th>
+							<th th:text="#{discount}"></th>
+							<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
+							<th th:text="#{action}"></th>
+							</div>
 						</tr>
 					</thead>
-					
-					tbody>						
+
+					<tbody>
 						<tr th:each="saleOff : ${saleOffs}">
 							<td th:text="${saleOff.id}"></td>
 							<td th:text="${saleOff.bookingSite.url}"></td>
 							<td th:text="${saleOff.hotel.cnpj}"></td>
-							<td th:text="${saleOff.hotel.id}"></td>
-							<td th:text="${#temporals.format(saleOff.initialDate, 'yyyy-MM-dd')}"></td>
-							<td th:text="${#temporals.format(saleOff.finalDate, 'yyyy-MM-dd')}"></td>
-							<td colspan="2">
-								<a class="btn btn-info btn-sm"
-									th:href="@{/saleOffs/edit/{id} (id=${saleOff.id}) }" role="button"> 
-									<span class="oi oi-brush" th:title="#{link.edit.label}" aria-hidden="true"></span>
-								</a>
-								<button th:id="${#strings.concat('btn_saleOff/remove/',saleOff.id)}" 
-									type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
-									<span class="oi oi-circle-x" th:title="#{link.remove.label}" aria-hidden="true"></span>
-								</button>
-							</td>
+							<td
+								th:text="${#temporals.format(saleOff.initialDate, 'yyyy-MM-dd')}"></td>
+							<td
+								th:text="${#temporals.format(saleOff.finalDate, 'yyyy-MM-dd')}"></td>
+							<td
+								th:text="| ${#numbers.formatDecimal(saleOff.discount,2,2,'POINT')}%|"></td>
+							<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
+							<td colspan="2"><a class="btn btn-info btn-sm"
+								th:href="@{/saleOffs/edit/{id} (id=${saleOff.id}) }"
+								role="button"> <span class="oi oi-brush" th:title="#{edit}"
+									aria-hidden="true"></span>
+							</a>
+								<button
+									th:id="${#strings.concat('btn_saleOffs/remove/',saleOff.id)}"
+									type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+									data-target="#myModal">
+									<span class="oi oi-circle-x" th:title="#{remove}"
+										aria-hidden="true"></span>
+								</button></td>
+							</div>
 						</tr>
 					</tbody>
-					</table>
+				</table>
 			</div>
 		</div>
 

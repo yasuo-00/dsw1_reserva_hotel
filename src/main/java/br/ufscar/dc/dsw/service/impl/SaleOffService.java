@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufscar.dc.dsw.classes.SaleOff;
+import br.ufscar.dc.dsw.classes.User;
 import br.ufscar.dc.dsw.dao.ISaleOffDAO;
 import br.ufscar.dc.dsw.service.spec.ISaleOffService;
 
@@ -44,4 +45,6 @@ public class SaleOffService implements ISaleOffService{
 	public List<SaleOff> findAllByBookingSite(Long siteId){
 		return dao.getSaleOffByBookingSite(siteId);
 	}
+	
+
 }

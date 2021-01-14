@@ -13,7 +13,7 @@
 				</ul>
 			</div>
 			<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
-				<a class="btn btn-primary btn-md" th:href="@{/saleOff/register}"
+				<a class="btn btn-primary btn-md" th:href="@{/saleOffs/register}"
 					role="button"> <span class="oi oi-plus" title="Register"
 					aria-hidden="true"></span> <span th:text="#{register}"></span>
 				</a>
@@ -53,12 +53,12 @@
 								th:text="| ${#numbers.formatDecimal(saleOff.discount,2,2,'POINT')}%|"></td>
 							<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
 							<td colspan="2"><a class="btn btn-info btn-sm"
-								th:href="@{/saleOff/edit/{id} (id=${saleOff.id}) }"
+								th:href="@{/saleOffs/edit/{id} (id=${saleOff.id}) }"
 								role="button"> <span class="oi oi-brush" th:title="#{edit}"
 									aria-hidden="true"></span>
 							</a>
 								<button
-									th:id="${#strings.concat('btn_saleOff/remove/',saleOff.id)}"
+									th:id="${#strings.concat('btn_saleOffs/remove/',saleOff.id)}"
 									type="button" class="btn btn-danger btn-sm" data-toggle="modal"
 									data-target="#myModal">
 									<span class="oi oi-circle-x" th:title="#{remove}"

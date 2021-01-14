@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import br.ufscar.dc.dsw.classes.SaleOff;
+import br.ufscar.dc.dsw.classes.User;
 
 @SuppressWarnings("unchecked")
 public interface ISaleOffDAO extends CrudRepository<SaleOff, Long>{
@@ -15,6 +15,7 @@ public interface ISaleOffDAO extends CrudRepository<SaleOff, Long>{
 	SaleOff findById(long id);
 
 	List<SaleOff> findAll();
+	
 
 	SaleOff save(SaleOff saleOff);
 
@@ -27,4 +28,6 @@ public interface ISaleOffDAO extends CrudRepository<SaleOff, Long>{
 	//fazer listagem de saleOff por bookingSite
 	@Query("SELECT s FROM SaleOff s WHERE s.bookingSite.id = :siteId")
 	public List<SaleOff> getSaleOffByBookingSite(@Param("siteId") Long siteId);
+	
+
 }

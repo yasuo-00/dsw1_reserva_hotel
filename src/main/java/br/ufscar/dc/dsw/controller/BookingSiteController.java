@@ -19,7 +19,7 @@ import br.ufscar.dc.dsw.service.spec.IBookingSiteService;
 
 
 @Controller
-@RequestMapping("/bookingSite")
+@RequestMapping("/bookingSites")
 public class BookingSiteController {
 
 	@Autowired
@@ -48,7 +48,7 @@ public class BookingSiteController {
 		bookingSite.setPassword(encoder.encode(bookingSite.getPassword()));
 		bookingSiteService.save(bookingSite);
 		attr.addFlashAttribute("success", "BookingSite inserted successfully");
-		return "redirect:/bookingSite/list";
+		return "redirect:/bookingSites/list";
 	}
 	
 	@GetMapping("/register")
@@ -71,14 +71,14 @@ public class BookingSiteController {
 
 		bookingSiteService.save(bookingSite);
 		attr.addFlashAttribute("success", "BookingSite edited successfully");
-		return "redirect:/bookingSite/list";
+		return "redirect:/bookingSites/list";
 	}
 
 	@GetMapping("/remove/{id}")
 	public String remove(@PathVariable("id") Long id, RedirectAttributes attr) {
 		bookingSiteService.remove(id);
 		attr.addFlashAttribute("success", "BookingSite removed successfully");
-		return "redirect:/bookingSite/list";
+		return "redirect:/bookingSites/list";
 	}
 
 

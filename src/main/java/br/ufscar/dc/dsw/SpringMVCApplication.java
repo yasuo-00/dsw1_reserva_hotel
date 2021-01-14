@@ -64,10 +64,7 @@ public class SpringMVCApplication {
 			sDao.save(s4);
 			sDao.save(s5);
 			
-			Iterable<Hotel> result = hDao.findAll();
-			for (Hotel h : result) {
-				System.out.println(h.getCnpj());
-			}
+			
 		};
 	}
 }

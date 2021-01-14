@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		return new UserDetailsServiceImpl();
 	}
-	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -40,24 +40,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationProvider());
 	}
 
-	
-	//arrumar permissoes na rota
+	// arrumar permissoes na rota
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/","/error", "/hotel/list").permitAll()
+		http.csrf().disable().authorizeRequests()
+				// Controladores REST
+				.antMatchers("/bookingSites", "/hotels", "/saleOffs").permitAll()
+				.antMatchers("/bookingSites/{\\d+}", "/hotels/{\\d+}").permitAll()
+				.antMatchers("/saleOffs/{\\d+}").permitAll()
+				.antMatchers("/hotels/city/{\\w+}").permitAll()
+				.antMatchers("/saleOffs/bookingSite/{\\d+}").permitAll()
+				.antMatchers("/saleOffs/hotel/{\\d+}").permitAll().antMatchers("/", "/error", "/hotels/list").permitAll()
 				.antMatchers("/login/**", "/js/**", "/css/**", "/image/**", "/webjars/**").permitAll()
-				.antMatchers("/admin/*","hotel/register", "bookingSite/register").hasRole("ADMIN")
-				.anyRequest().authenticated()
-			.and()
-				.formLogin()
-				.loginPage("/login")
-				.usernameParameter("email")
-				.defaultSuccessUrl("/home", true)
-				.permitAll()
-			.and()
-				.logout()
-				.logoutSuccessUrl("/")
-				.permitAll();
+				.antMatchers("/admin/*", "hotel/register", "bookingSite/register").hasRole("ADMIN").anyRequest()
+				.authenticated().and()
+					.formLogin()
+					.loginPage("/login")
+					.usernameParameter("email")
+				.defaultSuccessUrl("/home", true).permitAll().and()
+					.logout()
+					.logoutSuccessUrl("/")
+					.permitAll();
 	}
 }

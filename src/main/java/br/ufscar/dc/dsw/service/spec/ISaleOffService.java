@@ -3,6 +3,7 @@ package br.ufscar.dc.dsw.service.spec;
 import java.util.List;
 
 import br.ufscar.dc.dsw.classes.SaleOff;
+import br.ufscar.dc.dsw.classes.User;
 
 public interface ISaleOffService {
 	SaleOff findById(Long id);
@@ -16,4 +17,6 @@ public interface ISaleOffService {
 	public List<SaleOff> findAllByHotel(Long hotelId);
 	
 	public List<SaleOff> findAllByBookingSite(Long siteId);
+
+	//public List<SaleOff> findAllByUser(User user);
 }

@@ -29,12 +29,12 @@
 						<span th:text="#{menu}"></span>
 				</a></li>
 				</div>
-				<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
+				<div sec:authorize="isAuthenticated()">
 				<li class="nav-item"><span class="nav-link active"
-					th:text="#{saleOff_list}"></span></li>
+					th:text="#{saleoff_list}"></span></li>
 				</a></li>
 				<li class="nav-item"><a class="nav-link"
-					th:href="@{/saleOff/list}"> <i class="oi oi-spreadsheet"></i>
+					th:href="@{/saleOffs/list}"> <i class="oi oi-spreadsheet"></i>
 						<span th:text="#{list}"></span>
 				</a></li>
 				</div>
@@ -42,7 +42,7 @@
 					th:text="#{show_hotels_list}"></span></li>
 				</a></li>
 				<li class="nav-item"><a class="nav-link"
-					th:href="@{/hotel/list}"> <i class="oi oi-spreadsheet"></i>
+					th:href="@{/hotels/list}"> <i class="oi oi-spreadsheet"></i>
 						<span th:text="#{list}"></span>
 				</a></li>
 				
@@ -50,11 +50,13 @@
 					th:text="#{filter}"></span></li>
 				</a></li>
 				<li class="nav-item">
-				<form th:action="@{/hotel/list}">
+				<form th:action="@{/hotels/city}" id="filter">
 				<input type="text" id="city" name="city">
-				<input type="submit" th:value="#{filter}">
+				<input type="submit" th:value="#{filter}"> </button>
 				</form>
 				</a></li>
+				
+	
 			</ul>
 		</div>
 

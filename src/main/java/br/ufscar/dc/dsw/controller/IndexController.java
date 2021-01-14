@@ -30,11 +30,4 @@ public class IndexController {
 		return "login";
 	}
 
-//	@GetMapping("/sidebar")
-//	public String sidebar(Model model, @AuthenticationPrincipal UserAccount currentUser) {
-//		User user = userService.findById(currentUser.getId());
-//		System.out.println(user.getId());
-//		model.addAttribute("currentUserId", user);
-//		return "sidebar";
-//	}
 }

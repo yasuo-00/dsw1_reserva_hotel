@@ -18,7 +18,7 @@ import br.ufscar.dc.dsw.classes.Hotel;
 import br.ufscar.dc.dsw.service.spec.IHotelService;
 
 @Controller
-@RequestMapping("/hotel")
+@RequestMapping("/hotels")
 public class HotelController {
 
 	@Autowired
@@ -28,15 +28,8 @@ public class HotelController {
 	private BCryptPasswordEncoder encoder;
 
 	@GetMapping("/list")
-	public String list(@RequestParam(value = "city", required = false) String city, ModelMap model) {
-		// caso o campo "city" nao seja passado ou seja passado em branco busca por
-		// todas as cidades
-		// caso contrario procura todas as cidades com o nome passado
-		if (city == "" || city == null) {
-			model.addAttribute("hotels", hotelService.findAll());
-		} else {
-			model.addAttribute("hotels", hotelService.findAllByCity(city));
-		}
+	public String list(ModelMap model) {
+		model.addAttribute("hotels", hotelService.findAll());
 		return "hotel/list";
 	}
 
@@ -48,7 +41,7 @@ public class HotelController {
 		hotel.setPassword(encoder.encode(hotel.getPassword()));
 		hotelService.save(hotel);
 		attr.addFlashAttribute("success", "Hotel inserted successfully");
-		return "redirect:/hotel/list";
+		return "redirect:/hotels/list";
 	}
 
 	@GetMapping("/register")
@@ -74,14 +67,21 @@ public class HotelController {
 		}
 		hotelService.save(hotel);
 		attr.addFlashAttribute("success", "Hotel edited successfully");
-		return "redirect:/hotel/list";
+		return "redirect:/hotels/list";
 	}
 
 	@GetMapping("/remove/{id}")
 	public String remove(@PathVariable("id") Long id, RedirectAttributes attr) {
 		hotelService.remove(id);
 		attr.addFlashAttribute("success", "Hotel removed successfully");
-		return "redirect:/hotel/list";
+		return "redirect:/hotels/list";
+	}
+	
+	@GetMapping("/hotels/city")
+	public String listAllByCity(@RequestParam(name="city") String city, ModelMap model) {
+		System.out.println(city);
+		model.addAttribute("hotels", hotelService.findAllByCity(city));
+		return "redirect:hotels/city/"+city;
 	}
 
 }

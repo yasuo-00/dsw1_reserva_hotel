@@ -13,25 +13,19 @@
 						<span th:text="#{register}"></span></li>
 				</ul>
 			</div>
-			<div sec:authorize="hasRole('ROLE_ADMIN')">
-				<a class="btn btn-primary btn-md" th:href="@{/saleOff/list}"
+			<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')">
+				<a class="btn btn-primary btn-md" th:href="@{/saleOffs/list}"
 					role="button"> <span class="oi oi-spreadsheet" title="Register"
 					aria-hidden="true"></span> <span th:text="#{list}"></span>
 				</a>
 			</div>
-			<div sec:authorize="hasRole('ROLE_HOTEL')">
-				<a class="btn btn-primary btn-md"
-					th:href="@{/saleOff/list?hotelId={hotelId} (hotelId=${#authentication.getPrincipal().id})}">
-					<span class="oi oi-spreadsheet" title="Register" aria-hidden="true"></span>
-					<span th:text="#{list}"></span>
-				</a>
-			</div>
+
 		</nav>
 		<div class="container" id="register">
 
 			<div th:replace="fragments/alert"></div>
 			<form
-				th:action="${saleOff.id == null} ? @{/saleOff/save} : @{/saleOff/edit}"
+				th:action="${saleOff.id == null} ? @{/saleOffs/save} : @{/saleOffs/edit}"
 				th:object="${saleOff}" method="POST">
 				<div class="form-row">
 					<div class="form-group col-md-6">
@@ -103,12 +97,6 @@
 						<div class="invalid-feedback">
 							<span th:errors="*{discount}"></span>
 						</div>
-					</div>
-
-					<div sec:authorize="hasRole('ROLE_HOTEL')">
-						<input type="hidden" id="hotel" name="hotelId"
-							th:value="${hotelId}"
-							th:field="*{hotel}" />
 					</div>
 					<input type="hidden" id="id" th:field="*{id}" />
 					<button type="submit" th:text="#{button_save}"

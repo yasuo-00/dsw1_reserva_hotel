@@ -133,6 +133,10 @@ public class SaleOff {
 				&& Objects.equals(hotel, other.hotel);
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	
 	
 
