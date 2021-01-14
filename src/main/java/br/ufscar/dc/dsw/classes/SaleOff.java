@@ -1,65 +1,139 @@
 package br.ufscar.dc.dsw.classes;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@Table(name = "sale_off", 
+       uniqueConstraints={
+	    @UniqueConstraint(columnNames = {"hotel_id", "site_id", 
+	    		                         "initial_date",
+	    		                         "final_date"})})
 public class SaleOff {
-	String hotelCnpj;
-	String bookingSiteUrl;
-	LocalDate initialDate;
-	LocalDate finalDate;
-	double discount;
+
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	Long id;
 	
+	@ManyToOne
+	@JoinColumn(name = "hotel_id")
+	Hotel hotel;
+
+	@ManyToOne
+	@JoinColumn(name = "site_id")
+	BookingSite bookingSite;
+
 	
+	@Column(name = "initial_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate initialDate;
 	
-	public SaleOff(String hotelCnpj, String bookingSiteUrl, LocalDate initialDate, LocalDate finalDate, double discount) {
+	@Column(name = "final_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate finalDate;
+	
+	@Column(name = "discount", columnDefinition = "DECIMAL")
+	private double discount;
+
+	public SaleOff() {
 		super();
-		this.hotelCnpj = hotelCnpj;
-		this.bookingSiteUrl = bookingSiteUrl;
-		this.initialDate = initialDate;
-		this.finalDate = finalDate;
+	}
+
+	public SaleOff(Hotel hotel, BookingSite bookingSite,  double discount) {
+		this.hotel = hotel;
+		this.bookingSite = bookingSite;
+		finalDate = LocalDate.parse("2020-01-01");
+		initialDate = LocalDate.parse("2020-01-01");
 		this.discount = discount;
 	}
 	
-	public SaleOff(String hotelCnpj, String bookingSiteUrl, LocalDate initialDate, LocalDate finalDate) {
-		super();
-		this.hotelCnpj = hotelCnpj;
-		this.bookingSiteUrl = bookingSiteUrl;
+	public SaleOff(Hotel hotel, BookingSite bookingSite,  double discount, LocalDate initialDate, LocalDate finalDate) {
+		this.hotel = hotel;
+		this.bookingSite = bookingSite;
+		this.finalDate = finalDate; 
 		this.initialDate = initialDate;
-		this.finalDate = finalDate;
+		this.discount = discount;
 	}
 
+	
+	
+	public Long getId() {
+		return id;
+	}
 
-
-	public String getHotelCnpj() {
-		return hotelCnpj;
-	}
-	public void setHotelCnpj(String hotelCnpj) {
-		this.hotelCnpj = hotelCnpj;
-	}
-	public String getBookingSiteUrl() {
-		return bookingSiteUrl;
-	}
-	public void setBookingSiteUrl(String bookingSiteUrl) {
-		this.bookingSiteUrl = bookingSiteUrl;
-	}
 	public LocalDate getInitialDate() {
 		return initialDate;
 	}
+
 	public void setInitialDate(LocalDate initialDate) {
 		this.initialDate = initialDate;
 	}
+
 	public LocalDate getFinalDate() {
 		return finalDate;
 	}
+
 	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
 	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public BookingSite getBookingSite() {
+		return bookingSite;
+	}
+
+	public void setBookingSite(BookingSite bookingSite) {
+		this.bookingSite = bookingSite;
+	}
+
 	public double getDiscount() {
 		return discount;
 	}
+
 	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookingSite, discount, hotel);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SaleOff other = (SaleOff) obj;
+		return Objects.equals(bookingSite, other.bookingSite)
+				&& Double.doubleToLongBits(discount) == Double.doubleToLongBits(other.discount)
+				&& Objects.equals(hotel, other.hotel);
+	}
+
 	
 	
+
 }

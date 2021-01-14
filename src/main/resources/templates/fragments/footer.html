@@ -1,0 +1,24 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<footer class="layout-footer" th:fragment="rodape">
+		<div class="container">
+
+			<div class="footer-copy">
+			<div sec:authorize="isAuthenticated()">
+					<span th:text="#{email}"></span>: <span
+						sec:authentication="name"></span> | <span th:text="#{role}"></span>:
+					<span sec:authentication="principal.authorities"></span> <br />
+					</div>
+				<span>&copy; Alexandre, Matheus e Murilo &copy;</span>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

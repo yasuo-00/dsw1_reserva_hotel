@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+		<nav class="navbar navbar-expand-md bg-light">
+			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><i class="oi oi-caret-right"></i>
+						<span th:text="#{register}"></span></li>
+				</ul>
+			</div>
+			<div sec:authorize="hasRole('ROLE_ADMIN')">
+				<a class="btn btn-primary btn-md" th:href="@{/saleOff/list}"
+					role="button"> <span class="oi oi-spreadsheet" title="Register"
+					aria-hidden="true"></span> <span th:text="#{list}"></span>
+				</a>
+			</div>
+			<div sec:authorize="hasRole('ROLE_HOTEL')">
+				<a class="btn btn-primary btn-md"
+					th:href="@{/saleOff/list?hotelId={hotelId} (hotelId=${#authentication.getPrincipal().id})}">
+					<span class="oi oi-spreadsheet" title="Register" aria-hidden="true"></span>
+					<span th:text="#{list}"></span>
+				</a>
+			</div>
+		</nav>
+		<div class="container" id="register">
+
+			<div th:replace="fragments/alert"></div>
+			<form
+				th:action="${saleOff.id == null} ? @{/saleOff/save} : @{/saleOff/edit}"
+				th:object="${saleOff}" method="POST">
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label th:text="#{initial_date}" for="initialDate"></label> <input
+							type="date" class="form-control" id="initialDate"
+							placeholder="yyyy-MM-dd" autofocus="autofocus"
+							th:field="*{initialDate}"
+							th:classappend="${#fields.hasErrors('initialDate')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{initialDate}"></span>
+						</div>
+					</div>
+
+					<div class="form-group col-md-6">
+						<label th:text="#{final_date}" for="finalDate"></label> <input
+							type="date" class="form-control" id="finalDate"
+							placeholder="yyyy-MM-dd" autofocus="autofocus"
+							th:field="*{finalDate}"
+							th:classappend="${#fields.hasErrors('finalDate')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{finalDate}"></span>
+						</div>
+					</div>
+
+
+					<div sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_HOTEL')"
+						class="form-group col-md-6">
+						<label th:text="#{booking_site}" for="bookingSite"></label> <select
+							id="bookingSite" class="form-control" th:field="*{bookingSite}"
+							th:classappend="${#fields.hasErrors('bookingSite')} ? is-invalid">
+							<option value="">Selecione</option>
+							<option th:each="bookingSite : ${bookingSites}"
+								th:value="${bookingSite.id}" th:text="${bookingSite.url}"></option>
+						</select>
+
+						<div class="invalid-feedback">
+							<span th:errors="*{bookingSite}"></span>
+						</div>
+					</div>
+
+
+
+
+					<div sec:authorize="hasRole('ROLE_ADMIN')"
+						class="form-group col-md-6">
+						<label th:text="#{hotel}" for="hotel"></label> <select id="hotel"
+							class="form-control" th:field="*{hotel}"
+							th:classappend="${#fields.hasErrors('hotel')} ? is-invalid">
+							<option value="">Selecione</option>
+							<option th:each="hotel : ${hotels}" th:value="${hotel.id}"
+								th:text="${hotel.name}"></option>
+						</select>
+
+						<div class="invalid-feedback">
+							<span th:errors="*{hotel}"></span>
+						</div>
+					</div>
+
+
+
+					<div class="form-group col-md-6">
+						<label th:text="#{discount}" for="discount"></label> <input
+							type="text" class="form-control" id="discount" placeholder="Name"
+							autofocus="autofocus" th:field="*{discount}"
+							th:classappend="${#fields.hasErrors('discount')} ? is-invalid" />
+
+						<div class="invalid-feedback">
+							<span th:errors="*{discount}"></span>
+						</div>
+					</div>
+
+					<div sec:authorize="hasRole('ROLE_HOTEL')">
+						<input type="hidden" id="hotel" name="hotelId"
+							th:value="${hotelId}"
+							th:field="*{hotel}" />
+					</div>
+					<input type="hidden" id="id" th:field="*{id}" />
+					<button type="submit" th:text="#{button_save}"
+						class="btn btn-primary btn-sm"></button>
+			</form>
+		</div>
+	</section>
+</body>
+</html>
