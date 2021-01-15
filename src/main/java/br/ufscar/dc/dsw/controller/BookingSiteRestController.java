@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -72,6 +74,24 @@ public class BookingSiteRestController {
 		}
 
 		return ResponseEntity.ok(bookingSite);
+	}
+	
+	@PostMapping(path = "/bookingSites")
+	@ResponseBody
+	public ResponseEntity<BookingSite> cria(@RequestBody JSONObject json) {
+		try {
+			if (isJSONValid(json.toString())) {
+				BookingSite bookingSite = new BookingSite();
+				parse(bookingSite, json);
+				bookingSiteService.save(bookingSite);
+				return ResponseEntity.ok(bookingSite);
+			} else {
+				return ResponseEntity.badRequest().body(null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
+		}
 	}
 
 	@PutMapping(path = "/bookingSites/{id}")

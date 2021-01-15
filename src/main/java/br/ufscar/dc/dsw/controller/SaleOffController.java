@@ -83,8 +83,6 @@ public class SaleOffController {
 	@GetMapping("/edit/{id}")
 	public String preEdit(@PathVariable("id") Long id, ModelMap model) {
 		SaleOff s = saleOffService.findById(id);
-		System.out.println("eu nao estou louco");
-		System.out.println(s.getId());
 		model.addAttribute("saleOff", saleOffService.findById(id));
 		return "saleOff/register";
 	}
@@ -98,11 +96,6 @@ public class SaleOffController {
 		if(this.getUser().getRole().compareTo("ROLE_HOTEL")==0){
 			saleOff.setHotel(hotelService.findById(this.getUser().getId()));
 		}
-		System.out.println("oaujsdhasuodhasuodhauodhauodhauosh");
-		System.out.println(saleOff.getBookingSite().getId());
-//		System.out.println(result.getErrorCount());
-		//System.out.println(saleOff.getDiscount());
-		
 
 		saleOffService.save(saleOff);
 		attr.addFlashAttribute("success", "SaleOff edited successfully");

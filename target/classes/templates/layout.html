@@ -70,6 +70,15 @@
 				$(".sidebar").toggleClass("sidebar-open");
 			})
 		});
+		
+		$(document).ready(function(){
+
+		    $('#cityFilter').click(function(e) {  
+		        var inputvalue = $("#city").val();
+		        window.location.href =" http://localhost:8080/hotels/city/"+inputvalue;
+
+		    });
+		});
 	</script>
 </body>
 </html>

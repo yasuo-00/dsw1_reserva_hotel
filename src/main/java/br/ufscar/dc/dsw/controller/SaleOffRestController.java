@@ -32,7 +32,7 @@ public class SaleOffRestController {
 	}
 	
 	
-	@GetMapping(path = "/saleOff")
+	@GetMapping(path = "/saleOffs")
 	public ResponseEntity<List<SaleOff>> list() {
 		List<SaleOff> list = saleOffService.findAll();
 
@@ -43,7 +43,7 @@ public class SaleOffRestController {
 		return ResponseEntity.ok(list);
 	}
 
-	@GetMapping(path = "/saleOff/{id}")
+	@GetMapping(path = "/saleOffs/{id}")
 	public ResponseEntity<SaleOff> list(@PathVariable("id") Long id) {
 		SaleOff saleOff = saleOffService.findById(id);
 		if (saleOff == null) {
@@ -53,7 +53,7 @@ public class SaleOffRestController {
 		return ResponseEntity.ok(saleOff);
 	}
 	
-	@GetMapping(path = "/saleOff/bookingSite/{id}")
+	@GetMapping(path = "/saleOffs/bookingSite/{id}")
 	public ResponseEntity<List<SaleOff>> listByBookingSite(@PathVariable("id") Long id){
 		List<SaleOff> list = saleOffService.findAllByBookingSite(id);
 		
@@ -64,7 +64,7 @@ public class SaleOffRestController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@GetMapping(path = "/saleOff/hotel/{id}")
+	@GetMapping(path = "/saleOffs/hotel/{id}")
 	public ResponseEntity<List<SaleOff>> listByHotel(@PathVariable("id") Long id){
 		List<SaleOff> list = saleOffService.findAllByHotel(id);
 		

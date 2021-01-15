@@ -81,7 +81,7 @@ public class HotelController {
 	public String listAllByCity(@RequestParam(name="city") String city, ModelMap model) {
 		System.out.println(city);
 		model.addAttribute("hotels", hotelService.findAllByCity(city));
-		return "redirect:hotels/city/"+city;
+		return "redirect:hotels/list";
 	}
 
 }
